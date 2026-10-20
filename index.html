@@ -1,1 +1,1633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inducción corporativa HSEQ – PBI (borrador para revisión)</title>
+<meta name="robots" content="noindex,nofollow">
 
+<style>
+:root{
+  --navy:#0b2f57; --blue:#006599; --blue-d:#004d73; --sky:#e8f1f8; --ink:#1f2937; --muted:#5b6675;
+  --line:#d9e2ec; --bg:#f3f6fa; --card:#ffffff; --ok:#2e7d32; --okbg:#e8f5e9; --bad:#b42318; --badbg:#fdecea;
+  --c-gen:#0b2f57; --c-sst:#006599; --c-amb:#2e7d32; --c-cal:#00796b; --c-leg:#3b4a8c; --c-eme:#c2410c;
+  --cta:#c2410c; --cta-d:#9a3412;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:16px}
+a{color:var(--blue)}
+img{max-width:100%;height:auto}
+.ic{width:1.25em;height:1.25em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+
+/* ---------- Encabezado y progreso ---------- */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:50}
+.top-in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{height:38px;max-width:120px;object-fit:contain;background:#fff;border-radius:6px;padding:3px 7px}
+.top-t{flex:1;min-width:0}
+.top-t strong{display:block;font-size:.95rem;line-height:1.2}
+.top-t span{font-size:.78rem;opacity:.85}
+.btn-idx{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);padding:8px 12px;border-radius:8px;font:inherit;font-size:.85rem;cursor:pointer;display:flex;gap:6px;align-items:center}
+.btn-idx:hover{background:rgba(255,255,255,.22)}
+.bar{height:5px;background:rgba(255,255,255,.18)}
+.bar i{display:block;height:100%;width:0;background:#5fd0ff;transition:width .35s}
+
+/* ---------- Estructura ---------- */
+main{max-width:960px;margin:18px auto 0;padding:0 14px}
+.mod{display:none;background:var(--card);border-radius:14px;box-shadow:0 2px 14px rgba(11,47,87,.08);overflow:hidden}
+.mod.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none}.bar i{transition:none}.fi{transition:none!important}html{scroll-behavior:auto}}
+.mh{display:flex;gap:14px;align-items:center;padding:20px 22px;color:#fff;background:var(--c-gen)}
+.cat-sst .mh{background:var(--c-sst)} .cat-amb .mh{background:var(--c-amb)} .cat-cal .mh{background:var(--c-cal)}
+.cat-leg .mh{background:var(--c-leg)} .cat-eme .mh{background:var(--c-eme)}
+.badge{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}
+.badge .ic{width:28px;height:28px}
+.mh small{display:block;opacity:.85;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase}
+.mh h1{margin:2px 0 0;font-size:1.35rem;line-height:1.25}
+.mb{padding:22px}
+.mb h2{font-size:1.1rem;color:var(--navy);margin:26px 0 8px}
+
+.lead{font-size:1.05rem;color:#334155}
+.foot{max-width:960px;margin:0 auto;padding:6px 14px 40px}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px}
+.nav button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 20px;cursor:pointer;display:flex;gap:8px;align-items:center}
+#prev{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+#next{background:var(--blue);color:#fff}
+#next:hover:not([disabled]){background:var(--blue-d)}
+#next[disabled]{background:#b8c4d0;cursor:not-allowed}
+#prev[hidden],#next[hidden]{display:none}
+#hint{min-height:1.4em;color:var(--bad);font-size:.92rem;text-align:center;margin:10px 0 0}
+.docver{text-align:center;color:var(--muted);font-size:.78rem;margin-top:18px}
+
+/* ---------- Componentes ---------- */
+.callout{display:flex;gap:12px;padding:14px 16px;border-radius:10px;margin:16px 0;background:var(--sky);border-left:5px solid var(--blue)}
+.callout .ic{margin-top:3px;color:var(--blue)}
+.callout.warn{background:#fff4e5;border-color:#d97706}.callout.warn .ic{color:#d97706}
+.callout.key{background:#fdeceb;border-color:var(--c-eme)}.callout.key .ic{color:var(--c-eme)}
+.callout.ok{background:var(--okbg);border-color:var(--ok)}.callout.ok .ic{color:var(--ok)}
+.callout p{margin:0}.callout p+p{margin-top:6px}
+.big{font-size:1.6rem;font-weight:800;color:var(--c-eme);margin:6px 0}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+.card h3{margin:0 0 6px;font-size:1rem;color:var(--navy);display:flex;gap:8px;align-items:center}
+.card h3 .ic{color:var(--blue)}
+.card p{margin:0;font-size:.95rem}
+.card ul{margin:6px 0 0;padding-left:18px;font-size:.93rem}
+.card .code{display:inline-block;margin-top:8px;font-size:.78rem;background:var(--sky);color:var(--blue-d);padding:2px 8px;border-radius:20px;font-weight:600}
+.steps{counter-reset:s;display:grid;gap:10px;margin:12px 0;padding:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding:12px 14px 12px 54px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
+.steps li strong{display:block;color:var(--navy)}
+ul.tick{list-style:none;padding:0;margin:8px 0}
+ul.tick li{padding-left:28px;position:relative;margin:6px 0}
+ul.tick li::before{content:"";position:absolute;left:2px;top:.35em;width:16px;height:16px;border-radius:50%;background:var(--okbg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e7d32' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/11px no-repeat}
+ul.no li::before{background:var(--badbg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b42318' stroke-width='3.5' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/11px no-repeat}
+.acc{border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
+.acc summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;gap:10px;align-items:center;font-weight:600;color:var(--navy)}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .ic{color:var(--blue)}
+.acc summary::after{content:"";margin-left:auto;width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;flex:none}
+.acc[open] summary::after{transform:rotate(-135deg)}
+.acc[open] summary{background:var(--sky)}
+.acc-b{padding:6px 16px 14px}
+.acc-b p{margin:8px 0}.acc-b ul{margin:6px 0;padding-left:20px}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.btn{display:inline-flex;gap:8px;align-items:center;padding:10px 16px;border-radius:10px;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
+.btn:hover{background:var(--blue-d)}
+.btn.alt{background:#fff;color:var(--blue);border:1.5px solid var(--blue)}
+.btn.cta{background:var(--cta);font-size:1.05rem;padding:14px 24px}.btn.cta:hover{background:var(--cta-d)}
+.linkgrid{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:10px 0}
+.linkgrid a{display:flex;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--navy);font-weight:600;font-size:.93rem;background:#fff}
+.linkgrid a:hover{border-color:var(--blue);background:var(--sky)}
+.linkgrid .ic{color:var(--blue)}
+.ack{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border:2px dashed var(--blue);border-radius:12px;background:var(--sky);margin:16px 0;cursor:pointer}
+.ack input{width:20px;height:20px;margin-top:3px;accent-color:var(--blue);flex:none}
+figure{margin:14px 0;text-align:center}
+figure img{border-radius:10px;border:1px solid var(--line);max-height:340px;object-fit:contain;background:#fff}
+figcaption{font-size:.82rem;color:var(--muted);margin-top:4px}
+.video{position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;margin:16px 0}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lsr{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));margin:12px 0}
+.lsr .card{display:flex;gap:12px}
+.lsr .n{flex:none;width:42px;height:42px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.15rem}
+.lsr h3{margin:0 0 4px;font-size:1rem;color:var(--navy);display:block}
+.table{width:100%;border-collapse:collapse;font-size:.93rem;margin:10px 0}
+.table th,.table td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.table th{background:var(--sky);color:var(--navy)}
+.table-wrap{overflow-x:auto}
+.roles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:18px 0}
+.role{border:2px solid var(--line);border-radius:14px;padding:20px;background:#fff;text-align:left;font:inherit;cursor:pointer;display:block;width:100%}
+.role .ic{width:36px;height:36px;color:var(--blue);display:block;margin-bottom:8px}
+.role strong{display:block;font-size:1.1rem;color:var(--navy)}
+.role span{color:var(--muted);font-size:.92rem}
+.role:hover{border-color:var(--blue)}
+.role[aria-pressed="true"]{border-color:var(--blue);background:var(--sky);box-shadow:0 0 0 3px rgba(0,101,153,.18)}
+.resume{display:none;margin:0 0 16px;padding:14px 16px;border-radius:12px;background:#fff7e6;border:1px solid #f3c77a}
+.resume.show{display:block}
+.resume .btnrow{margin:8px 0 0}
+.resume button{font:inherit;font-weight:600;padding:8px 14px;border-radius:8px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);cursor:pointer}
+.resume button.p{background:var(--blue);color:#fff}
+
+/* Comprensión (formativa) */
+.checks{margin-top:28px;border-top:2px solid var(--line);padding-top:6px}
+.checks>h2{display:flex;gap:8px;align-items:center}
+.chk{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fbfdff}
+.chk .q{margin:0 0 10px;font-weight:600}
+.chk .tag{display:inline-block;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;background:var(--navy);color:#fff;padding:2px 8px;border-radius:20px;margin-right:8px;vertical-align:1px}
+.opts{display:grid;gap:8px}
+.opt{font:inherit;text-align:left;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;color:var(--ink)}
+.opt:hover:not([disabled]){border-color:var(--blue);background:var(--sky)}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.fb{margin-top:10px;font-size:.94rem;padding:10px 12px;border-radius:8px}
+.fb.ok{background:var(--okbg);color:#1b5e20}.fb.no{background:var(--badbg);color:#7a1d14}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+@media (max-width:600px){.mb{padding:16px}.mh{padding:16px}.mh h1{font-size:1.15rem}.top-t span{display:none}}
+
+/* ---------- Pantallas (slides) ---------- */
+.slide{display:none}
+.slide.on{display:block;animation:in .3s ease}
+.slide:focus{outline:none}
+.slide>h2:first-child{margin-top:0}
+.slide>h3{font-size:1rem;color:var(--navy);margin:18px 0 8px}
+.checks-slide>h2{display:flex;gap:8px;align-items:center}
+.center{text-align:center}.strong-blue{color:var(--blue);font-weight:700}
+.mh .mascot{margin-left:auto;width:58px;height:58px;border-radius:50%;background:#fff;object-fit:contain;padding:4px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.22)}
+.chap{display:block;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;opacity:.92;margin-bottom:2px}
+.pos{display:block}
+.dots{display:flex;gap:7px;justify-content:center;margin:14px 0 2px;flex-wrap:wrap}
+.dots i{width:9px;height:9px;border-radius:50%;background:#c4cfdb}
+.dots i.done{background:var(--blue)}.dots i.now{background:var(--cta);transform:scale(1.3)}
+.ackl .ack{padding:10px 14px;margin:8px 0}
+
+/* Tarjetas giratorias */
+.flip{perspective:900px;height:128px;border:0;background:none;padding:0;cursor:pointer;font:inherit;display:block;width:100%}
+.fi{position:relative;display:block;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip[aria-pressed="true"] .fi{transform:rotateY(180deg)}
+.ff,.fk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center}
+.ff{background:var(--blue);color:#fff;flex-direction:column;gap:8px;font-weight:700;box-shadow:0 3px 8px rgba(0,101,153,.25)}
+.ff .ic{width:1.6em;height:1.6em}
+.fk{background:#eef5f9;color:var(--ink);transform:rotateY(180deg);font-size:.92rem;border:1px solid var(--line)}
+
+/* Mapa de procesos */
+.pmap{margin:14px 0}
+.band{border-radius:14px;padding:14px 16px;border:1.5px solid var(--line)}
+.band-h{display:flex;gap:8px;align-items:center;font-size:1.05rem}
+.band p{margin:4px 0 10px;font-size:.92rem;color:#475569}
+.b-est{background:#e8f1f8;border-color:#9ec5de}.b-est .band-h{color:var(--blue-d)}
+.b-ope{background:#e8f5ec;border-color:#a5d1b0}.b-ope .band-h{color:#1f6b34}
+.b-sop{background:#eef0f7;border-color:#b6bddb}.b-sop .band-h{color:var(--c-leg)}
+.pcards{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.pc{display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--navy);font-weight:600;font-size:.93rem;transition:transform .15s,border-color .15s}
+.pc:hover{transform:translateY(-2px);border-color:var(--cta)}
+.pc .ic{color:var(--blue);width:1.5em;height:1.5em}
+.plink{display:flex;gap:8px;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-style:italic;font-size:.88rem;padding:9px 4px}
+.plink .ic{color:var(--cta);transform:rotate(90deg)}
+.plink.loop .ic{transform:none}
+@media (max-width:600px){.mh .mascot{width:44px;height:44px}}
+
+/* ---------- Índice como panel lateral ---------- */
+.scrim{position:fixed;inset:0;background:rgba(11,47,87,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);background:#fff;z-index:100;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(11,47,87,.25)}
+.drawer.open{transform:none;visibility:visible;transition:transform .25s ease}
+.dr-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:var(--navy);color:#fff}
+.dr-head strong{display:block;font-size:1.1rem}.dr-head span{font-size:.8rem;opacity:.85}
+.dr-x{background:rgba(255,255,255,.14);border:0;color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:grid;place-items:center}
+.dr-x:hover{background:rgba(255,255,255,.26)}
+.dr-prog{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.dr-bar{flex:1;height:7px;border-radius:7px;background:#e2e8f0;overflow:hidden}
+.dr-bar i{display:block;height:100%;background:var(--blue);width:0;transition:width .3s}
+.dr-body{overflow:auto;padding:4px 10px 28px;flex:1}
+.dr-group{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:16px 10px 6px}
+.dr-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;font:inherit;padding:9px 10px;border-radius:10px;cursor:pointer;color:var(--ink)}
+.dr-item:hover:not(.lock){background:var(--sky)}
+.dr-n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eef2f6;color:var(--navy);font-weight:700;font-size:.85rem}
+.dr-n .ic{width:16px;height:16px}
+.dr-item.done .dr-n{background:var(--okbg);color:var(--ok)}
+.dr-item.now{background:var(--sky)}.dr-item.now .dr-n{background:var(--blue);color:#fff}.dr-item.now .dr-t{font-weight:700;color:var(--navy)}
+.dr-item.lock{color:#9aa5b1;cursor:not-allowed}.dr-item.lock .dr-n{background:#f1f4f8;color:#b0bac5}
+.dr-t{flex:1;font-size:.93rem;line-height:1.3}
+.dr-s{flex:none;font-size:.75rem;color:var(--muted);white-space:nowrap}
+body.noscroll{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.drawer,.scrim,.dr-bar i{transition:none!important}}
+
+/* ---------- Flujos de decisión ---------- */
+.flow{display:grid;gap:6px;margin:12px 0}
+.fn{border-radius:12px;padding:11px 14px;border:1px solid var(--line);background:#fff}
+.fn.start,.fn.end{background:#e9eef4;text-align:center;font-weight:700;color:var(--navy);border-radius:30px}
+.fn.act{background:#eaf1fb;border-color:#b9d0ee}
+.fn.dec{background:#e9f7ec;border-color:#a8d5b2}
+.fn.dec>strong{display:block;color:#1f6b34;margin-bottom:4px}
+.fn .br{display:flex;gap:10px;align-items:flex-start;margin-top:6px;font-size:.93rem}
+.yn{flex:none;font-size:.72rem;font-weight:800;border-radius:20px;padding:2px 10px;color:#fff;background:#2e7d32;margin-top:2px}
+.yn.no{background:#b45309}
+.fa{height:14px}
+.fa::before{content:"";display:block;margin:0 auto;border:7px solid transparent;border-top-color:var(--blue);border-bottom:0}
+ul.cols2{columns:2;column-gap:28px}
+ul.cols2 li{break-inside:avoid}
+@media (max-width:600px){ul.cols2{columns:1}}
+
+/* ---------- Reglas de Oro ---------- */
+.rdo-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;text-align:center;margin:0 0 14px}
+.rdo-head img{height:50px;object-fit:contain}
+.rdo-head strong{font-size:1.15rem;color:#00426c;display:block}
+.rdo-head span{font-size:.8rem;color:var(--muted)}
+.lsr .card{background:#f4f8fb;border-left:5px solid #00426c}
+.pill-new{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:var(--cta);color:#fff;border-radius:20px;padding:1px 8px;margin-left:8px;vertical-align:2px}
+
+/* ---------- Mapa de procesos MP-GER-01 ---------- */
+.pm{--p-navy:#002F5E;--p-blue:#005F9E;--p-orange:#FF6F1A;--p-gold:#F5A623;margin:14px 0}
+.pm-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:.72rem;color:var(--muted);margin-bottom:6px}
+.pm-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.75rem;font-weight:600;color:#555;margin-bottom:10px}
+.pm-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pm-grid{display:grid;grid-template-columns:128px 1fr 128px;align-items:stretch}
+.pm-side{color:#fff;padding:18px 10px;display:flex;flex-direction:column;position:relative}
+.pm-in{background:linear-gradient(180deg,var(--p-navy),var(--p-blue));border-radius:14px 0 0 14px;margin-right:14px}
+.pm-out{background:linear-gradient(180deg,var(--p-orange),#E05A0A);border-radius:0 14px 14px 0;margin-left:14px}
+.pm-in::after,.pm-out::before{content:"";position:absolute;top:50%;transform:translateY(-50%);border:14px solid transparent;border-right:0}
+.pm-in::after{right:-14px;border-left-color:var(--p-navy)}
+.pm-out::before{left:-14px;border-left-color:var(--p-orange)}
+.pm-side h3{text-align:center;text-transform:uppercase;letter-spacing:2px;font-size:.78rem;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.25)}
+.pm-side ul{list-style:none;margin:0;padding:0;font-size:.78rem;font-weight:500;flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.pm-side li{padding-left:14px;position:relative;line-height:1.35}
+.pm-side li::before{content:"";position:absolute;left:0;top:.4em;border:5px solid transparent;border-right:0;border-left-color:var(--p-gold)}
+.pm-out li::before{border-left-color:rgba(255,255,255,.75)}
+.pm-canvas{background:linear-gradient(145deg,#edf2f8,#e4ecf4);border:2px solid #d4e0ec;border-radius:18px;padding:22px 14px 14px;min-width:0}
+.pm-layer{position:relative;border-radius:14px;padding:20px 12px 12px;border:2px solid}
+.pm-layer.str{border-color:var(--p-navy);background:rgba(0,47,94,.04)}
+.pm-layer.ope{border-color:var(--p-orange);background:rgba(255,111,26,.05);margin-top:4px}
+.pm-layer.sup{border-color:var(--p-blue);background:rgba(0,95,158,.05);margin-top:4px}
+.pm-label{position:absolute;top:-11px;left:16px;font-size:.62rem;font-weight:700;padding:3px 12px;border-radius:20px;color:#fff;text-transform:uppercase;letter-spacing:.7px}
+.str>.pm-label{background:var(--p-navy)}.ope>.pm-label{background:var(--p-orange)}.sup>.pm-label{background:var(--p-blue)}
+.pm-cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:8px 0}
+.pm-card{background:#fff;border-radius:10px;padding:10px 16px;font-weight:700;font-size:.82rem;color:var(--p-navy);text-decoration:none;box-shadow:0 3px 10px rgba(0,47,94,.08);border-left:4px solid var(--p-navy);transition:transform .2s}
+.ope .pm-card{border-left-color:var(--p-orange)}.sup .pm-card{border-left-color:var(--p-blue)}
+.pm-card:hover{transform:translateY(-3px)}
+.pm-card::after{content:"\2197";margin-left:6px;font-size:.7rem;color:#80B5E3}
+.pm-sig{text-align:center;margin:6px 0 10px}
+.pm-sig .c{width:56px;height:56px;border-radius:50%;margin:0 auto 4px;background:linear-gradient(135deg,var(--p-orange),var(--p-gold));display:grid;place-items:center;color:#fff;box-shadow:0 5px 16px rgba(255,111,26,.3)}
+.pm-sig .c .ic{width:28px;height:28px}
+.pm-sig b{font-size:.72rem;color:var(--p-navy);display:block;line-height:1.25}
+.pm-flow{display:flex;justify-content:center;align-items:center;gap:10px;padding:4px 0;flex-wrap:wrap}
+.pm-flow svg{width:24px;height:24px}
+.pm-tag{font-size:.68rem;font-style:italic;font-weight:600;color:var(--p-navy);background:rgba(255,255,255,.6);padding:2px 10px;border-radius:14px;border:1px dashed #80B5E3}
+.pm-feedback{margin-top:14px;background:linear-gradient(90deg,var(--p-navy),var(--p-blue));color:#fff;padding:12px 16px;text-align:center;border-radius:24px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;font-size:.74rem;display:flex;gap:8px;align-items:center;justify-content:center}
+@media (max-width:700px){
+  .pm-grid{grid-template-columns:1fr;gap:12px}
+  .pm-in,.pm-out{border-radius:14px;margin:0;padding:14px}
+  .pm-in::after,.pm-out::before{display:none}
+  .pm-side ul{flex-direction:row;flex-wrap:wrap;gap:8px 18px}
+  .pm-side li{flex:1 1 140px}
+  .pm-feedback{letter-spacing:.5px;font-size:.68rem}
+}
+
+/* ---------- Diagramas de flujo (SVG) ---------- */
+.dg{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px;margin:8px 0}
+.dg svg{display:block;min-width:660px;width:100%;height:auto}
+.dg-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;font-weight:600;color:#475569;margin:6px 0}
+.dg-legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:-2px;border:1px solid rgba(0,0,0,.12)}
+.dg-hint{display:none;font-size:.8rem;color:var(--muted);text-align:center;margin:2px 0 8px}
+@media (max-width:700px){.dg-hint{display:block}}
+
+/* ---------- Reglas de Oro en una pantalla ---------- */
+.rdo-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));align-items:start;margin:10px 0}
+.rtile{border:1px solid var(--line);border-left:5px solid #00426c;background:#f4f8fb;border-radius:10px}
+.rtile summary{list-style:none;cursor:pointer;display:flex;gap:10px;padding:10px;align-items:flex-start}
+.rtile summary::-webkit-details-marker{display:none}
+.rtile .n{flex:none;width:32px;height:32px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.95rem}
+.rt{min-width:0}
+.rt b{display:block;font-size:.86rem;color:var(--navy);line-height:1.25}
+.rt em{display:block;font-style:normal;font-size:.78rem;color:var(--muted);margin-top:3px;line-height:1.3}
+.rtile[open]{background:#e8f1f8;border-color:#9ec5de}
+.rtile ul{margin:0;padding:0 12px 12px 22px;font-size:.82rem}
+.rtile li{margin:4px 0}
+.dg.narrow svg{min-width:440px;max-width:560px;margin:0 auto}
+.rev{background:#fff4d6;color:#6b4200;font-size:.76rem;text-align:center;padding:5px 12px;border-bottom:1px solid #f0d58a;line-height:1.35}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol><symbol id="i-stop" viewBox="0 0 24 24"><polygon points="8,2.5 16,2.5 21.5,8 21.5,16 16,21.5 8,21.5 2.5,16 2.5,8"/><path d="M12 7.5v5.5"/><circle cx="12" cy="16.4" r=".5"/></symbol><symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V10l6 3.5V10l6 3.5V6h3v15z"/><path d="M3 21h18"/><path d="M8 17h1M12 17h1M16 17h1"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.2a7 7 0 0114 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.5"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 012-2h13v14H6a2 2 0 00-2 2z"/><path d="M4 19a2 2 0 002 2h13v-4"/><path d="M9 8h6"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M6 2.5h8l5 5V21.5H6z"/><path d="M14 2.5v5h5"/><path d="M9 13h7M9 17h5"/></symbol><symbol id="i-cycle" viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 01-14.6 5.9"/><path d="M3.5 12a8.5 8.5 0 0114.6-5.9"/><path d="M18.5 2.5v4h-4"/><path d="M5.5 21.5v-4h4"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h15l-4-4"/><path d="M20 16H5l4 4"/></symbol><symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3 3 0 006 0z"/><path d="M19 7l-3 7a3 3 0 006 0z"/></symbol><symbol id="i-clipcheck" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 13l2 2 4-4"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 20C5 11 10 5 20 4c0 10-5 16-14 16z"/><path d="M5 20l8-8"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4.5 14H11l-1 8L19.5 10H13z"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22a6.5 6.5 0 006.5-6.5c0-3-2-5-3.5-7.5-.8 1.5-1.8 2.3-3 2.5 0-3-1.2-5.5-3.5-7.5C8.5 7 5.5 10 5.5 15.5A6.5 6.5 0 0012 22z"/></symbol><symbol id="i-helmet" viewBox="0 0 24 24"><path d="M5 17a7 7 0 0114 0"/><path d="M2.500 17h19v2.500h-19z"/><path d="M10 10.200V17M14 10.200V17"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0112 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14a5 5 0 014.5 5"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 018-3 4.5 4.5 0 018 3c0 6-8 11-8 11z"/></symbol><symbol id="i-lifebuoy" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol><symbol id="i-car" viewBox="0 0 24 24"><path d="M4 15v-4l2-4.5h12L20 11v4z"/><path d="M4 11h16"/><circle cx="8" cy="17" r="1.8"/><circle cx="16" cy="17" r="1.8"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.5V5a2 2 0 00-4 0v9.5a4 4 0 104 0z"/><path d="M12 9v7"/></symbol><symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 9a4 4 0 010 6"/><path d="M19 6.5a8 8 0 010 11"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6l-5 9.5A2 2 0 006.800 21h10.400a2 2 0 001.800-2.500L14 9V3"/><path d="M8 15h8"/></symbol><symbol id="i-bug" viewBox="0 0 24 24"><path d="M9 9a3 3 0 016 0v6a3 3 0 01-6 0z"/><path d="M12 9v10"/><path d="M5 10l4 2M19 10l-4 2M5 18l4-2M19 18l-4-2"/><path d="M10 6L8.5 3.5M14 6l1.5-2.5"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M5 19l2-2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></symbol><symbol id="i-ladder" viewBox="0 0 24 24"><path d="M7 3v18M17 3v18"/><path d="M7 7h10M7 12h10M7 17h10"/></symbol><symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2.5l8.5 4.7v9.6L12 21.5l-8.5-4.7V7.2z"/><path d="M12 12l8.5-4.8M12 12L3.5 7.2M12 12v9.5"/></symbol><symbol id="i-hook" viewBox="0 0 24 24"><circle cx="12" cy="4.500" r="2.500"/><path d="M12 7v6a4.500 4.500 0 01-9 0v-1.500"/></symbol><symbol id="i-extinguisher" viewBox="0 0 24 24"><path d="M8 21V10a3 3 0 013-3h2a3 3 0 013 3v11z"/><path d="M11 7V4h4"/><path d="M15 4l3-1.500"/><path d="M16 10h3.500v4"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3L3 5v16l6-2 6 2 6-2V3l-6 2z"/><path d="M9 3v16M15 5v16"/></symbol><symbol id="i-exit" viewBox="0 0 24 24"><path d="M14 3h5v18h-5"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h9"/></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V3"/><path d="M5 4h13l-2.500 4L18 12H5"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.500-4.500"/></symbol><symbol id="i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.500"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3L2 20h20z"/><path d="M12 10v4.500"/><circle cx="12" cy="17.200" r=".5"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.800" r=".5"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v6H4V6h6"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.500 7l8.500 6 8.500-6"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></symbol><symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.500 14L7 22l5-3 5 3-1.500-8"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8"/><path d="M2 20h20"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><polygon points="12,2.5 14.800,9 22,9.600 16.500,14.300 18.200,21.500 12,17.700 5.800,21.500 7.500,14.300 2,9.600 9.200,9"/></symbol><symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 6h11v10H2z"/><path d="M13 9.500h4.500L21 13v3h-8z"/><circle cx="7" cy="17.500" r="1.800"/><circle cx="17" cy="17.500" r="1.800"/></symbol><symbol id="i-building" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M10 21v-3h4v3"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.500v7l6-3.500z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></symbol><symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.500" r="1.800"/><path d="M12 8l-3 5 3 2v6"/><path d="M12 8l3 4 3 1"/><path d="M12 15l-3 6"/></symbol><symbol id="i-chair" viewBox="0 0 24 24"><path d="M7 3v8h9"/><path d="M16 11v4"/><path d="M6 15h11"/><path d="M11.500 15v6M8 21h7"/></symbol><symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 00-3.500 10.900c.6.5 1 1.200 1 2.100h5c0-.9.4-1.600 1-2.100A6 6 0 0012 3z"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol><symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol></svg>
+<header class="top">
+  <div class="rev"><strong>Borrador para revisión de la dirección</strong> · v2.0-rc1 · 20/10/2026 · Puedes navegar libremente por todos los módulos y por las dos rutas. No es la inducción oficial.</div>
+  <div class="top-in">
+    <img class="logo" src="https://i.postimg.cc/gcX7rNgd/Logo-PBI.png" alt="PBI" onerror="this.style.display='none'">
+    <div class="top-t"><strong>Inducción corporativa HSEQ</strong><span>Petroleum Blending International</span></div>
+    <button class="btn-idx" id="btnIdx" aria-expanded="false" aria-controls="idx"><i data-i="list"></i><span id="idxLabel">Índice</span></button>
+  </div>
+  <div class="bar" role="progressbar" aria-label="Avance de la inducción" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="barFill"></i></div>
+</header>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="idx" role="dialog" aria-modal="true" aria-label="Índice de la inducción" aria-hidden="true">
+  <div class="dr-head">
+    <div><strong>Índice</strong><span id="drSub"></span></div>
+    <button type="button" class="dr-x" id="drClose" aria-label="Cerrar índice"><i data-i="x"></i></button>
+  </div>
+  <div class="dr-prog"><div class="dr-bar"><i id="drBar"></i></div><span id="drPct"></span></div>
+  <div class="dr-body" id="idxList"></div>
+</aside>
+
+<main id="main">
+
+
+<section class="mod cat-gen" id="m-bienvenida" data-track="all" data-title="Bienvenido a la inducción corporativa HSEQ" data-icon="shield" data-min="1">
+  <div class="resume" id="resume">
+    <strong>Tienes avance guardado en este dispositivo.</strong>
+    <div class="btnrow"><button class="p" id="resumeGo">Continuar donde quedé</button><button id="resumeNo">Empezar de nuevo</button></div>
+  </div>
+  <p class="lead">Esta inducción te da la información clave para actuar de forma <strong>segura</strong>, <strong>responsable</strong> y coherente con nuestra <strong>cultura HSEQ</strong>.</p>
+  <div class="callout key"><i data-i="warn"></i><p>La inducción es <strong>obligatoria</strong>. Aprobarla es requisito previo para cualquier ingreso o actividad en nuestras instalaciones, funciones administrativas u operativas.</p></div>
+  <h2>Cómo funciona</h2>
+  <ol class="steps">
+    <li><strong>Módulos comunes (unos 45 minutos)</strong>Lo que todos debemos saber: sistema de gestión, derechos y deberes, reporte, emergencias y ambiente.</li>
+    <li><strong>Tu ruta según tu rol (entre 10 y 20 minutos)</strong>Contenido específico para personal administrativo u operativo.</li>
+    <li><strong>Evaluación final</strong>Necesitas 80 % o más para aprobar. Recibirás tu certificado por correo y tiene validez de 1 año.</li>
+  </ol>
+  <p>En cada módulo encontrarás preguntas cortas de comprensión. Sirven para aprender, no para calificarte: te explican la respuesta correcta.</p>
+  <div class="video"><iframe src="https://streamable.com/e/fnybw2" title="Mensaje de bienvenida" allowfullscreen loading="lazy"></iframe></div>
+  <figure><img src="https://i.postimg.cc/B6GYKPGW/Logo-portada-induccion-corporativa-PBI.png" alt="Bienvenida HSEQ PBI" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <p>Tu progreso se guarda en este dispositivo. Si cierras la página, podrás continuar donde quedaste.</p>
+</section>
+
+
+<section class="mod cat-eme" id="m-detente" data-track="all" data-title="Compromiso con la vida: si no es seguro, detente" data-icon="stop" data-min="4">
+  <div class="callout key"><i data-i="stop"></i><div><p class="big">Si no es seguro, detente.</p><p>Vale para todos: para quien trabaja en planta y para quien trabaja en oficina. Puedes y debes detener cualquier actividad que no sea segura, tuya o de un compañero. Nada justifica un accidente.</p></div></div>
+  <h2>Cómo se ve en tu trabajo</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="monitor"></i>En oficina</h3><ul><li>Una regleta que se calienta o un cable cruzando un pasillo.</li><li>Una salida de emergencia bloqueada.</li><li>Dolor o fatiga que no te dejan trabajar con seguridad.</li><li>Un trayecto en vehículo sin el descanso suficiente.</li></ul></div>
+    <div class="card"><h3><i data-i="helmet"></i>En planta o campo</h3><ul><li>Un aislamiento de energía sin verificar.</li><li>Un permiso vencido o una tarea sin ATS.</li><li>Una carga suspendida sobre personas.</li><li>Un área clasificada sin medición de gases.</li></ul></div>
+  </div>
+  <h2>Antes de empezar cualquier tarea, pregúntate</h2>
+  <ul class="tick">
+    <li>¿Conozco los riesgos de lo que voy a hacer y cómo se controlan?</li>
+    <li>¿Tengo la autorización, el equipo y las herramientas adecuadas, en buen estado?</li>
+    <li>¿Cambió algo: el clima, el equipo, las personas o el lugar?</li>
+    <li>¿Estoy en condiciones de hacerlo con seguridad: descansado y atento?</li>
+  </ul>
+  <p>Si la respuesta a alguna es <strong>no</strong>, o tienes dudas, no continúes.</p>
+  <h2>Qué hacer cuando detienes una tarea</h2>
+  <ol class="steps">
+    <li><strong>Detén la tarea de forma segura</strong>Deja el equipo, el área o la situación en condición estable. No improvises.</li>
+    <li><strong>Informa de inmediato</strong>Avisa a tu supervisor, a tu jefe o al área HSEQ y explica qué viste.</li>
+    <li><strong>No reinicies hasta que el riesgo esté controlado</strong>Solo se retoma cuando la condición insegura se corrigió y se verificó.</li>
+  </ol>
+  
+</section>
+
+
+<section class="mod cat-gen" id="m-alcance" data-track="all" data-chap="Capítulo I · Sistema Integrado de Gestión" data-title="Quiénes somos y cómo estamos organizados" data-icon="factory" data-min="2">
+  <p class="lead">El <strong>Sistema Integrado de Gestión (SIG)</strong> es el conjunto de políticas, procesos, procedimientos y recursos que aseguran el cumplimiento de los requisitos en:</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="award"></i>Calidad</h3><p>Productos y servicios confiables.</p></div>
+    <div class="card"><h3><i data-i="shield"></i>Seguridad y salud en el trabajo</h3><p>Protección integral de las personas.</p></div>
+    <div class="card"><h3><i data-i="leaf"></i>Ambiente</h3><p>Prevención de impactos y cumplimiento legal.</p></div>
+  </div>
+  <figure><img src="https://i.postimg.cc/cHLQqwL1/Logo-sistema-integrado.png" alt="Ilustración del Sistema Integrado de Gestión" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <div class="callout"><i data-i="book"></i><p>Nuestro SIG se basa en <strong>ISO 9001, ISO 14001 e ISO 45001</strong>, además de requisitos legales, contractuales y del sector Oil &amp; Gas. Entender cómo funciona es clave para prevenir incidentes, cumplir compromisos y asegurar el éxito de nuestras operaciones.</p></div>
+
+  <h2>Alcance y sitios donde operamos</h2>
+  <div class="callout"><i data-i="info"></i><p><strong>Alcance certificado:</strong> operación y mantenimiento de plantas de compresión y tratamiento de gas y sus derivados o conexos, de gasoductos; comercialización de hidrocarburos líquidos y gaseosos. Generación de energía eléctrica como solución aislada.</p></div>
+  
+  <h3>Toca una tarjeta para ver qué hace cada sitio</h3>
+  <div class="grid flips">
+    <button type="button" class="flip" aria-pressed="false"><span class="fi"><span class="ff"><i data-i="pin"></i>Planta Buenavista – Yopal</span><span class="fk">Tratamiento de gas y procesos complementarios en Yopal (Casanare).</span></span></button>
+    <button type="button" class="flip" aria-pressed="false"><span class="fi"><span class="ff"><i data-i="pin"></i>Planta Corrales</span><span class="fk">Infraestructura operativa para el manejo de gas natural en Corrales (Boyacá).</span></span></button>
+    <button type="button" class="flip" aria-pressed="false"><span class="fi"><span class="ff"><i data-i="bolt"></i>Generación – Eveca</span><span class="fk">Generación de energía eléctrica como solución aislada.</span></span></button>
+    <button type="button" class="flip" aria-pressed="false"><span class="fi"><span class="ff"><i data-i="bolt"></i>Generación – San Carlos</span><span class="fk">Generación de energía eléctrica como solución aislada.</span></span></button>
+    <button type="button" class="flip" aria-pressed="false"><span class="fi"><span class="ff"><i data-i="building"></i>Administración – Bogotá</span><span class="fk">Oficinas administrativas, soporte de procesos estratégicos y de apoyo.</span></span></button>
+  </div>
+  <p class="center strong-blue">Este es nuestro campo de acción como organización comprometida con la mejora continua.</p>
+
+  <h2>Mapa de procesos</h2>
+  <p>Muestra cómo se relacionan los procesos de la organización, desde lo que entra hasta lo que entregamos. <strong>Toca un proceso para abrir su mapa.</strong></p>
+  <div class="pm">
+    <div class="pm-meta"><span>Mapa de procesos MP-GER-01</span><span>Versión 06 · 12/05/2022</span></div>
+    <div class="pm-legend"><span><i style="background:#002F5E"></i>Estratégico</span><span><i style="background:#FF6F1A"></i>Operativo</span><span><i style="background:#005F9E"></i>Soporte</span></div>
+    <div class="pm-grid">
+      <aside class="pm-side pm-in"><h3>Entradas</h3><ul><li>Contexto de la organización</li><li>Requisitos del cliente</li><li>Necesidades y expectativas de partes interesadas</li></ul></aside>
+      <div class="pm-canvas">
+        <div class="pm-layer str"><span class="pm-label">Procesos estratégicos</span>
+          <div class="pm-cards"><a class="pm-card" href="https://drive.google.com/file/d/1-g2lUdsh4BtmaBya79HlegJAGJ7Yx_Hl/view?usp=drive_link" target="_blank" rel="noopener">Gestión Gerencial</a><a class="pm-card" href="https://drive.google.com/file/d/1ILZXdtMkKHql0DwrVHhAe5IWl-1q6oOv/view?usp=drive_link" target="_blank" rel="noopener">Gestión Comercial</a></div>
+          <div class="pm-flow"><svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,38 4,14 14,14 14,2 26,2 26,14 36,14" fill="#002F5E" opacity=".6"/></svg><span class="pm-tag">Dirección estratégica ↔ operativa</span><svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,26 26,26 26,38 14,38 14,26 4,26" fill="#002F5E" opacity=".35"/></svg></div>
+          <div class="pm-layer ope"><span class="pm-label">Procesos operativos</span>
+            <div class="pm-sig"><span class="c"><i data-i="users"></i></span><b>Sistema Integrado<br>de Gestión</b></div>
+            <div class="pm-cards"><a class="pm-card" href="https://drive.google.com/file/d/1-SH4MmD6JUdv_p3GRmYvyUO51dB7nH2f/view?usp=drive_link" target="_blank" rel="noopener">Operaciones</a><a class="pm-card" href="https://drive.google.com/file/d/1-YpF9_AFvJddqr60GMLo0_jcRdhK2HoK/view?usp=drive_link" target="_blank" rel="noopener">Mantenimiento</a></div>
+            <div class="pm-flow"><svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,38 4,14 14,14 14,2 26,2 26,14 36,14" fill="#FF6F1A" opacity=".6"/></svg><span class="pm-tag">Soporte continuo ↔ operación</span><svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,26 26,26 26,38 14,38 14,26 4,26" fill="#FF6F1A" opacity=".35"/></svg></div>
+            <div class="pm-layer sup"><span class="pm-label">Procesos de soporte</span>
+              <div class="pm-cards"><a class="pm-card" href="https://drive.google.com/file/d/1-nHLDGV-VLDNKpXgoor_lohqImHAuX99/view?usp=drive_link" target="_blank" rel="noopener">Compras (CMYL)</a><a class="pm-card" href="https://drive.google.com/file/d/1LzCdMF3MNxopp7xwvuV_7DA24gugmflM/view?usp=drive_link" target="_blank" rel="noopener">IT</a><a class="pm-card" href="https://drive.google.com/file/d/1ss1WckhqCk7YCYGE9yDbiNdWkVZL9zEG/view?usp=drive_link" target="_blank" rel="noopener">HSEQ</a></div>
+              <div class="pm-cards"><a class="pm-card" href="https://drive.google.com/file/d/1-C8qSsHCpA7NfDnn8NWdBLE8pJEG0bVS/view?usp=drive_link" target="_blank" rel="noopener">Gestión Humana</a><a class="pm-card" href="https://drive.google.com/file/d/1JN9aDT3twjutKirEB88BXgSiOU9OzSDs/view?usp=sharing" target="_blank" rel="noopener">Asuntos Legales</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="pm-feedback"><i data-i="cycle"></i><span>Realimentación y mejora continua</span></div>
+      </div>
+      <aside class="pm-side pm-out"><h3>Salidas</h3><ul><li>Satisfacción del cliente</li><li>Resultados del SIG</li><li>Productos y servicios</li><li>Informes de auditoría interna y externa</li></ul></aside>
+    </div>
+  </div>
+
+  <h2>Autoridad, funciones y responsabilidades</h2>
+  <p>Para garantizar el cumplimiento del SIG, cada rol tiene funciones claras, competencias específicas y niveles de autoridad definidos. Esa estructura facilita la ejecución de los procesos, el control de riesgos y el cumplimiento de requisitos legales y del sistema.</p>
+  <p>Estos documentos describen las responsabilidades, competencias y autoridad de los actores clave. <strong>Abre el de tu rol:</strong></p>
+  <div class="linkgrid">
+    <a href="https://drive.google.com/open?id=1xRqcM-DsEeT2vatw3eMiQyqvmixTkF65" target="_blank" rel="noopener"><i data-i="file"></i>Alta Gerencia</a>
+    <a href="https://drive.google.com/open?id=1Y-8gT-_wEBLOXiPpZqu7YFCiONOIfwEu" target="_blank" rel="noopener"><i data-i="file"></i>Analista HSEQ</a>
+    <a href="https://drive.google.com/open?id=11XMYDjnA2x1INa_SvT2X-1Ef2NzcP3eR" target="_blank" rel="noopener"><i data-i="file"></i>Auxiliar HSEQ</a>
+    <a href="https://drive.google.com/open?id=1zsmFTjQMAF6BzbgwKBdi04VjM0x2V7PX" target="_blank" rel="noopener"><i data-i="file"></i>Brigadistas</a>
+    <a href="https://drive.google.com/open?id=1L2iHg_6aqjFuRrI-2pbun1NsYXYljEOv" target="_blank" rel="noopener"><i data-i="file"></i>Comité de Convivencia</a>
+    <a href="https://drive.google.com/open?id=1pV-HRbzTZoQmqW17hs8KHgs0-TBYh11x" target="_blank" rel="noopener"><i data-i="file"></i>Comité SIG</a>
+    <a href="https://drive.google.com/open?id=1iPrJ7HO0geFw_zPRFfZGju0wDcjhjbHx" target="_blank" rel="noopener"><i data-i="file"></i>Coordinadores HSEQ</a>
+    <a href="https://drive.google.com/open?id=1bFE10qPEkrH86I5OzK3cqcalMr1_GXkG" target="_blank" rel="noopener"><i data-i="file"></i>COPASST – Vigía SST</a>
+    <a href="https://drive.google.com/open?id=1vW9loI8bDdTsV5dZuiWiJVWCx1GJm8oB" target="_blank" rel="noopener"><i data-i="file"></i>Dirección HSQ</a>
+    <a href="https://drive.google.com/open?id=1ED_xLWQz5IrKnMKeZtvNLHcNyrA1u3fm" target="_blank" rel="noopener"><i data-i="file"></i>Directores</a>
+    <a href="https://drive.google.com/open?id=1pFUqdfdMYsLRIG1cRmVNQMHllqxxCOxe" target="_blank" rel="noopener"><i data-i="file"></i>Gerencias Medias</a>
+    <a href="https://drive.google.com/open?id=1xfTnmFzI7oXLyLB2u04wPFJymN6Dw_Bs" target="_blank" rel="noopener"><i data-i="file"></i>Trabajadores en General</a>
+  </div>
+  <p class="center strong-blue">Cada archivo define el rol que desempeñamos en el fortalecimiento del SIG.</p>
+</section>
+
+
+<section class="mod cat-gen" id="m-politica" data-track="all" data-chap="Capítulo I · Sistema Integrado de Gestión" data-gate="ack" data-title="Política, objetivos y tu contribución" data-icon="target" data-min="3">
+  <p class="lead">La política HSEQ es la declaración de compromiso de PBI con la seguridad, la salud, el ambiente y la calidad. Aplica a <strong>todos los niveles y roles</strong>.</p>
+  <h2>Objetivos del SIG</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="award"></i>Formación</h3><p>Asegurar la competencia del personal con programas de formación.</p></div>
+    <div class="card"><h3><i data-i="shield"></i>Prevención</h3><p>Prevenir accidentes, enfermedades laborales y siniestros viales.</p></div>
+    <div class="card"><h3><i data-i="leaf"></i>Ambiente</h3><p>Conservar el medio ambiente y prevenir impactos negativos.</p></div>
+    <div class="card"><h3><i data-i="truck"></i>Proveedores</h3><p>Trabajar con proveedores que cumplan requisitos legales, de calidad, ambiente, SST y seguridad vial.</p></div>
+    <div class="card"><h3><i data-i="star"></i>Clientes</h3><p>Satisfacer a nuestros clientes con calidad, cumpliendo contratos y compromisos.</p></div>
+    <div class="card"><h3><i data-i="scale"></i>Cumplimiento legal</h3><p>Cumplir la legislación colombiana en HSE y seguridad vial y otros requisitos.</p></div>
+    <div class="card"><h3><i data-i="search"></i>Peligros</h3><p>Identificar peligros y riesgos, comunicarlos y aplicar controles.</p></div>
+    <div class="card"><h3><i data-i="cycle"></i>Mejora continua</h3><p>Mejorar el desempeño de los procesos para lograr los objetivos organizacionales.</p></div>
+    <div class="card"><h3><i data-i="warn"></i>Riesgos del SIG</h3><p>Identificar y analizar riesgos de los procesos para gestionarlos a tiempo.</p></div>
+  </div>
+  <h2>Tu contribución</h2>
+  <ul class="tick">
+    <li>Conoce la política y los objetivos, y aplícalos en tu trabajo diario.</li>
+    <li>Sigue los procedimientos y usa siempre las versiones vigentes de los documentos.</li>
+    <li>Reporta peligros, incidentes y oportunidades de mejora.</li>
+    <li>Participa en capacitaciones, inspecciones y comités.</li>
+    <li>Cuida tu seguridad y la de tus compañeros. Si no es seguro, detente.</li>
+  </ul>
+  <p>No cumplir las normas del sistema puede generar lesiones, daños al ambiente, pérdidas para el cliente y sanciones. Tu cumplimiento protege a todos.</p>
+  
+  <h2>Políticas corporativas</h2>
+  <details class="acc"><summary><i data-i="shield"></i>POL-GER-01 Política Integral HSEQ</summary><div class="acc-b"><p>Compromiso con la protección de la vida, la salud, el ambiente y la calidad; mejora continua, prevención y cumplimiento legal.</p><a class="btn alt" href="https://drive.google.com/open?id=1To8ksi0_bzYq_hzyExQr8FiCRMw2FOy4" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="lifebuoy"></i>POL-GER-02 Prevención de alcohol, drogas y tabaco</summary><div class="acc-b"><p>Ambientes seguros y saludables: prohíbe el porte, consumo o estar bajo efectos de estas sustancias durante actividades laborales.</p><a class="btn alt" href="https://drive.google.com/open?id=19_eRtxWZ1DvwmY0pnxqImaBqKB7KbdRr" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="helmet"></i>POL-GER-04 Uso de EPP</summary><div class="acc-b"><p>Obliga al uso adecuado y permanente de los elementos de protección personal que exige cada actividad.</p><a class="btn alt" href="https://drive.google.com/open?id=1vPF8VZr8pXxD4Wtzh0Gy9uEjBTR0RjB1" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="users"></i>POL-GER-03 Responsabilidad Social</summary><div class="acc-b"><p>Valor compartido con comunidades, respeto por los derechos humanos y principios éticos en la operación.</p><a class="btn alt" href="https://drive.google.com/file/d/1WG41coNr6woYR4ItfP2lloVMwx4yVqdz/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="phone"></i>POL-GER-15 Uso restringido de celulares en áreas operativas</summary><div class="acc-b"><p>Regula el uso de teléfonos en áreas clasificadas, donde pueden ser fuente de ignición o interferir con equipos críticos.</p><a class="btn alt" href="https://drive.google.com/file/d/1Q8r1_EtycpDHc1ZnFAmLMd1twvciCGm9/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <label class="ack"><input type="checkbox" data-ack="politicas"><span>Confirmo que he leído y comprendido las políticas corporativas de PBI.</span></label>
+  <h2>Políticas de seguridad vial</h2>
+  <details class="acc"><summary><i data-i="car"></i>POL-GER-06 Seguridad Vial</summary><div class="acc-b"><p>Prácticas seguras de conducción y control del riesgo vial en toda operación de transporte asociada a PBI.</p><a class="btn alt" href="https://drive.google.com/file/d/1NAmg1SaRJ_Rzt3DeqWVO9znXfWT3OZOA/view?usp=drive_link" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="car"></i>POL-GER-11 Uso del cinturón de seguridad</summary><div class="acc-b"><p>Uso obligatorio y correcto del cinturón por todos los ocupantes.</p><a class="btn alt" href="https://drive.google.com/file/d/1vnnmxoafnT_O9sMJ2WKYq_RjHd5-pSJj/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="phone"></i>POL-GER-12 Equipos de comunicación bidireccional</summary><div class="acc-b"><p>Uso responsable de radios, celulares y dispositivos durante la conducción.</p><a class="btn alt" href="https://drive.google.com/file/d/1vmaaBQnxaE5-6uneyxl2CJjVN9pYz-zc/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="clock"></i>POL-GER-13 Horas de descanso y conducción</summary><div class="acc-b"><p>Pausas y descansos adecuados para evitar la fatiga al conducir.</p><a class="btn alt" href="https://drive.google.com/file/d/1vjRhE-gjpbOT3rKO2_j_BPHyKQDYAmqE/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="car"></i>POL-GER-14 Regulación de velocidad</summary><div class="acc-b"><p>Límites y condiciones seguras de velocidad según vía, entorno y estado del vehículo.</p><a class="btn alt" href="https://drive.google.com/file/d/1vhcqNaI844PkqYDt7hh2mypOKxP2Fcq8/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <label class="ack"><input type="checkbox" data-ack="vial"><span>Confirmo que he leído y comprendido las políticas de seguridad vial de PBI.</span></label>
+</section>
+
+
+<section class="mod cat-cal" id="m-documentos" data-track="all" data-chap="Capítulo I · Sistema Integrado de Gestión" data-title="Documentos del sistema y control documental" data-icon="book" data-min="3">
+  <p class="lead">Los documentos del SIG están organizados por jerarquía y por proceso, siguiendo los requisitos de ISO 9001.</p>
+  <details class="acc" open><summary><i data-i="file"></i>Jerarquía documental</summary><div class="acc-b">
+    <ul>
+      <li><strong>Políticas:</strong> compromisos de la organización en calidad, SST, ambiente y seguridad vial.</li>
+      <li><strong>Manuales:</strong> describen el alcance, la estructura y los lineamientos del SIG.</li>
+      <li><strong>Programas:</strong> planes con metas y actividades para lograr objetivos específicos.</li>
+      <li><strong>Procedimientos:</strong> instrucciones detalladas para ejecutar las actividades clave de un proceso.</li>
+      <li><strong>Instructivos:</strong> guías prácticas para tareas específicas o rutinarias.</li>
+      <li><strong>Formatos:</strong> plantillas para registrar evidencia, mediciones o seguimiento.</li>
+      <li><strong>Otros:</strong> requisitos de partes interesadas, matrices, registros y controles complementarios.</li>
+    </ul></div></details>
+  <h2>Repositorio oficial del SIG</h2>
+  <ul class="tick">
+    <li>Allí está la información para planificar, ejecutar y hacer seguimiento a los procesos.</li>
+    <li>Consulta y usa siempre la <strong>versión vigente</strong>, directamente desde el sitio oficial.</li>
+    <li>Cuando necesites socializaciones de temas, búscalas en el sitio oficial.</li>
+    <li>Solo imprime lo estrictamente necesario.</li>
+  </ul>
+  <ul class="tick no"><li>No uses formatos diligenciados previamente ni versiones obsoletas.</li></ul>
+  <div class="callout ok"><i data-i="link"></i><p><strong>Portal del SIG (proceso HSEQ):</strong> acerca los procesos del SIG a todos los roles de la compañía. Ábrelo con tu cuenta corporativa; si aún no tienes acceso, solicítalo al área HSEQ.</p></div>
+  <div class="btnrow"><a class="btn" data-cfg-href="portalSig" target="_blank" rel="noopener"><i data-i="link"></i>Abrir el portal del SIG</a><a class="btn alt" href="https://drive.google.com/open?id=0AM52xK6HUsgJUk9PVA&usp=drive_copy" target="_blank" rel="noopener"><i data-i="file"></i>Repositorio oficial</a></div>
+  <h2>Control documental</h2>
+  <p>Todo documento del SIG debe estar controlado para garantizar su vigencia, trazabilidad y acceso oportuno.</p>
+  <ol class="steps">
+    <li><strong>Identificar la necesidad</strong>Crear, actualizar o eliminar un documento puede surgir del líder de proceso, del personal, de HSEQ, de auditorías, inspecciones o cambios normativos.</li>
+    <li><strong>Redactar o ajustar</strong>El líder del proceso lo elabora con la estructura corporativa, de forma comprensible, aplicable y alineada con el SIG.</li>
+    <li><strong>Revisar, aprobar y remitir</strong>Lo aprueba el líder o un supervisor designado y se envía a HSEQ con el formato <strong>FOR-HSEQ-58</strong> diligenciado.</li>
+    <li><strong>Validar y publicar</strong>HSEQ valida los requisitos del procedimiento <strong>PRO-HSEQ-01</strong> y formaliza la publicación, actualización o archivo.</li>
+  </ol>
+  <div class="callout"><i data-i="lock"></i><p>Solo el área HSEQ puede incorporar, actualizar o retirar documentos del SIG y publicarlos en los medios oficiales. Todo documento lleva código, versión, responsable, fecha de emisión y periodo de revisión (PRO-HSEQ-01).</p></div>
+</section>
+
+
+<section class="mod cat-cal" id="m-mejora" data-track="all" data-chap="Capítulo I · Sistema Integrado de Gestión" data-title="Mejora continua: salidas no conformes y acciones" data-icon="cycle" data-min="7">
+  <h2 style="margin-top:0">¿Qué es una salida no conforme?</h2>
+  <figure style="float:right;margin:0 0 8px 14px;max-width:96px"><img src="https://i.postimg.cc/RhRjxNv7/Salida-no-conforme.png" alt="Salida no conforme" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <p>Todo proceso transforma <strong>entradas</strong> en <strong>salidas</strong> (productos, servicios, informes, registros). Una <strong>salida no conforme</strong> es el incumplimiento de un requisito especificado, identificado en los procesos operativos del SIG (PRO-HSEQ-04).</p>
+  <p>La puede detectar <strong>cualquier persona</strong>: al ejecutar los procesos operativos, al recibir bienes o servicios comprados o contratados, o el propio cliente.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="building"></i>Obras civiles</h3><p>No cumplen las especificaciones técnicas aprobadas. Se comunica a la empresa contratista para su corrección inmediata.</p></div>
+    <div class="card"><h3><i data-i="truck"></i>Recepción de materiales</h3><p>Tuberías, cabezales o herramientas que no cumplen lo ofrecido en la propuesta. Se comunica al contratista y se realizan las acciones indicadas para el cambio.</p></div>
+    <div class="card"><h3><i data-i="users"></i>Servicios contratados</h3><p>El servicio no cumple a satisfacción. Se reúne al proveedor para exponer los problemas y recibir compromisos.</p></div>
+    <div class="card"><h3><i data-i="gear"></i>Desempeño del producto o servicio</h3><p>No cumple los criterios técnicos del proceso. El líder del proceso despliega acciones correctivas, preventivas o de mejora.</p></div>
+  </div>
+
+  <h2>Qué haces cuando detectas una salida no conforme</h2>
+  <ol class="steps">
+    <li><strong>Identifícala y regístrala</strong>En el formato establecido: fecha, proceso o actividad donde la identificaste y quién reporta.</li>
+    <li><strong>Déjala en un sitio donde pueda detectarse fácilmente</strong>Así el resto del personal sabe que no es conforme.</li>
+    <li><strong>Informa de inmediato a tu jefe de área</strong>Si no tienes autoridad para darle tratamiento, él la evalúa y define qué se hace.</li>
+    <li><strong>Las desviaciones operacionales se corrigen directamente</strong>Y se reportan en el formato establecido.</li>
+  </ol>
+  <div class="callout"><i data-i="clipcheck"></i><p>Las <strong>quejas de los clientes</strong> también se consideran no conformidades y se registran en las Tarjetas de Aporte.</p></div>
+
+  <h2>Cómo se decide el tratamiento: parte 1</h2>
+  <p>Así se sigue el procedimiento <strong>PRO-HSEQ-04</strong> desde que detectas una salida no conforme.</p>
+  <div class="dg-legend"><span><i style="background:#b7d0ee"></i>Registrar o comunicar</span><span><i style="background:#c3efcb"></i>Decidir</span><span><i style="background:#fdd9a0"></i>Tratar</span></div>
+  <div class="dg"><svg viewBox="0 0 760 610" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de flujo, primera parte: detectar la salida no conforme, registrarla, informar y definir plazos y responsables del tratamiento"><defs><marker id="arA" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b5b84"/></marker></defs><rect x="15.0" y="8.0" width="230" height="52" rx="26.0" fill="#e4e8ee" stroke="#aeb8c6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="29.8">Salida no conforme</tspan><tspan x="130" y="47.7">detectada</tspan></text><path d="M130,60 V90" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="15.0" y="90.0" width="230" height="50" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="119.8">Identifícala y regístrala</tspan></text><path d="M130,140 V172" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><polygon points="130,172.0 250.0,225 130,278.0 10.0,225" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="130" y="221.0">¿Es necesario</tspan><tspan x="130" y="238.2">informar?</tspan></text><path d="M250,225 H297" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="256" y="196" width="28" height="20" rx="10" fill="#2e7d32"/><text x="270" y="210.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="297.0" y="196.0" width="216" height="58" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="405" y="220.8">Comunica de inmediato</tspan><tspan x="405" y="238.7">al jefe de área</tspan></text><path d="M513,225 H552" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="552.0" y="196.0" width="200" height="58" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="652" y="220.8">El jefe de área evalúa</tspan><tspan x="652" y="238.7">la salida no conforme</tspan></text><path d="M130,278 V308" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="138" y="284" width="28" height="20" rx="10" fill="#b45309"/><text x="152" y="298.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text><polygon points="130,311.0 255.0,368 130,425.0 5.0,368" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="130" y="355.3">¿Tienes autoridad</tspan><tspan x="130" y="372.6">para darle</tspan><tspan x="130" y="389.9">tratamiento?</tspan></text><path d="M255,368 H405 V255" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="281" y="343" width="28" height="20" rx="10" fill="#b45309"/><text x="295" y="357.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text><path d="M130,425 V458" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="138" y="431" width="28" height="20" rx="10" fill="#2e7d32"/><text x="152" y="445.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="10.0" y="458.0" width="240" height="64" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="476.8">Determina plazos</tspan><tspan x="130" y="494.8">y responsables del</tspan><tspan x="130" y="512.7">tratamiento</tspan></text><path d="M652,254 V490 H250" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><path d="M130,522 V552" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arA)"/><rect x="5.0" y="556.0" width="250" height="44" rx="22.0" fill="#e4e8ee" stroke="#aeb8c6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="582.8">Sigue: cómo se trata</tspan></text></svg></div>
+  <p class="dg-hint">Desliza hacia los lados para ver todo el diagrama.</p>
+  <details class="acc"><summary><i data-i="list"></i>Ver el diagrama como lista de pasos</summary><div class="acc-b"><ol>
+    <li>Identifica la salida no conforme y regístrala.</li>
+    <li>¿Es necesario informar? <strong>Sí:</strong> comunica de inmediato al jefe de área, que la evalúa. <strong>No:</strong> pasa a la siguiente pregunta.</li>
+    <li>¿Tienes autoridad para darle tratamiento? <strong>Sí:</strong> determina plazos y responsables. <strong>No:</strong> comunica de inmediato al jefe de área.</li>
+    <li>Determina plazos y responsables del tratamiento y pasa a la parte 2.</li></ol></div></details>
+
+  <h2>Cómo se decide el tratamiento: parte 2</h2>
+  <div class="dg-legend"><span><i style="background:#b7d0ee"></i>Registrar o comunicar</span><span><i style="background:#c3efcb"></i>Decidir</span><span><i style="background:#fdd9a0"></i>Tratar</span></div>
+  <div class="dg"><svg viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de flujo, segunda parte: decidir si se corrige, se desecha, se acepta por concesión o se abre una acción, y cómo se registra y archiva"><defs><marker id="arB" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b5b84"/></marker></defs><rect x="10.0" y="8.0" width="240" height="52" rx="26.0" fill="#e4e8ee" stroke="#aeb8c6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="29.8">Plazos y responsables</tspan><tspan x="130" y="47.7">definidos</tspan></text><path d="M130,60 V90" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><polygon points="130,90.0 258.0,150 130,210.0 2.0,150" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="130" y="137.3">¿Se puede corregir,</tspan><tspan x="130" y="154.6">separar, contener,</tspan><tspan x="130" y="171.9">devolver o suspender?</tspan></text><path d="M258,150 H305" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="266" y="125" width="28" height="20" rx="10" fill="#b45309"/><text x="280" y="139.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text><path d="M130,210 V246" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="138" y="218" width="28" height="20" rx="10" fill="#2e7d32"/><text x="152" y="232.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="15.0" y="247.0" width="230" height="56" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="270.8">Aplica la corrección</tspan><tspan x="130" y="288.7">y regístrala</tspan></text><path d="M130,303 V340" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><polygon points="130,340.0 240.0,385 130,430.0 20.0,385" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="130" y="380.9">¿La salida</tspan><tspan x="130" y="398.2">es conforme?</tspan></text><path d="M240,385 H320" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="246" y="361" width="28" height="20" rx="10" fill="#b45309"/><text x="260" y="375.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text><rect x="320.0" y="359.0" width="200" height="52" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="420" y="380.8">Deséchala o impide</tspan><tspan x="420" y="398.7">su uso</tspan></text><path d="M130,430 V472" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="138" y="441" width="28" height="20" rx="10" fill="#2e7d32"/><text x="152" y="455.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="5.0" y="472.0" width="250" height="66" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="130" y="491.8">Registra y notifica al área</tspan><tspan x="130" y="509.8">que la detectó el resultado</tspan><tspan x="130" y="527.7">del tratamiento</tspan></text><path d="M255,505 H325" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="325.0" y="479.0" width="190" height="52" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="420" y="500.8">Comunicar</tspan><tspan x="420" y="518.7">y archivar</tspan></text><path d="M515,505 H580" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="580.0" y="479.0" width="170" height="52" rx="26.0" fill="#e4e8ee" stroke="#aeb8c6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="665" y="500.8">Problema</tspan><tspan x="665" y="518.7">resuelto</tspan></text><polygon points="420,90.0 535.0,150 420,210.0 305.0,150" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="420" y="137.3">¿Se autoriza utilizarla</tspan><tspan x="420" y="154.6">apartándose de los</tspan><tspan x="420" y="171.9">requisitos?</tspan></text><path d="M535,150 H575" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="546" y="125" width="28" height="20" rx="10" fill="#2e7d32"/><text x="560" y="139.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="575.0" y="113.0" width="180" height="74" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="665" y="136.8">Liberación por</tspan><tspan x="665" y="154.8">concesión</tspan><tspan x="665" y="172.7">(autoriza el cliente)</tspan></text><path d="M420,210 V243" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arB)"/><rect x="428" y="217" width="28" height="20" rx="10" fill="#b45309"/><text x="442" y="231.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text><rect x="307.0" y="242.0" width="226" height="66" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="420" y="261.8">Establece una acción</tspan><tspan x="420" y="279.8">correctiva, preventiva</tspan><tspan x="420" y="297.7">o de mejora</tspan></text><path d="M665,187 V440 H130" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round"/></svg></div>
+  <p class="dg-hint">Desliza hacia los lados para ver todo el diagrama.</p>
+  <details class="acc"><summary><i data-i="list"></i>Ver el diagrama como lista de pasos</summary><div class="acc-b"><ol>
+    <li>¿Se puede corregir, separar, contener, devolver o suspender? <strong>Sí:</strong> aplica la corrección y regístrala; si queda conforme, pasa al registro, y si no, deséchala o impide su uso.</li>
+    <li><strong>No:</strong> ¿se autoriza utilizarla apartándose de los requisitos? <strong>Sí:</strong> liberación por concesión, con autorización del cliente. <strong>No:</strong> establece una acción correctiva, preventiva o de mejora.</li>
+    <li>Registra y notifica al área que la detectó el resultado del tratamiento.</li>
+    <li>Comunica y archiva: problema resuelto.</li></ol></div></details>
+
+  <h2>Cuándo se pasa a acción correctiva</h2>
+  <p>Si se presenta alguno de estos criterios, la salida no conforme pasa a <strong>acción correctiva</strong> (PRO-HSEQ-03):</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="cycle"></i>Repetición</h3><p>La misma no conformidad se presenta más de tres veces consecutivas.</p></div>
+    <div class="card"><h3><i data-i="chart"></i>Costo</h3><p>El problema ha generado un mayor costo para la compañía.</p></div>
+    <div class="card"><h3><i data-i="clock"></i>Atraso</h3><p>Hay atraso en el cronograma debido al problema.</p></div>
+    <div class="card"><h3><i data-i="warn"></i>Accidente</h3><p>De algún empleado o de otra persona ajena al contrato.</p></div>
+    <div class="card"><h3><i data-i="file"></i>Incumplimiento contractual</h3><p>Por comunicación del cliente o resultado de la interventoría o inspección.</p></div>
+  </div>
+  <div class="callout ok"><i data-i="tick"></i><p>Al final, el responsable del proceso verifica si se corrigió la no conformidad, anota la fecha y marca “SÍ” o “NO”, con su visto bueno como evidencia de la liberación. HSEQ organiza el estado de las salidas no conformes, que alimenta las revisiones gerenciales.</p></div>
+
+  <h2>Acciones de mejora: qué significa cada una</h2>
+  <p>El procedimiento <strong>PRO-HSEQ-03</strong> asegura el mejoramiento continuo: documenta, implementa y hace seguimiento a las acciones que eliminan las causas de las no conformidades reales y potenciales del SIG.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="tick"></i>Corrección</h3><p>Acción tomada para eliminar una no conformidad detectada.</p></div>
+    <div class="card"><h3><i data-i="search"></i>Acción correctiva</h3><p>Elimina la <strong>causa</strong> de una no conformidad detectada u otra situación indeseable, para evitar que se repita.</p></div>
+    <div class="card"><h3><i data-i="shield"></i>Acción preventiva</h3><p>Elimina la causa de una no conformidad <strong>potencial</strong>, para reducir la probabilidad de que ocurra.</p></div>
+    <div class="card"><h3><i data-i="chart"></i>Acción de mejora</h3><p>Permite el correcto desarrollo de la empresa o del SIG y aumenta su capacidad de cumplir los requisitos.</p></div>
+  </div>
+
+  <h2>Cómo se gestiona una acción (1 de 2)</h2>
+  <ol class="steps">
+    <li><strong>Identificar</strong>Líderes de proceso y todo el personal identifican no conformidades, actos y condiciones subestándar y oportunidades de mejora, a partir de fuentes como el análisis DOFA, la revisión de objetivos y metas, los indicadores y las auditorías.</li>
+    <li><strong>Registrar</strong>HSEQ diligencia el <strong>FOR-HSEQ-54</strong> con las no conformidades de auditorías y las quejas, reclamos y sugerencias de clientes. Todas las acciones entran a la matriz <strong>FOR-HSEQ-53</strong>.</li>
+    <li><strong>Tomar correcciones</strong>Se evalúa si el problema se elimina con una corrección, una acción correctiva, una preventiva o una mejora.</li>
+    <li><strong>Analizar las causas</strong>El líder del proceso, con apoyo de quien detectó el problema, usa diagrama causa-efecto, lluvia de ideas o 5 porqués hasta llegar a la causa raíz.</li>
+  </ol>
+
+  <h2>Cómo se gestiona una acción (2 de 2)</h2>
+  <ol class="steps" style="counter-reset:s 4">
+    <li><strong>Determinar acciones y plan</strong>El líder y su equipo definen la acción, el responsable y la fecha máxima en el plan de acción. Si la acción introduce peligros nuevos, antes se valoran los riesgos en el FOR-HSEQ-54; si el riesgo resulta mayor, no es viable.</li>
+    <li><strong>Hacer seguimiento</strong>El responsable entrega las evidencias a HSEQ. La eficacia se verifica en las auditorías internas con criterios de aprendizaje, estadística o comportamiento. Si no fue suficiente, la acción sigue abierta y se reinicia el análisis.</li>
+    <li><strong>Comunicar resultados</strong>En la revisión por la dirección, el Director de HSQ informa cuántas acciones se generaron, cuántas están abiertas y cerradas y qué dificultades hubo.</li>
+  </ol>
+
+  <h2>Formatos y registros</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="clipcheck"></i>FOR-HSEQ-82</h3><p>Tarjeta de Aporte: oportunidades de mejora, actos y condiciones inseguras y riesgos ambientales. En medio físico o digital.</p></div>
+    <div class="card"><h3><i data-i="file"></i>FOR-HSEQ-54</h3><p>Acción correctiva, preventiva o de mejora.</p></div>
+    <div class="card"><h3><i data-i="list"></i>FOR-HSEQ-53</h3><p>Matriz de acciones para la mejora: reúne todas las acciones y su seguimiento hasta el cierre.</p></div>
+  </div>
+  <div class="btnrow"><a class="btn" href="https://drive.google.com/open?id=17c84OutrC2QuzIJTR-0lNW7A9G7uK-Rk&usp=drive_copy" target="_blank" rel="noopener"><i data-i="file"></i>Descargar formato FOR-HSEQ-54</a></div>
+  <div class="callout"><i data-i="users"></i><p>El COPASST revisa cada mes las Tarjetas de Aporte y las comunica al proceso responsable para su evaluación y toma de acciones.</p></div>
+</section>
+
+
+<section class="mod cat-cal" id="m-cambio" data-track="all" data-chap="Capítulo I · Sistema Integrado de Gestión" data-title="Gestión del cambio" data-icon="swap" data-min="3">
+  <p class="lead">Un <strong>cambio</strong> es cualquier adición, eliminación o modificación, <strong>temporal o permanente</strong>, realizada a un sistema existente. Todo cambio se evalúa <strong>antes</strong> de ejecutarlo, para conocer sus riesgos y los controles adicionales que necesita (PRO-HSEQ-13).</p>
+  <div class="callout warn"><i data-i="clock"></i><p><strong>Los cambios temporales también cuentan.</strong> El procedimiento aplica a cambios eventuales o permanentes, internos o externos.</p></div>
+
+  <h2>Fuentes de cambio: todos podemos identificarlas</h2>
+  <p>Estas son las fuentes de cambio que pueden afectar al SIG:</p>
+  <ul class="tick cols2">
+    <li>Cambio en la estructura organizacional</li>
+    <li>Cambios en métodos de trabajo</li>
+    <li>Nuevas exigencias del mercado</li>
+    <li>Cambio estratégico de la empresa</li>
+    <li>Cambio tecnológico</li>
+    <li>Prestación de un nuevo servicio</li>
+    <li>Actualización de una norma</li>
+    <li>Cambio en las políticas internas</li>
+    <li>Cambio de infraestructura</li>
+    <li>Cambios en la legislación aplicable</li>
+    <li>Otros que afecten al SIG</li>
+  </ul>
+
+  <h2>Cómo se gestiona un cambio</h2>
+  <ol class="steps">
+    <li><strong>Identificar la fuente</strong>Todo el personal puede identificar un cambio y comunicarlo a su líder de proceso.</li>
+    <li><strong>Evaluar el cambio</strong>El líder del proceso diligencia el formato <strong>FOR-HSEQ-73 Planificación de cambios</strong> antes de ejecutarlo y lo entrega a HSEQ. HSEQ, con apoyo del COPASST, evalúa los riesgos ocupacionales y los aspectos ambientales.</li>
+    <li><strong>Documentar y aprobar</strong>Los resultados de la evaluación se registran y se aprueban en el mismo formato.</li>
+    <li><strong>Comunicar</strong>Con el cambio aprobado y antes de implementarlo, se informa a las áreas o procesos afectados y se da el entrenamiento que se requiera.</li>
+    <li><strong>Manejar el cambio</strong>Se define un plan de acción (actualización de documentos, formación, modificaciones de infraestructura) que se incluye en la matriz de acciones para la mejora.</li>
+  </ol>
+  <div class="callout"><i data-i="users"></i><p>La <strong>Alta Gerencia y los líderes de proceso</strong> aseguran la identificación, revisión y evaluación de los cambios, con el apoyo del área HSEQ.</p></div>
+
+  <h2>Cambios que no requieren este procedimiento</h2>
+  <ul class="tick">
+    <li>Adecuaciones locativas relacionadas con un programa de mantenimiento preventivo de instalaciones.</li>
+    <li>Vacantes, reemplazos, traslados temporales dentro de la misma área o proceso y rotación de personal.</li>
+    <li>Cambios en la denominación del cargo que mantengan las funciones principales.</li>
+  </ul>
+
+  <h2>Tu rol</h2>
+  <ul class="tick">
+    <li>No modifiques equipos, métodos de trabajo, parámetros ni controles de seguridad sin que el cambio esté evaluado y aprobado.</li>
+    <li>Si ves un cambio que nadie evaluó, repórtalo a tu líder o a HSEQ.</li>
+    <li>Participa en las socializaciones y entrenamientos cuando un cambio se apruebe.</li>
+  </ul>
+</section>
+
+
+<section class="mod cat-leg" id="m-legal" data-track="all" data-chap="Capítulo II · Seguridad y Salud en el Trabajo" data-gate="ack" data-title="Marco legal, deberes y derechos en SST" data-icon="scale" data-min="4">
+  <p class="lead">El Sistema de Gestión de Seguridad y Salud en el Trabajo (SG-SST) de PBI está alineado con el <strong>Decreto 1072 de 2015</strong> y los estándares mínimos de la <strong>Resolución 0312 de 2019</strong>.</p>
+  <h2>Estructura del SG-SST</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="shield"></i>Política HSEQ</h3><p>Marco del compromiso con la seguridad, la salud y el ambiente.</p></div>
+    <div class="card"><h3><i data-i="search"></i>Matrices de peligros</h3><p>Identificación, evaluación y valoración de los riesgos de cada actividad.</p></div>
+    <div class="card"><h3><i data-i="clipcheck"></i>Auditorías</h3><p>Internas, externas y de clientes.</p></div>
+  </div>
+  <details class="acc"><summary><i data-i="gear"></i>Programas de gestión del riesgo (PGR)</summary><div class="acc-b"><p>Alturas, vial, energías peligrosas, riesgo mecánico, riesgo químico, plan de emergencias y capacitaciones.</p></div></details>
+  <details class="acc"><summary><i data-i="heart"></i>Programas de vigilancia epidemiológica</summary><div class="acc-b"><p>Cardiovascular, desórdenes musculoesqueléticos, salud pública, auditivo, visual y psicosocial.</p></div></details>
+
+  <h2>Reglamento de Higiene y Seguridad Industrial</h2>
+  <p>Busca la identificación, reconocimiento, evaluación y control de los factores de riesgo originados en los lugares de trabajo que puedan afectar la salud.</p>
+  <div class="btnrow"><a class="btn" href="https://drive.google.com/file/d/1vPF8VZr8pXxD4Wtzh0Gy9uEjBTR0RjB1/view" target="_blank" rel="noopener"><i data-i="file"></i>Leer el reglamento</a></div>
+  <label class="ack"><input type="checkbox" data-ack="reglamento"><span>Confirmo que he leído y comprendido el Reglamento de Higiene y Seguridad Industrial.</span></label>
+
+  <h2>Deberes y derechos</h2>
+  
+  <details class="acc"><summary><i data-i="user"></i>Deberes de los trabajadores</summary><div class="acc-b">
+    <p>Decreto 1072 de 2015, artículo 2.2.4.6.10.</p>
+    <ul>
+      <li>Procurar el cuidado integral de su salud.</li>
+      <li>Dar información clara, veraz y completa sobre su estado de salud.</li>
+      <li>Cumplir las normas, reglamentos e instrucciones del SG-SST.</li>
+      <li>Reportar oportunamente los peligros y riesgos.</li>
+      <li>Participar en las capacitaciones en SST.</li>
+      <li>Contribuir al cumplimiento de los objetivos del SG-SST y del documento de Autoridad, Funciones y Responsabilidades HSEQ.</li>
+      <li>En PBI: mantener en orden el puesto de trabajo, colaborar con la gestión ambiental y reportar cualquier incidente o accidente al líder HSEQ <strong>de inmediato</strong>.</li>
+    </ul></div></details>
+  <details class="acc"><summary><i data-i="building"></i>Deberes del empleador</summary><div class="acc-b">
+    <ul>
+      <li>Pagar la totalidad de la cotización al sistema de riesgos laborales y trasladarla oportunamente a la ARL.</li>
+      <li>Procurar el cuidado integral de los trabajadores y de los ambientes de trabajo.</li>
+      <li>Ejecutar y controlar el cumplimiento del programa de SST.</li>
+      <li>Notificar los accidentes y enfermedades laborales a la ARL.</li>
+      <li>Conformar el COPASST (o Vigía SST) y el Comité de Convivencia Laboral.</li>
+      <li>Facilitar capacitaciones en SST e informar a la ARL las novedades laborales.</li>
+    </ul></div></details>
+  <details class="acc"><summary><i data-i="heart"></i>Derechos de los trabajadores</summary><div class="acc-b">
+    <p><strong>Asistenciales</strong></p>
+    <ul>
+      <li>Atención inicial de urgencias ante un accidente de trabajo.</li>
+      <li>Atención médica, terapéutica y farmacéutica por la IPS, incluida hospitalización, diagnóstico, odontología y medicamentos.</li>
+      <li>Rehabilitación física y profesional, y prótesis y órtesis.</li>
+      <li>Traslado en las condiciones necesarias para recibir estos servicios.</li>
+    </ul>
+    <p><strong>Económicos</strong></p>
+    <ul>
+      <li>Subsidio por incapacidad temporal.</li>
+      <li>Indemnización por incapacidad permanente parcial.</li>
+      <li>Pensión de invalidez y de sobrevivientes, y auxilio funerario.</li>
+      <li>Reincorporación o reubicación después de la recuperación.</li>
+    </ul></div></details>
+
+  <h2>Accidentes de trabajo y enfermedad laboral</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="warn"></i>Accidente de trabajo</h3><p>Suceso repentino relacionado con el trabajo que causa lesión orgánica, perturbación funcional o psiquiátrica, invalidez o muerte (Ley 1562 de 2012).</p></div>
+    <div class="card"><h3><i data-i="flask"></i>Enfermedad laboral</h3><p>La contraída por la exposición a factores de riesgo inherentes a la actividad laboral o al ambiente de trabajo (Ley 1562 de 2012).</p></div>
+  </div>
+  <details class="acc"><summary><i data-i="bell"></i>Cómo se reporta un accidente</summary><div class="acc-b">
+    <ol>
+      <li><strong>Reporte inicial:</strong> avisa de inmediato a tu jefe o al área HSEQ, sin importar la gravedad.</li>
+      <li><strong>Seguimiento:</strong> HSEQ te contacta para obtener los detalles clave.</li>
+      <li><strong>Reporte formal:</strong> el empleador notifica a la ARL en los tiempos establecidos.</li>
+    </ol>
+    <div class="callout warn"><i data-i="phone"></i><p><strong>Contacto HSEQ:</strong> <a data-cfg-tel="hseqTel"></a> · <a data-cfg-mail="hseqMail"></a></p></div></div></details>
+  <details class="acc"><summary><i data-i="clipcheck"></i>Casos considerados accidente de trabajo</summary><div class="acc-b">
+    <ul><li>Al ejecutar órdenes del empleador.</li><li>Durante el transporte suministrado por la empresa.</li><li>En el ejercicio de la función sindical.</li><li>En actividades recreativas o culturales por encargo del empleador.</li></ul><figure><img src="https://i.postimg.cc/RVx0kJ9x/at.png" alt="Pirámide de accidentes" style="max-width:260px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div></details>
+  <details class="acc"><summary><i data-i="file"></i>Proceso en caso de enfermedad laboral</summary><div class="acc-b">
+    <ol>
+      <li>El trabajador asiste a su EPS, que lo remite a medicina laboral.</li>
+      <li>La EPS solicita soportes y diligencia el FUREL.</li>
+      <li>El FUREL se remite a la ARL en máximo 48 horas.</li>
+      <li>Se activa el proceso de calificación.</li>
+      <li>La empresa investiga el caso en 15 días y ajusta los planes de prevención.</li>
+    </ol></div></details>
+</section>
+
+
+<section class="mod cat-leg" id="m-comites" data-track="all" data-chap="Capítulo II · Seguridad y Salud en el Trabajo" data-title="Comités, salud mental y participación" data-icon="users" data-min="6">
+  <h2 style="margin-top:0">COPASST</h2>
+  <p>El Comité Paritario de Seguridad y Salud en el Trabajo (Resolución 2013 de 1986) promueve el SG-SST y vigila su cumplimiento. Es el <strong>puente entre los trabajadores y el empleador</strong>: puedes llevarle tus inquietudes y reportes de seguridad.</p>
+  <ul class="tick">
+    <li>Promueve y vigila el cumplimiento del SG-SST.</li>
+    <li>Revisa cada mes las tarjetas de aporte y las comunica al proceso responsable.</li>
+    <li>Apoya a HSEQ en la evaluación de los riesgos y aspectos ambientales de los cambios.</li>
+  </ul>
+  <p>Escríbele a <a data-cfg-mail="copasstMail"></a>.</p>
+  
+  <div class="grid">
+    <div class="card"><h3><i data-i="building"></i>Representantes del empleador</h3><ul><li>Principal: Jaime Davian Reyes – Asistente de Compras</li><li>Suplente: Diana Espinosa – Coordinadora de Contabilidad e Impuestos</li></ul></div>
+    <div class="card"><h3><i data-i="users"></i>Representantes de los trabajadores</h3><ul><li>Principal: Jorge Eduardo Suarez – Ingeniero</li><li>Suplente: Luis Eduardo Romero – Operador Planta de Gas</li></ul></div>
+  </div>
+
+  <h2>Comité de Convivencia Laboral</h2>
+  <p>Es un mecanismo <strong>preventivo, conciliador y confidencial</strong> para tramitar quejas de <strong>acoso laboral</strong> (Ley 1010 de 2006). Lo regula la <strong>Resolución 3461 de 2025</strong>, que reemplazó las resoluciones 652 y 1356 de 2012.</p>
+  <ul class="tick">
+    <li>Recibe y analiza las quejas por conductas de acoso laboral.</li>
+    <li>Escucha a las partes, promueve compromisos y formula un plan de mejora concertado.</li>
+    <li>Hace seguimiento a los compromisos y a sus recomendaciones, e informa a la alta dirección.</li>
+  </ul>
+
+  <h2>Qué cambió con la Resolución 3461 de 2025</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="building"></i>Un comité por centro de trabajo</h3><p>Cuando la empresa tiene dos o más centros de trabajo, se conforma un comité central y otro por cada centro.</p></div>
+    <div class="card"><h3><i data-i="clock"></i>Reuniones cada mes</h3><p>Las reuniones ordinarias son mensuales, y se convoca una extraordinaria cada vez que llega una queja.</p></div>
+    <div class="card"><h3><i data-i="list"></i>Plazos definidos</h3><p>El trámite de una queja tiene etapas y términos, y no puede superar 65 días calendario.</p></div>
+    <div class="card"><h3><i data-i="users"></i>Más personas pueden acudir</h3><p>También aprendices y contratistas que presten servicios en las instalaciones de la empresa.</p></div>
+  </div>
+  <div class="callout warn"><i data-i="warn"></i><p><strong>Acoso sexual:</strong> el Comité de Convivencia no es competente para tramitarlo. Si vives o conoces un caso, repórtalo directamente a Gestión Humana o a la Dirección HSEQ para que se active el procedimiento de atención.</p></div>
+  
+  
+
+  <h2>Tus comités</h2>
+  <p>Si tienes una queja de acoso laboral, preséntala ante el comité que corresponde a tu centro de trabajo. PBI cuenta con tres:</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="building"></i>Sede administrativa</h3><p>Comité de Convivencia Laboral de la sede de Bogotá.</p></div>
+    <div class="card"><h3><i data-i="users"></i>Proyectos</h3><p>Comité de Convivencia Laboral de proyectos.</p></div>
+    <div class="card"><h3><i data-i="factory"></i>Planta Buenavista</h3><p>Comité de Convivencia Laboral de la planta Buenavista.</p></div>
+  </div>
+  <p>Si no sabes cuál te corresponde, pregunta a Gestión Humana, que socializa los integrantes vigentes de cada comité. También puedes escribir a <a data-cfg-mail="convivenciaMail"></a> usando el formato corporativo.</p>
+  
+  <div class="btnrow">
+    <a class="btn" href="https://docs.google.com/spreadsheets/d/1MKktbEewrnDJk4Ri4Qh7UFujxfCCbMFB/edit?usp=sharing&ouid=109327772537169064323&rtpof=true&sd=true" target="_blank" rel="noopener"><i data-i="file"></i>Formato de queja</a>
+    <a class="btn alt" href="https://drive.google.com/file/d/1T60djjTvdxuPB3N2_nvAM8hv1MsW6Url/view?usp=sharing" target="_blank" rel="noopener"><i data-i="book"></i>Procedimiento oficial</a>
+  </div>
+
+  <h2>Salud mental y prevención de sustancias psicoactivas</h2>
+  <p>PBI promueve entornos de trabajo saludables. La salud mental y la prevención del consumo de sustancias psicoactivas hacen parte del SG-SST (Decreto 728 de 2025).</p>
+  <ul class="tick">
+    <li>Haz pausas activas y respeta los tiempos de descanso.</li>
+    <li>Si sientes estrés sostenido o sobrecarga, <strong>habla a tiempo</strong> con tu líder, con HSEQ o con Gestión Humana.</li>
+    <li>Si tú o un compañero necesitan apoyo, acércate a HSEQ o a los canales de apoyo de la ARL.</li>
+    <li>Está prohibido trabajar bajo efectos de alcohol o drogas (POL-GER-02).</li>
+  </ul>
+
+  <h2>Comunicación, consulta y participación</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="bell"></i>Qué se comunica</h3><p>Políticas, objetivos, cambios en procesos, indicadores, eventos HSEQ y resultados de auditorías.</p></div>
+    <div class="card"><h3><i data-i="mail"></i>Cómo se comunica</h3><p>Correo, reuniones, Google Sites, carteleras, grupos autorizados y formularios digitales.</p></div>
+    <div class="card"><h3><i data-i="users"></i>Cómo participas</h3><p>En brigadas, inspecciones, comités y proponiendo mejoras al sistema.</p></div>
+    <div class="card"><h3><i data-i="clipcheck"></i>Canales de aporte</h3><p>Tarjetas de aporte, encuestas, espacios de formación y retroalimentación directa.</p></div>
+  </div>
+</section>
+
+
+<section class="mod cat-sst" id="m-reportar" data-track="all" data-chap="Capítulo II · Seguridad y Salud en el Trabajo" data-title="Reportar y comportamiento seguro" data-icon="clipcheck" data-min="4">
+  <p class="lead">Los accidentes no ocurren por casualidad: suelen ser el resultado de condiciones y actos inseguros que se repiten sin corregirse.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="gear"></i>Condiciones inseguras</h3><p>Situaciones físicas inadecuadas: superficies resbalosas, maquinaria sin protecciones, mala iluminación, desorden, ventilación deficiente.</p></div>
+    <div class="card"><h3><i data-i="user"></i>Actos inseguros</h3><p>Acciones que generan riesgo: trabajar sin autorización, no usar EPP, improvisar herramientas, tareas sin conocer el riesgo.</p></div>
+    <div class="card"><h3><i data-i="eye"></i>Casi-accidentes</h3><p>Eventos que no causaron lesión ni daño, pero pudieron hacerlo. Reportarlos permite corregir sin pagar con una lesión.</p></div>
+  </div>
+  <h2>Tarjetas de aporte</h2>
+  <p>Es el mecanismo oficial de PBI (<strong>FOR-HSEQ-82</strong>), en medio físico o digital, para informar:</p>
+  <ul class="tick">
+    <li>Oportunidades de mejora en los procesos.</li>
+    <li>Condiciones inseguras (subestándar).</li>
+    <li>Actos inseguros (subestándar).</li>
+    <li>Riesgos ambientales.</li>
+  </ul>
+  <p>El COPASST las revisa cada mes y las comunica al proceso al que van dirigidas, para su evaluación y toma de acciones.</p>
+  <figure><img src="https://i.postimg.cc/0Nhp4dDd/Captura-de-pantalla-2025-06-17-093430.png" alt="Código QR del formulario de tarjetas de aporte" style="max-width:200px" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Escanea el código QR para reportar</figcaption></figure>
+  <div class="callout key"><i data-i="bell"></i><p><strong>Accidentes e incidentes:</strong> repórtalos <strong>de inmediato</strong> a tu jefe directo o al área HSEQ (<a data-cfg-tel="hseqTel"></a>), sin importar la gravedad.</p></div>
+
+  <h2>Disciplina operativa y seguridad basada en el comportamiento</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="clipcheck"></i>Disciplina operativa</h3><p>Ejecutar siempre las tareas conforme a los estándares, procedimientos y controles definidos, incluso cuando nadie mira.</p><ul><li>Seguir los procedimientos paso a paso.</li><li>No improvisar tareas críticas.</li><li>Respetar permisos y análisis de riesgo.</li><li>Verificar antes de actuar.</li></ul></div>
+    <div class="card"><h3><i data-i="eye"></i>Seguridad basada en el comportamiento</h3><p>Observar conductas, dar retroalimentación y reconocer lo bien hecho para construir una cultura preventiva.</p><ul><li>Observar conductas seguras e inseguras.</li><li>Dar retroalimentación inmediata y respetuosa.</li><li>Reconocer comportamientos ejemplares.</li></ul></div>
+  </div>
+  <p>La disciplina operativa es el <strong>qué y cómo</strong>; la seguridad basada en el comportamiento trabaja el <strong>por qué</strong> de nuestras decisiones y hábitos.</p>
+</section>
+
+
+<section class="mod cat-eme" id="m-emergencias" data-track="all" data-chap="Capítulo II · Seguridad y Salud en el Trabajo" data-title="Qué hacer en una emergencia" data-icon="bell" data-min="2">
+  <p class="lead">Cada instalación tiene un plan de emergencias adaptado a sus riesgos. Estos pasos aplican en cualquier sede, en campo u oficina.</p>
+  <ol class="steps">
+    <li><strong>Mantén la calma</strong>Evalúa rápidamente la situación.</li>
+    <li><strong>Activa la alarma o comunica</strong>Usa el sistema de alarma, la radio o avisa a un brigadista.</li>
+    <li><strong>Evacúa por la ruta señalizada</strong>Sin correr, sin devolverte por objetos y sin usar ascensores.</li>
+    <li><strong>Ve al punto de encuentro</strong>Permanece allí hasta recibir instrucciones del coordinador de emergencias.</li>
+    <li><strong>Reporta</strong>Informa si ves compañeros lesionados o atrapados.</li>
+    <li><strong>No regreses</strong>No vuelvas a la zona afectada sin autorización.</li>
+  </ol>
+  <h2>Emergencias más probables</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="flame"></i>Incendio</h3><p>Activa la alarma, evacúa y avisa al brigadista. Nunca intentes apagarlo sin entrenamiento.</p></div>
+    <div class="card"><h3><i data-i="cube"></i>Fuga de gas</h3><p>Evita fuentes de ignición, no uses celulares, aléjate y activa el protocolo de evacuación.</p></div>
+    <div class="card"><h3><i data-i="flask"></i>Derrame químico</h3><p>No entres en contacto con la sustancia. Informa de inmediato; solo personal entrenado la contiene.</p></div>
+    <div class="card"><h3><i data-i="map"></i>Sismo</h3><p>Agáchate, cúbrete y sujétate. Evacúa cuando termine el movimiento, por la ruta establecida.</p></div>
+  </div>
+  <div class="callout"><i data-i="info"></i><p>Los detalles de tu sede (rutas, punto de encuentro, brigadistas) están en tu ruta de inducción y en la inducción de tu proyecto.</p></div>
+</section>
+
+
+<section class="mod cat-amb" id="m-ambiente" data-track="all" data-chap="Capítulo III · Gestión ambiental" data-title="Gestión ambiental" data-icon="leaf" data-min="5">
+  <figure style="float:right;margin:0 0 8px 14px;max-width:130px"><img src="https://i.postimg.cc/7Zs3M6q5/070c051b-d00b-4375-87f0-c9d6899f8be6.png" alt="Gestión ambiental PBI" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <p class="lead">Nuestro sistema de gestión ambiental se basa en la <strong>ISO 14001</strong> y en el marco legal colombiano. Aplica a trabajadores, visitantes y contratistas, en oficinas y en campo.</p>
+  <ul class="tick">
+    <li>Prevenir la contaminación en todas nuestras actividades.</li>
+    <li>Usar racionalmente los recursos naturales.</li>
+    <li>Cumplir la legislación ambiental vigente.</li>
+    <li>Reducir, reutilizar y reciclar residuos.</li>
+    <li>Participar activamente en prácticas sostenibles.</li>
+  </ul>
+  <h2>Separación de residuos</h2>
+  <p>Según la Resolución 2184 de 2019, separa en la fuente así:</p>
+  <div class="grid">
+    <div class="card" style="border-left:6px solid #9aa5b1"><h3><i data-i="trash"></i>Blanco · aprovechables</h3><ul><li>Papel y cartón</li><li>Plástico</li><li>Vidrio</li><li>Metales</li></ul></div>
+    <div class="card" style="border-left:6px solid #2e7d32"><h3><i data-i="leaf"></i>Verde · orgánicos</h3><ul><li>Restos de comida</li><li>Residuos de jardinería</li></ul></div>
+    <div class="card" style="border-left:6px solid #111827"><h3><i data-i="trash"></i>Negro · no aprovechables</h3><ul><li>Papel higiénico y servilletas</li><li>Icopor</li><li>Residuos contaminados</li></ul></div>
+  </div>
+  <figure><img src="https://i.postimg.cc/wj2y8y8v/Canecas-residuos.png" alt="Canecas de separación en la fuente" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <p>No mezcles residuos y usa los puntos ecológicos de oficinas y frentes de trabajo. Los residuos peligrosos (aceites usados, filtros, trapos contaminados) se manejan con los procedimientos del área HSEQ.</p>
+
+  <h2>Aspectos e impactos ambientales</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="search"></i>Aspecto ambiental</h3><p>Elemento de nuestras actividades que puede interactuar con el ambiente. Ej.: consumo de agua, generación de residuos, emisiones.</p></div>
+    <div class="card"><h3><i data-i="leaf"></i>Impacto ambiental</h3><p>Cambio en el ambiente, positivo o negativo, resultado de un aspecto. Ej.: contaminación del aire, agotamiento de recursos.</p></div>
+  </div>
+  <figure><img src="https://i.postimg.cc/y62y6pQd/descarga-2.png" alt="Aspectos e impactos ambientales" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure>
+  <p>Se identifican en la Matriz de Aspectos e Impactos Ambientales (<strong>FOR-HSEQ-14</strong>). Los de mayor severidad, frecuencia o probabilidad se tratan como <strong>significativos</strong> con controles específicos.</p>
+  <div class="table-wrap"><table class="table">
+    <tr><th>Aspecto en nuestras operaciones</th><th>Impacto posible</th></tr>
+    <tr><td>Emisión de gases y vapores (compresión, tratamiento, quema)</td><td>Contaminación atmosférica, efecto invernadero</td></tr>
+    <tr><td>Residuos peligrosos (aceites usados, filtros, trapos)</td><td>Contaminación de suelo y aguas subterráneas</td></tr>
+    <tr><td>Ruido de compresores y motores</td><td>Afectación a trabajadores y fauna</td></tr>
+    <tr><td>Almacenamiento y manejo de combustibles</td><td>Incendio, fuga, afectación a comunidades y ecosistemas</td></tr>
+    <tr><td>Consumo de energía (generadores, bombeo, control)</td><td>Agotamiento de recursos, huella de carbono</td></tr>
+    <tr><td>Transporte de hidrocarburos</td><td>Emisiones y riesgo de derrame</td></tr>
+    <tr><td>Obras civiles de mantenimiento</td><td>Alteración del suelo y pérdida de cobertura vegetal</td></tr>
+  </table></div>
+
+  <h2>Programas ambientales</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="bolt"></i>Uso racional de energía</h3><span class="code">PRG-HSEQ-06</span></div>
+    <div class="card"><h3><i data-i="drop"></i>Uso eficiente del agua</h3><span class="code">PRG-HSEQ-07</span></div>
+    <div class="card"><h3><i data-i="trash"></i>Manejo de residuos sólidos</h3><span class="code">PRG-HSEQ-08</span></div>
+    <div class="card"><h3><i data-i="home"></i>Saneamiento básico</h3><span class="code">PRG-HSEQ-12</span></div>
+    <div class="card"><h3><i data-i="cube"></i>Calidad del aire</h3><span class="code">PRG-HSEQ-19</span></div>
+    <div class="card"><h3><i data-i="book"></i>Educación ambiental</h3><span class="code">PRG-HSEQ-20</span></div>
+    <div class="card"><h3><i data-i="scale"></i>Cumplimiento legal ambiental</h3><span class="code">PRG-HSEQ-21</span></div>
+  </div>
+
+  <h2>Hábitos que suman</h2>
+  <ul class="tick">
+    <li>Apaga luces y equipos que no uses; desconecta cargadores.</li>
+    <li>Cierra bien los grifos y reporta fugas o goteos.</li>
+    <li>No alimentes ni captures fauna silvestre; respeta los hábitats cercanos a la operación.</li>
+    <li>Evita plásticos de un solo uso y lleva tu propio vaso o botella.</li>
+    <li>Imprime solo lo necesario.</li>
+    <li><strong>Reduce tu huella de carbono:</strong> comparte transporte, camina o usa transporte público, y evita compras innecesarias.</li>
+  </ul>
+</section>
+
+
+<section class="mod cat-gen" id="m-repaso" data-track="all" data-title="Antes de continuar: confirma lo aprendido" data-icon="clipcheck" data-min="1">
+  <p class="lead">Antes de elegir tu ruta, confirma que comprendes los aspectos clave. Debes marcar todos para avanzar.</p>
+  <div class="ackl">
+    <label class="ack"><input type="checkbox" data-ack="rep1"><span>Comprendo qué es una <strong>salida no conforme</strong> y cómo reportarla.</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep2"><span>Sé cuándo aplicar una <strong>acción correctiva o preventiva</strong> y cómo registrarla (FOR-HSEQ-54).</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep3"><span>Sé consultar y usar los <strong>documentos vigentes</strong> del repositorio oficial.</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep4"><span>Entiendo qué es un <strong>cambio</strong> (también los temporales) y que se planifica antes de ejecutarlo (FOR-HSEQ-73).</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep5"><span>Sé cómo <strong>reportar</strong> actos y condiciones inseguras, casi-accidentes, incidentes y accidentes.</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep6"><span>Sé qué hacer en una <strong>emergencia</strong> y que, si no es seguro, debo detenerme.</span></label>
+    <label class="ack"><input type="checkbox" data-ack="rep7"><span>Sé a quién acudir: <strong>COPASST, Comité de Convivencia y área HSEQ</strong>.</span></label>
+  </div>
+</section>
+
+
+<section class="mod cat-gen" id="m-rol" data-track="all" data-gate="role" data-title="Elige tu ruta de inducción" data-icon="user" data-min="1">
+  <p class="lead">Ya conoces la base de nuestro SIG. Ahora verás el contenido que aplica directamente a tus funciones en <strong>Petroleum Blending International</strong>.</p>
+  <div class="roles">
+    <button type="button" class="role" data-role="admin" aria-pressed="false"><i data-i="monitor"></i><strong>Personal administrativo</strong><span>Oficinas, trabajo en casa y desplazamientos urbanos.</span></button>
+    <button type="button" class="role" data-role="oper" aria-pressed="false"><i data-i="helmet"></i><strong>Personal operativo</strong><span>Plantas, campo y áreas operativas.</span></button>
+  </div>
+  <p>En esta versión de revisión se muestran las dos rutas, una después de la otra.</p>
+</section>
+
+
+<section class="mod cat-sst" id="m-adm-riesgos" data-track="admin" data-chap="Ruta administrativa" data-title="Peligros y riesgos en oficina y en casa" data-icon="monitor" data-min="2">
+  <p class="lead">En tu trabajo administrativo, en la oficina o en casa, estás expuesto a riesgos que se previenen con hábitos simples.</p>
+  <h2>En la oficina</h2>
+  <details class="acc"><summary><i data-i="bolt"></i>Riesgo eléctrico</summary><div class="acc-b"><p><strong>Ejemplos:</strong> extensiones en mal estado, sobrecarga de tomas, equipos sin mantenimiento.</p><ul><li>Usa extensiones con polo a tierra en buen estado.</li><li>No sobrecargues los tomacorrientes.</li><li>Solicita mantenimiento preventivo de los equipos eléctricos.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="chair"></i>Riesgo ergonómico</summary><div class="acc-b"><p><strong>Ejemplos:</strong> mala postura, sillas inadecuadas, pantallas mal ubicadas.</p><ul><li>Ajusta la silla y el monitor a tu altura visual.</li><li>Haz pausas activas cada 2 horas.</li><li>Pide una valoración ergonómica si tienes molestias.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="flame"></i>Riesgo de incendio</summary><div class="acc-b"><p><strong>Ejemplos:</strong> papel acumulado cerca de enchufes, equipos eléctricos sin supervisión.</p><ul><li>Mantén libres de material inflamable las zonas de trabajo.</li><li>Apaga los equipos al terminar la jornada.</li><li>Identifica salidas de emergencia y extintores.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="warn"></i>Riesgo de caídas</summary><div class="acc-b"><p><strong>Ejemplos:</strong> cables sueltos en el piso, pisos mojados sin señalizar.</p><ul><li>Organiza los cables con canaletas o sujetadores.</li><li>Reporta derrames o superficies resbalosas.</li><li>Evita correr en zonas internas.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="users"></i>Riesgo psicosocial</summary><div class="acc-b"><p><strong>Ejemplos:</strong> sobrecarga laboral, conflictos, estrés sostenido.</p><ul><li>Comunícate de forma respetuosa y asertiva.</li><li>Informa si te sientes afectado emocionalmente.</li><li>Participa en pausas activas y programas de bienestar.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="bug"></i>Riesgo biológico</summary><div class="acc-b"><p><strong>Ejemplos:</strong> superficies contaminadas, virus en espacios cerrados.</p><ul><li>Lávate las manos con frecuencia y desinfecta tu puesto.</li><li>Evita ir a la oficina si tienes síntomas.</li><li>Mantén ventilados los espacios cerrados.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="bulb"></i>Iluminación deficiente</summary><div class="acc-b"><p><strong>Ejemplos:</strong> fatiga visual, errores por poca visibilidad, tropiezos en áreas oscuras.</p><ul><li>Solicita cambio de luminarias dañadas.</li><li>Ubica tu escritorio en un lugar bien iluminado.</li><li>Evita reflejos en la pantalla.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="exit"></i>Evacuación y ascensores</summary><div class="acc-b"><p><strong>Ejemplos:</strong> tropiezos al evacuar rápido, atrapamientos en ascensor.</p><ul><li>Conserva la calma y sigue a la brigada.</li><li>No uses ascensores durante una emergencia.</li><li>No bloquees puertas ni sobrecargues la cabina; reporta fallas.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="lock"></i>Riesgo público</summary><div class="acc-b"><p><strong>Ejemplos:</strong> ingreso de personas no autorizadas, hurto de objetos personales.</p><ul><li>No dejes pertenencias visibles o sin supervisión.</li><li>Reporta de inmediato situaciones sospechosas al personal de seguridad.</li><li>Verifica la identidad de quien ingresa o pide información.</li></ul></div></details>
+
+  <h2>Trabajando desde casa</h2>
+  <details class="acc"><summary><i data-i="bolt"></i>Riesgo eléctrico</summary><div class="acc-b"><ul><li>Usa extensiones en buen estado, con protección térmica.</li><li>No conectes varios equipos de alto consumo en el mismo punto.</li><li>Revisa cables y enchufes con frecuencia.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="chair"></i>Riesgo ergonómico</summary><div class="acc-b"><p>Evita trabajar en la cama o el sofá.</p><ul><li>Usa silla con respaldo y una mesa adecuada.</li><li>Alinea el monitor a la altura de los ojos.</li><li>Haz pausas activas cada 2 horas.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="warn"></i>Caídas y golpes</summary><div class="acc-b"><ul><li>Despeja las zonas de paso y asegura alfombras y cables.</li><li>Evita trabajar donde haya riesgo de tropiezo.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="users"></i>Riesgo psicosocial</summary><div class="acc-b"><ul><li>Define un horario de jornada y respeta tus pausas.</li><li>Comunica límites claros a quienes conviven contigo.</li><li>Participa en espacios virtuales de bienestar.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="bulb"></i>Iluminación</summary><div class="acc-b"><ul><li>Ubica tu puesto cerca de luz natural si es posible.</li><li>Ajusta el brillo y el contraste del monitor.</li></ul></div></details>
+</section>
+
+<section class="mod cat-sst" id="m-adm-bienestar" data-track="admin" data-chap="Ruta administrativa" data-title="Bienestar en el trabajo administrativo" data-icon="heart" data-min="1">
+  <details class="acc" open><summary><i data-i="chair"></i>Higiene postural</summary><div class="acc-b">
+    <ul><li>Apoya los pies en el suelo y mantén la espalda recta con soporte lumbar.</li><li>Ubica el monitor a la altura de los ojos y el teclado a la altura de los codos.</li><li>Evita cruzar las piernas por mucho tiempo.</li></ul>
+    <figure><img src="https://i.postimg.cc/4xwnXhP9/Higiene-postural.png" alt="Higiene postural en la oficina" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div></details>
+  <details class="acc"><summary><i data-i="lifebuoy"></i>Salud mental</summary><div class="acc-b"><ul><li>Organiza tu jornada con pausas activas y tiempos de desconexión.</li><li>Acude a los programas de apoyo psicosocial si te sientes afectado.</li><li>Promueve la comunicación respetuosa y el trabajo en equipo.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="eye"></i>Salud visual</summary><div class="acc-b"><ul><li>Regla 20-20-20: cada 20 minutos mira algo a 6 metros (20 pies) durante 20 segundos.</li><li>Evita reflejos directos en la pantalla y ajusta el brillo.</li><li>Consulta al optómetra si sientes fatiga visual.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="heart"></i>Hábitos saludables</summary><div class="acc-b"><ul><li>Incluye frutas, agua y alimentos frescos en tu jornada.</li><li>Levántate cada hora y estírate.</li><li>Participa en las actividades de promoción de la salud de la empresa.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="gear"></i>Uso seguro de herramientas de papelería</summary><div class="acc-b"><ul><li>Usa con atención bisturíes, tijeras, perforadoras y cortadoras.</li><li>Guarda cuchillas y tijeras en lugares seguros después de usarlas.</li><li>Reporta herramientas dañadas para reemplazarlas.</li></ul></div></details>
+</section>
+
+<section class="mod cat-eme" id="m-adm-emerg" data-track="admin" data-chap="Ruta administrativa" data-title="Emergencias en oficinas administrativas" data-icon="exit" data-min="2">
+  <p class="lead">Conocer el plan de emergencias del edificio y actuar con calma puede marcar la diferencia.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="bell"></i>Alarma</h3><p>Se activa con sirena o instrucciones por altavoz. Detén tus actividades y evacúa en orden, sin correr ni devolverte por objetos.</p></div>
+    <div class="card"><h3><i data-i="map"></i>Rutas de evacuación</h3><p>Identifica las rutas señalizadas y las salidas. Nunca uses ascensores.</p></div>
+    <div class="card"><h3><i data-i="users"></i>Brigadistas</h3><p>Llevan chaleco naranja y están entrenados. Sigue siempre sus indicaciones.</p></div>
+    <div class="card"><h3><i data-i="flag"></i>Punto de encuentro</h3><p>Detrás del CC Santa Ana. Permanece allí hasta nueva indicación del coordinador de emergencias.</p></div>
+  </div>
+  <figure><img src="https://i.postimg.cc/kGj7FnH7/PLANO-OFICINA.png" alt="Plano de evacuación de la oficina" loading="lazy" onerror="this.closest('figure').style.display='none'"><figcaption>Consulta las salidas y el punto de encuentro de tu piso.</figcaption></figure>
+  <div class="callout key"><i data-i="warn"></i><p>Si detectas un conato de incendio, una fuga u otro incidente grave, avisa de inmediato a la brigada o a seguridad.</p></div>
+  <h2>Extintores en oficinas</h2>
+  <p>Solo úsalos si estás capacitado y es seguro hacerlo. Si no, avisa a la brigada o a seguridad.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="extinguisher"></i>ABC (polvo)</h3><ul><li>Sirve en papel, madera, plásticos, aceites y equipos eléctricos.</li><li>Es el más común en oficinas.</li><li>Evita usarlo en espacios sin ventilación.</li></ul><figure><img src="https://i.postimg.cc/Bny0bGmN/EXTINTOR-TIPO-ABC.jpg" alt="Extintor ABC" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+    <div class="card"><h3><i data-i="extinguisher"></i>Solkaflam</h3><ul><li>Para equipos eléctricos delicados: tableros, centros de cómputo.</li><li>No deja residuos.</li><li>Riesgoso en espacios cerrados sin ventilación.</li></ul><figure><img src="https://i.postimg.cc/y6hj6dLd/Solkaflam.png" alt="Extintor Solkaflam" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+    <div class="card"><h3><i data-i="extinguisher"></i>CO₂</h3><ul><li>Para tableros eléctricos, UPS e impresoras industriales.</li><li>No deja residuos.</li><li>Puede causar asfixia si no hay ventilación.</li></ul><figure><img src="https://i.postimg.cc/V6fDcJXh/TIPO-CO2.png" alt="Extintor de CO2" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+  </div>
+  <p style="font-size:.9rem;color:var(--muted)">Todos los extintores tienen una etiqueta que indica su tipo. No improvises.</p>
+</section>
+
+<section class="mod cat-sst" id="m-adm-vial" data-track="admin" data-chap="Ruta administrativa" data-title="Movilidad segura en desplazamientos urbanos" data-icon="car" data-min="1">
+  <p class="lead">Aunque trabajes en oficina, todos nos desplazamos por vías públicas. Tu seguridad empieza antes de llegar al trabajo.</p>
+  <details class="acc" open><summary><i data-i="car"></i>Si conduces</summary><div class="acc-b"><ul><li>Respeta límites de velocidad, señales y semáforos.</li><li>No uses el celular mientras conduces, ni en trayectos cortos.</li><li>Revisa luces, frenos y neumáticos con frecuencia.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="walk"></i>Como peatón</summary><div class="acc-b"><ul><li>Camina por andenes y cruza por esquinas o pasos peatonales.</li><li>No te distraigas con el celular o los audífonos al cruzar.</li><li>Haz contacto visual con el conductor antes de cruzar.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="truck"></i>En transporte público</summary><div class="acc-b"><ul><li>Espera en zonas seguras y visibles.</li><li>No abordes vehículos no autorizados.</li><li>Sujétate durante el trayecto.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="clock"></i>En bicicleta o patineta</summary><div class="acc-b"><ul><li>Usa casco y elementos reflectivos.</li><li>Prefiere las ciclorrutas.</li><li>Evita zonas oscuras o poco transitadas de noche.</li></ul></div></details>
+</section>
+
+
+<section class="mod cat-sst" id="m-op-riesgos" data-track="oper" data-chap="Ruta operativa" data-title="Peligros y riesgos en campo" data-icon="warn" data-min="1">
+  <p class="lead">Como personal operativo (de planta o en misión) estás expuesto a diversos peligros. Estos son los más representativos y cómo controlarlos.</p>
+  <details class="acc" open><summary><i data-i="bolt"></i>Riesgo eléctrico</summary><div class="acc-b"><p>Tableros, cables expuestos o equipos energizados pueden causar electrocución o arco eléctrico.</p><ul><li>No manipules equipos eléctricos sin autorización del área técnica.</li><li>Verifica que cables, extensiones y herramientas estén en buen estado.</li><li>No conectes varios equipos a una sola toma.</li><li>Mantén los pies secos y no operes herramientas eléctricas bajo lluvia.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="flask"></i>Riesgo químico (incluye BTX)</summary><div class="acc-b"><p>Combustibles, ácidos, solventes y lubricantes pueden causar intoxicación, quemaduras o alergias. El benceno, tolueno y xileno (BTX) están presentes en combustibles, solventes y procesos con hidrocarburos y afectan sistema nervioso, piel, ojos y vías respiratorias.</p><ul><li>Usa el EPP según la ficha de datos de seguridad: guantes de nitrilo, gafas y protección respiratoria para vapores orgánicos si hay riesgo de inhalación.</li><li>No mezcles productos ni los pases a envases sin rotular.</li><li>Trabaja en áreas ventiladas o con extracción forzada.</li><li>No comas, bebas ni fumes donde haya sustancias químicas.</li><li>Reporta de inmediato olores intensos, mareos o irritación.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="gear"></i>Riesgo mecánico</summary><div class="acc-b"><p>Partes móviles, herramientas y maquinaria pueden causar atrapamientos, cortes o golpes.</p><ul><li>No intervengas equipos en movimiento ni sin bloqueo de energía (LOTO).</li><li>Usa guantes anticorte, gafas y el EPP que exige la tarea.</li><li>Mantente atento a zonas de paso de maquinaria o cargas suspendidas.</li><li>No uses joyas, relojes ni ropa suelta que pueda engancharse.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="thermo"></i>Altas temperaturas y presiones</summary><div class="acc-b"><p>Quemaduras por contacto con equipos calientes, motores o tuberías presurizadas.</p><ul><li>Usa guantes térmicos y prendas ignífugas cuando aplique.</li><li>Respeta las etiquetas de advertencia y mantén distancia de válvulas y salidas de vapor.</li><li>Verifica la presión antes de intervenir un sistema.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="sound"></i>Ruido y vibraciones</summary><div class="acc-b"><p>Compresores, válvulas en descarga y herramientas neumáticas generan ruido alto; algunos equipos, vibración.</p><ul><li>Usa protección auditiva según la tarea y la señalización.</li><li>No permanezcas cerca de fuentes de ruido sin necesidad operativa.</li><li>Alterna tareas para evitar exposiciones prolongadas.</li><li>Reporta zumbidos o pérdida parcial de audición.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="chair"></i>Riesgo ergonómico</summary><div class="acc-b"><ul><li>Dobla las rodillas y mantén la espalda recta al levantar peso.</li><li>Pide apoyo o ayudas mecánicas para cargas mayores a 25 kg.</li><li>Haz pausas activas y alterna tareas de esfuerzo repetido.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="bug"></i>Riesgos biológico y ofídico</summary><div class="acc-b"><p>Mosquitos, garrapatas y serpientes venenosas en zonas rurales, húmedas o cálidas.</p><ul><li>Usa ropa de manga larga y botas altas o pantaneras.</li><li>Aplica repelente autorizado por HSEQ.</li><li>Camina por senderos autorizados y no muevas piedras o troncos con la mano.</li><li>Ante una mordedura: calma, inmoviliza y acude de inmediato a un centro médico.</li><li>Reporta fiebre, sarpullido o picaduras anormales.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="bolt"></i>Tormentas eléctricas</summary><div class="acc-b"><ul><li>Suspende actividades a cielo abierto si hay relámpagos.</li><li>No te refugies bajo árboles ni estructuras metálicas.</li><li>Busca una edificación o un vehículo cerrado.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="lock"></i>Riesgos públicos y del entorno</summary><div class="acc-b"><ul><li>Porta tu carné visible y reporta personas ajenas.</li><li>No te expongas a zonas no controladas fuera del proyecto.</li><li>Sigue las instrucciones del personal de seguridad.</li></ul></div></details>
+  <p style="font-size:.9rem;color:var(--muted)">Estos riesgos aplican a todo el personal operativo. Los riesgos adicionales de tu proyecto se informan en la inducción de tu sitio de trabajo.</p>
+</section>
+
+<section class="mod cat-eme" id="m-op-lsr" data-track="oper" data-chap="Ruta operativa" data-title="Reglas de Oro · Versión 02" data-icon="shield" data-min="4">
+  <div class="rdo-head">
+    <img src="https://i.postimg.cc/bNZgDYD9/Copia-de-Logo-147-MPX.png" alt="Logo HSEQ" onerror="this.style.display='none'">
+    <img src="https://i.postimg.cc/fRBGStH9/diez.png" alt="Diez reglas de oro" onerror="this.style.display='none'">
+    <div><strong>Reglas de Oro – Compromiso con la vida</strong><span>Versión 2.0 · Octubre 2026 · Base: IOGP, Informe 459</span></div>
+  </div>
+  <p class="lead" style="margin:0 0 10px">Son de cumplimiento obligatorio para todo el personal, contratistas y visitantes. <strong>Nada justifica un accidente.</strong> Toca una regla para ver sus criterios; las marcadas como <span class="pill-new" style="margin-left:0">Nueva</span> se incorporan en esta versión.</p>
+  
+  <div class="rdo-grid"><details class="rtile"><summary><span class="n">1</span><span class="rt"><b>Antes de empezar, revisa y planifica</b><em>Permiso y ATS antes de empezar.</em></span></summary><ul><li>Obtén el permiso de trabajo antes de iniciar.</li><li>Realiza el ATS con tu equipo, incluso en tareas rutinarias.</li><li>Verifica que exista el procedimiento PON y los anexos requeridos.</li></ul></details><details class="rtile"><summary><span class="n">2</span><span class="rt"><b>Aísla bien las energías peligrosas</b><em>Bloquea, etiqueta y verifica energía cero.</em></span></summary><ul><li>Bloquea, etiqueta y aísla todas las fuentes de energía antes de intervenir.</li><li>Incluye eléctricas, térmicas, neumáticas y partes móviles.</li><li>No retires bloqueos sin autorización.</li><li>En equipos eléctricos solo interviene personal autorizado, con corte, señalización y aislamiento verificados.</li></ul></details><details class="rtile"><summary><span class="n">3</span><span class="rt"><b>Cuidado con los trabajos en caliente</b><em>Permiso, gases y extintor a la mano.</em></span></summary><ul><li>Verifica el permiso y el monitoreo de gases.</li><li>Ten extintores disponibles y listos para usar.</li><li>Retira materiales inflamables del área.</li></ul></details><details class="rtile"><summary><span class="n">4</span><span class="rt"><b>Con cargas, no te la juegues</b><em>Nunca bajo una carga suspendida.</em></span></summary><ul><li>Revisa eslingas, ganchos y estado de la carga.</li><li>Nunca estés bajo una carga suspendida.</li><li>Mantén comunicación clara con el operador.</li></ul></details><details class="rtile"><summary><span class="n">5</span><span class="rt"><b>Protégete al trabajar en altura</b><em>Arnés y anclajes certificados.</em></span></summary><ul><li>Usa arnés y puntos de anclaje certificados.</li><li>Asegura herramientas y materiales.</li><li>Verifica tu equipo antes de usarlo.</li></ul></details><details class="rtile"><summary><span class="n">6</span><span class="rt"><b>Conduce con responsabilidad</b><em>Cinturón, sin celular, sin fatiga.</em></span></summary><ul><li>Usa el cinturón de seguridad siempre.</li><li>No uses el celular ni manejes fatigado.</li><li>Respeta los límites de velocidad.</li></ul></details><details class="rtile"><summary><span class="n">7</span><span class="rt"><b>Espacio confinado<span class="pill-new">Nueva</span></b><em>Sin permiso ni medición, no entres.</em></span></summary><ul><li>No ingreses sin permiso ni medición de la atmósfera.</li><li>Con vigía externo y plan de rescate activo.</li></ul></details><details class="rtile"><summary><span class="n">8</span><span class="rt"><b>Mantente fuera de la línea de fuego<span class="pill-new">Nueva</span></b><em>Fuera de la trayectoria del peligro.</em></span></summary><ul><li>Antes de empezar, identifica qué puede golpearte: cargas, presión, partes móviles u objetos que caen.</li><li>Ubícate fuera de esa trayectoria.</li></ul></details><details class="rtile"><summary><span class="n">9</span><span class="rt"><b>No anules los controles de seguridad<span class="pill-new">Nueva</span></b><em>Nadie anula un control sin autorización formal.</em></span></summary><ul><li>No anules, puentees ni inhabilites alarmas, enclavamientos o dispositivos de seguridad sin autorización formal.</li><li>Si un control falla, detén la tarea y repórtalo.</li></ul></details><details class="rtile"><summary><span class="n">10</span><span class="rt"><b>Si no es seguro, detente</b><em>Puedes y debes parar.</em></span></summary><ul><li>Puedes y debes detener tareas peligrosas.</li><li>Reporta al supervisor o a HSEQ.</li><li>No reinicies hasta controlar el riesgo.</li></ul></details></div>
+  <div class="btnrow" style="justify-content:center"><button type="button" class="btn alt" data-toggleall>Ver todos los criterios</button></div>
+  <h2>Estándares complementarios de PBI</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="helmet"></i>Usa siempre tu EPP</h3><p>El adecuado para la actividad, limpio y en buen estado, incluso si la tarea es corta.</p></div>
+    <div class="card"><h3><i data-i="flask"></i>Sustancias peligrosas</h3><p>Etiqueta los productos, consulta la hoja de seguridad antes de usarlos y actúa de inmediato ante derrames o fugas.</p></div>
+  </div>
+</section>
+
+<section class="mod cat-sst" id="m-op-permisos" data-track="oper" data-chap="Ruta operativa" data-title="Sistema de permisos de trabajo" data-icon="clipcheck" data-min="6">
+  <p class="lead">El <strong>permiso de trabajo</strong> autoriza una actividad bajo condiciones controladas. Lo regula el instructivo <strong>INS-HSEQ-01</strong> y aplica al personal propio, a contratistas, subcontratistas y terceros.</p>
+  <h3>¿Cuándo se requiere?</h3>
+  <ul class="tick">
+    <li>Cuando un tercero entra al área de otro a ejecutar una tarea.</li>
+    <li>Siempre que el trabajo implique intervenir equipos, sistemas o instalaciones, sin importar su condición.</li>
+    <li>También en mantenimiento preventivo, correctivo y predictivo.</li>
+  </ul>
+  <div class="callout"><i data-i="clock"></i><p>El permiso se planea <strong>con al menos un día de anticipación</strong>, con procedimientos, herramientas, personal, evaluación de riesgos y coordinación entre áreas. Solo se exceptúa en emergencias, cuando hay riesgo inmediato a personas, activos o producción.</p></div>
+  <p>Toda persona que interactúa con el sistema debe estar entrenada y calificada, y la delegación de funciones debe estar definida formalmente.</p>
+
+  <h2>Quién es quién en el sistema</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="shield"></i>AA · Autoridad de Área</h3><p>Coordina el sistema en su zona; revisa, aprueba y firma los permisos. En campo: <strong>Supervisor de Planta</strong>.</p></div>
+    <div class="card"><h3><i data-i="eye"></i>AAL · Autoridad de Área Local</h3><p>Valida en sitio, entrega el sitio al ejecutante, lidera la charla de inicio y gestiona las revalidaciones. En campo: <strong>Coordinador de Operaciones</strong>, de forma ocasional.</p></div>
+    <div class="card"><h3><i data-i="helmet"></i>AE · Autoridad Ejecutante</h3><p>Solicita el permiso, lidera al equipo y garantiza los controles. En campo: <strong>operador, mantenedor, electromecánico o instrumentista</strong>.</p></div>
+    <div class="card"><h3><i data-i="lock"></i>AI · Autoridad Aislante</h3><p>Persona calificada que ejecuta y levanta los aislamientos (eléctricos, mecánicos, hidráulicos, neumáticos), con autorización de la AA.</p></div>
+  </div>
+  <p>El <strong>Analista HSEQ</strong> acompaña, asesora y verifica el cumplimiento como rol de soporte.</p>
+  <details class="acc"><summary><i data-i="list"></i>Ver quién hace cada actividad</summary><div class="acc-b"><div class="table-wrap"><table class="table">
+    <tr><th>Actividad</th><th>Responsable principal</th></tr>
+    <tr><td>Solicitud de permiso</td><td>AE</td></tr>
+    <tr><td>Revisión documental</td><td>AA y AAL</td></tr>
+    <tr><td>Emisión del permiso</td><td>AAL, con firma de la AA</td></tr>
+    <tr><td>Validación en sitio</td><td>AAL</td></tr>
+    <tr><td>Ejecución del trabajo</td><td>Ejecutante y AE</td></tr>
+    <tr><td>Supervisión de condiciones seguras</td><td>AAL y AE</td></tr>
+    <tr><td>Revalidación por cambio de turno</td><td>AAL y AE</td></tr>
+    <tr><td>Suspensión por condiciones inseguras</td><td>AAL o AE</td></tr>
+    <tr><td>Cierre y devolución del permiso</td><td>Ejecutante y AAL</td></tr>
+    <tr><td>Levantamiento de aislamientos</td><td>AI, con autorización de la AA</td></tr>
+    <tr><td>Archivo del permiso cerrado</td><td>AAL o AA</td></tr>
+  </table></div></div></details>
+  
+
+  <h2>Cómo es el proceso</h2>
+  <p>Estas son las etapas del permiso, desde que se solicita hasta que se cierra.</p>
+  <div class="dg narrow"><svg viewBox="0 0 560 730" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de flujo del permiso de trabajo: solicitud, preparación, revisión y aprobación, validación en sitio, ejecución, revalidación y cierre. Si no se aprueba, el permiso se cierra sin ejecutarse"><defs><marker id="arC" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3b5b84"/></marker></defs><rect x="80.0" y="10.0" width="240" height="44" rx="22.0" fill="#e4e8ee" stroke="#aeb8c6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="36.8">Solicitud de permiso (AE)</tspan></text><path d="M200,54 V82" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="80.0" y="82.0" width="240" height="52" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="103.8">Prepara el permiso</tspan><tspan x="200" y="121.7">de trabajo y el ATS</tspan></text><path d="M200,134 V160" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="75.0" y="161.0" width="250" height="58" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="185.8">Revisión y aprobación</tspan><tspan x="200" y="203.7">(reunión de autoridades)</tspan></text><path d="M200,219 V247" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><polygon points="200,247.0 315.0,300 200,353.0 85.0,300" fill="#c3efcb" stroke="#7cc78c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="13.5" font-weight="600" fill="#1b2f4b"><tspan x="200" y="304.6">¿Aprobado?</tspan></text><path d="M200,353 V382" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="208" y="358" width="28" height="20" rx="10" fill="#2e7d32"/><text x="222" y="372.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">Sí</text><rect x="65.0" y="382.0" width="270" height="60" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="407.8">Validación en sitio y charla</tspan><tspan x="200" y="425.7">de inicio (AAL y AE)</tspan></text><path d="M200,442 V472" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="75.0" y="473.0" width="250" height="58" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="497.8">Ejecución del trabajo</tspan><tspan x="200" y="515.7">(permiso visible en sitio)</tspan></text><path d="M200,531 V561" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="60.0" y="562.0" width="280" height="60" rx="10" fill="#fdd9a0" stroke="#eeb65c" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="587.8">Revalidación, si aplica</tspan><tspan x="200" y="605.7">(turno, pausa > 2 h, emergencia)</tspan></text><path d="M200,622 V652" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="50.0" y="655.0" width="300" height="58" rx="10" fill="#b7d0ee" stroke="#7ea6d6" stroke-width="1.5"/><text text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="14" font-weight="600" fill="#1b2f4b"><tspan x="200" y="679.8">Cierre y archivo del permiso</tspan><tspan x="200" y="697.7">(AAL inspecciona, firma y archiva)</tspan></text><path d="M315,300 H492 V684 H350" fill="none" stroke="#3b5b84" stroke-width="2" stroke-linejoin="round" marker-end="url(#arC)"/><rect x="346" y="275" width="28" height="20" rx="10" fill="#b45309"/><text x="360" y="289.5" text-anchor="middle" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="12.5" font-weight="800" fill="#fff">No</text></svg></div>
+  <details class="acc"><summary><i data-i="list"></i>Ver el diagrama como lista de pasos</summary><div class="acc-b"><ol>
+    <li><strong>Solicitud:</strong> el AE solicita el permiso.</li>
+    <li><strong>Preparación:</strong> el AE prepara el permiso y el ATS.</li>
+    <li><strong>Revisión y aprobación:</strong> en la reunión de autoridades se analiza el trabajo, se identifican interferencias y firman AA, AAL, AE y HSEQ si aplica.</li>
+    <li><strong>¿Aprobado?</strong> Sí: continúa. No: el permiso se cierra y el trabajo no se ejecuta.</li>
+    <li><strong>Validación en sitio:</strong> la AAL entrega formalmente el sitio al AE, verifica que los controles estén implementados y lidera la charla de inicio.</li>
+    <li><strong>Ejecución:</strong> el permiso está visible en el sitio y se cumplen los controles. Ante cualquier cambio se pausa y se solicita revalidación.</li>
+    <li><strong>Revalidación,</strong> si aplica.</li>
+    <li><strong>Cierre:</strong> el AE devuelve el permiso, la AAL inspecciona, firma el cierre y se archiva.</li></ol></div></details>
+
+  <h2>Tipos de permiso y vigencia</h2>
+  <p>PBI usa un formato único de permiso (<strong>FOR-HSEQ-22</strong>) con secciones según el tipo de labor.</p>
+  <div class="table-wrap"><table class="table">
+    <tr><th>Tipo</th><th>Actividades</th><th>Vigencia</th><th>Se revalida</th></tr>
+    <tr><td><strong>En frío</strong></td><td>Mantenimientos, inspecciones, trabajos eléctricos menores, izajes y excavaciones</td><td>Hasta 7 turnos de 12 horas</td><td>En cada cambio de turno</td></tr>
+    <tr><td><strong>En caliente</strong></td><td>Soldadura, oxicorte, esmerilado, llama abierta o generación de chispas</td><td>24 horas (máximo 2 turnos)</td><td>Cada 12 horas o cambio de turno. Requiere inspector de atmósfera y veedor de incendios</td></tr>
+    <tr><td><strong>Eléctrico</strong></td><td>Intervenciones en sistemas energizados o desenergizados, verificación y pruebas</td><td>1 jornada de 12 horas</td><td>En cada cambio de turno</td></tr>
+  </table></div>
+  
+  <p>Todo permiso se respalda con el <strong>ATS</strong>, la lista de chequeo que aplique y las firmas de AE, AAL y AA. Según la tarea, se anexan certificados de apoyo.</p>
+
+  <h2>Revalidar, suspender y cerrar</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="cycle"></i>Se revalida</h3><ul><li>En cada cambio de turno de la AAL o del AE.</li><li>Tras un simulacro, emergencia o evacuación.</li><li>Cuando la tarea se interrumpe más de 2 horas, por pausa o clima.</li></ul><p style="margin:6px 0 0;font-size:.88rem">La AAL y el AE inspeccionan el sitio y registran nueva firma y hora.</p></div>
+    <div class="card"><h3><i data-i="stop"></i>Se suspende</h3><ul><li>Emergencias, alarmas, simulacros o evacuaciones.</li><li>Cambios inesperados en el sitio, accidentes o incidentes.</li><li>Clima adverso o incumplimiento de controles.</li><li>Inactividad mayor a 48 horas.</li></ul></div>
+  </div>
+  <div class="callout key"><i data-i="stop"></i><p><strong>Si se suspende:</strong> el AE detiene la actividad de inmediato, informa a la AAL y asegura el sitio. Para retomar, si la interrupción fue menor a 48 horas se revalida; si fue mayor, se emite un permiso nuevo. La AAL o el AE pueden <strong>revocar el permiso</strong> si hay un riesgo no controlado. Y quienes ejecutan el trabajo, incluidos contratistas y operadores, <strong>deben suspender las labores</strong> si las condiciones cambian o representan un riesgo.</p></div>
+  <p><strong>Cierre:</strong> el AE informa a la AAL y devuelve el permiso. La AAL inspecciona el sitio, confirma el retiro de materiales, herramientas y señalización y el levantamiento de aislamientos, y firma el cierre. El permiso se archiva con código único.</p>
+
+  <h2>Formatos que acompañan el permiso</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="file"></i>FOR-HSEQ-22</h3><p>Permiso de trabajo.</p></div>
+    <div class="card"><h3><i data-i="search"></i>FOR-HSEQ-39</h3><p>Análisis de Trabajo Seguro (ATS): peligros y controles de cada tarea. El instructivo también lo llama AST.</p></div>
+    <div class="card"><h3><i data-i="list"></i>FOR-HSEQ-45</h3><p>Relación de permisos de trabajo: registro maestro de permisos activos y cerrados.</p></div>
+    <div class="card"><h3><i data-i="clipcheck"></i>Certificados de apoyo</h3><ul><li>Alturas: FOR-HSEQ-66</li><li>Espacio confinado: FOR-HSEQ-24</li><li>Excavación: FOR-HSEQ-25</li><li>Energías peligrosas y aislamientos: FOR-HSEQ-112, 113 y 114</li><li>Apoyo eléctrico: FOR-HSEQ-65</li></ul></div>
+  </div>
+  <div class="callout"><i data-i="info"></i><p>Anota siempre el <strong>TAG</strong> o la identificación del equipo intervenido. El permiso debe permanecer visible en el sitio mientras dure el trabajo.</p></div>
+  
+</section>
+
+<section class="mod cat-eme" id="m-op-alto" data-track="oper" data-chap="Ruta operativa" data-title="Tareas de alto riesgo" data-icon="ladder" data-min="2">
+  <p class="lead">Son actividades con potencial de incidentes graves o fatales si no se gestionan bien. Aplican a personal directo y en misión.</p>
+  <div class="callout warn"><i data-i="clipcheck"></i><div><p><strong>Requisitos mínimos antes de ejecutar:</strong></p><ul style="margin:4px 0 0;padding-left:18px"><li>Permiso de trabajo aprobado y vigente.</li><li>ATS completo, firmado y socializado.</li><li>Capacitación específica para la tarea.</li><li>Supervisión durante toda la ejecución.</li></ul></div></div>
+  <details class="acc" open><summary><i data-i="ladder"></i>Trabajo en alturas</summary><div class="acc-b"><p>Toda actividad a <strong>2 metros o más</strong> sobre un nivel inferior (Resolución 4272 de 2021).</p><ul><li>Curso vigente según tu nivel de responsabilidad.</li><li>Arnés, línea de vida y sistemas anticaídas certificados, inspeccionados antes de usar.</li><li>Inspección del área y permiso de trabajo.</li><li>Certificado de apoyo: FOR-HSEQ-66.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="cube"></i>Espacios confinados</summary><div class="acc-b"><p>Tanques, ductos, fosas, cámaras o estructuras con ventilación limitada (Resolución 0491 de 2020).</p><ul><li>Evaluación previa por personal competente.</li><li>Medición de gases y ventilación mecánica.</li><li>Vigía externo y plan de rescate activo.</li><li>Certificado de apoyo: FOR-HSEQ-24.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="flame"></i>Trabajos en caliente</summary><div class="acc-b"><p>Soldadura, corte, esmerilado y otras tareas que generan calor o chispas.</p><ul><li>Permiso autorizado y revisión de atmósfera si aplica.</li><li>Extintores y protección contra incendios al alcance.</li><li>Retiro de materiales inflamables y vigilancia continua.</li><li>Permiso en caliente (FOR-HSEQ-22): 24 horas, con inspector de atmósfera y veedor de incendios.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="lock"></i>Energías peligrosas (LOTO)</summary><div class="acc-b"><p>Intervención de fuentes eléctricas, mecánicas, hidráulicas, neumáticas u otras.</p><ul><li>Identifica las fuentes energizadas.</li><li>Aplica el bloqueo y etiquetado.</li><li>Verifica el aislamiento antes de empezar.</li><li>Certificados de apoyo: FOR-HSEQ-112, 113 y 114.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="flask"></i>Exposición a sustancias químicas</summary><div class="acc-b"><p>Incluso tareas cotidianas como limpieza pueden implicar agentes químicos o biológicos.</p><ul><li>Revisa la ficha de datos de seguridad.</li><li>Usa el EPP adecuado: guantes, gafas, protección respiratoria.</li><li>Almacena, transporta y dispone correctamente.</li></ul></div></details>
+  <details class="acc"><summary><i data-i="hook"></i>Izaje de cargas</summary><div class="acc-b"><p>Uso de grúas, polipastos, montacargas, plumas o cualquier sistema de elevación.</p><ul><li>Operador certificado y autorizado.</li><li>Inspección previa de eslingas, ganchos, grilletes y puntos de anclaje.</li><li>Plan de izaje si la carga es compleja o el entorno es restringido.</li><li>Solo personal capacitado, con función clara: señalero, operador, supervisor.</li><li>Está prohibido ubicarse bajo la carga suspendida.</li><li>Zona demarcada y libre de obstáculos y tránsito de personas.</li><li>Comunicación visual o por radio entre señalero y operador.</li><li>Suspende el izaje con viento fuerte o tormentas.</li></ul><p style="font-size:.88rem;color:var(--muted)">Referencias: NTC 2769, ISO 23813, ISO 9927, Decreto 1072 de 2015.</p></div></details>
+  <p>También son tareas de alto riesgo las excavaciones profundas, el ingreso a zonas clasificadas, la operación de equipos móviles y el riesgo ofídico en zonas rurales. Ante cualquier duda, consulta a HSEQ o a tu supervisor. El mantenimiento de equipos rotativos y estáticos tiene su propio módulo.</p>
+</section>
+
+<section class="mod cat-eme" id="m-op-mtto" data-track="oper" data-chap="Ruta operativa" data-title="Mantenimiento seguro de equipos rotativos y estáticos" data-icon="gear" data-min="8">
+  <p class="lead">En nuestras plantas buena parte del trabajo de alto riesgo es <strong>mantenimiento</strong>. Allí se juntan dos peligros: las <strong>energías</strong> del equipo y la <strong>contención</strong> del gas o líquido que lleva.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="gear"></i>Equipos rotativos</h3><p>Compresores, generadores, motores y bombas. Peligros: arranque inadvertido, partes que giran, energía almacenada, superficies calientes, ruido.</p></div>
+    <div class="card"><h3><i data-i="cube"></i>Equipos estáticos</h3><p>Válvulas, recipientes, tuberías, filtros y tanques. Peligros: presión atrapada, gas o producto que sale al abrir, atmósferas explosivas.</p></div>
+  </div>
+  <div class="callout"><i data-i="clipcheck"></i><p>Todo mantenimiento se hace con <strong>permiso de trabajo, ATS y aislamiento de energías</strong> (INS-HSEQ-01). Este módulo reúne lo que exige ese instructivo y, aparte, buenas prácticas del sector, que se señalan como tales.</p></div>
+  
+
+  <h2>Tareas de mantenimiento frecuentes y qué vigilar</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="drop"></i>Aceite y filtros</h3><p>En compresores y generadores: superficies calientes, derrames y resbalones. Aceites usados, filtros y trapos son residuos peligrosos.</p></div>
+    <div class="card"><h3><i data-i="cube"></i>Válvulas, empaques y bridas</h3><p>Presión atrapada y gas o producto residual al abrir. Es una apertura de línea.</p></div>
+    <div class="card"><h3><i data-i="bell"></i>Válvulas de seguridad o alivio</h3><p>No se aíslan ni se retiran de servicio sin autorización formal (regla 9).</p></div>
+    <div class="card"><h3><i data-i="gear"></i>Acoples, alineación y correas</h3><p>Partes móviles, atrapamiento y giro inadvertido. Las guardas se reinstalan.</p></div>
+    <div class="card"><h3><i data-i="bolt"></i>Tableros, baterías y control</h3><p>Permiso eléctrico, energía almacenada y arco eléctrico.</p></div>
+    <div class="card"><h3><i data-i="hook"></i>Izaje de componentes pesados</h3><p>Cabezas, motores y tapas. Nunca bajo una carga suspendida.</p></div>
+    <div class="card"><h3><i data-i="flame"></i>Soldadura o corte en equipos</h3><p>Permiso en caliente, medición de gases y veedor de incendios.</p></div>
+  </div>
+  <p style="font-size:.88rem;color:var(--muted)">Son ejemplos de tareas comunes; no todas aplican a todas las plantas.</p>
+
+  <h2>Cómo se aísla en PBI (INS-HSEQ-01)</h2>
+  <ol class="steps">
+    <li><strong>Planea el aislamiento</strong>Hace parte de la evaluación de riesgos y se documenta en el <strong>Certificado de Confirmación de Aislamiento</strong>.</li>
+    <li><strong>Identifica las fuentes de energía</strong>Mecánica (partes móviles, equipos rotativos), eléctrica, hidráulica o neumática, y química o térmica.</li>
+    <li><strong>Marca los puntos en el P&amp;ID</strong>Se adjunta el diagrama de tubería e instrumentación actualizado, con los puntos de aislamiento señalados.</li>
+    <li><strong>La Autoridad Aislante ejecuta el aislamiento</strong>Con candados, bridas ciegas o válvulas cerradas, señalizados y registrados en campo. Los aislamientos complejos se coordinan entre la AA y el AE, y se verifican los puntos.</li>
+    <li><strong>No lo modifiques sin autorización</strong>Cualquier cambio a un aislamiento ya implementado requiere nueva autorización y revisión.</li>
+  </ol>
+  <div class="callout key"><i data-i="lock"></i><p>Los aislamientos temporales se mantienen mientras el permiso esté activo y <strong>solo los retira la Autoridad Aislante</strong>, con autorización de la AA.</p></div>
+
+  <h2>Buenas prácticas del sector: equipos rotativos</h2>
+  <p>Complementan el instructivo; no lo reemplazan.</p>
+  <ol class="steps">
+    <li><strong>Detén el equipo de forma normal</strong>Déjalo en condición estable y espera a que se enfríe si estuvo en operación.</li>
+    <li><strong>Verifica energía cero</strong>Con el equipo aislado, intenta el arranque y confirma que no hay tensión, presión ni movimiento antes de tocarlo.</li>
+    <li><strong>Revisa las energías almacenadas</strong>Volantes e inercia, resortes, presión neumática o hidráulica, baterías y gas.</li>
+    <li><strong>Asegura lo que pueda moverse</strong>Una parte puede girar por gravedad, flujo o viento. Las guardas se retiran solo si la tarea lo exige y se reinstalan.</li>
+  </ol>
+
+  <h2>Buenas prácticas del sector: válvulas y equipos estáticos</h2>
+  <p>Abrir una brida, desmontar una válvula o abrir un recipiente es <strong>romper la contención</strong>.</p>
+  <ol class="steps">
+    <li><strong>Identifica el contenido y la presión</strong>Con la hoja de seguridad, los diagramas y la marcación de la línea.</li>
+    <li><strong>Despresuriza, drena y purga</strong>Hasta presión cero y sin producto, con venteo controlado.</li>
+    <li><strong>Verifica antes de aflojar</strong>Confirma presión cero y mide gases. Puede haber presión atrapada entre válvulas.</li>
+    <li><strong>Abre con control</strong>Afloja los pernos de forma gradual, sin ponerte frente a la apertura, con el EPP que pida la hoja de seguridad y sin fuentes de ignición.</li>
+  </ol>
+
+  <h2>Al terminar y volver al servicio (INS-HSEQ-01)</h2>
+  <ul class="tick">
+    <li>El AE informa a la AAL y devuelve el permiso. La AAL inspecciona el sitio y confirma el retiro de materiales, herramientas y señalización.</li>
+    <li>La AI levanta los aislamientos, con autorización de la AA, y actualiza el certificado con fecha, hora y firma.</li>
+    <li>Antes de reiniciar se verifica: tareas completadas, sitio inspeccionado, sin personas, herramientas ni señales en el área, y aislamientos y bloqueos retirados o gestionados.</li>
+    <li>La AA valida formalmente el regreso al servicio, con firma, hora y observaciones.</li>
+    <li>Buena práctica: puesta en servicio gradual, con prueba de fugas y vigilancia de presión, temperatura y vibración.</li>
+    <li>Si algo cambió frente al diseño original, repórtalo para gestionarlo como cambio (PRO-HSEQ-13).</li>
+  </ul>
+
+  <h2>Errores que más se repiten</h2>
+  <ul class="tick no">
+    <li>Confiar en que “ya está despresurizado” sin verificarlo.</li>
+    <li>Aislar con una sola válvula, sin purga ni comprobación.</li>
+    <li>Retirar una guarda “solo un momento” con el equipo en marcha.</li>
+    <li>Retirar un bloqueo que no es tuyo o sin autorización de la AA.</li>
+    <li>Cambiar un repuesto por otro “parecido” sin evaluar el cambio.</li>
+    <li>Trabajar varias cuadrillas en la misma zona sin coordinarse.</li>
+    <li>Seguir trabajando sin revalidar el permiso tras un cambio de turno o una pausa larga.</li>
+  </ul>
+</section>
+
+<section class="mod cat-eme" id="m-op-procesos" data-track="oper" data-chap="Ruta operativa" data-title="Seguridad de procesos y áreas clasificadas" data-icon="flame" data-min="2">
+  <p class="lead">Además de cuidar tu seguridad personal, la <strong>seguridad de procesos</strong> previene accidentes mayores: fugas, incendios, explosiones o liberaciones de sustancias peligrosas.</p>
+  <div class="callout key"><i data-i="cube"></i><p><strong>Pérdida de contención:</strong> cuando gas o líquido sale de donde debería estar contenido (tubería, tanque, equipo). Es el origen de la mayoría de los accidentes mayores en nuestra industria.</p></div>
+  
+  <h2>Controles críticos</h2>
+  <div class="grid">
+    <div class="card"><h3><i data-i="thermo"></i>Presión y temperatura</h3><p>Operar dentro de los límites definidos.</p></div>
+    <div class="card"><h3><i data-i="bell"></i>Protecciones</h3><p>Alarmas, válvulas de seguridad y sistemas de paro automático operativos.</p></div>
+    <div class="card"><h3><i data-i="search"></i>Integridad</h3><p>Inspección de equipos, tuberías y conexiones.</p></div>
+    <div class="card"><h3><i data-i="flame"></i>Fuentes de ignición</h3><p>Control estricto en áreas clasificadas.</p></div>
+    <div class="card"><h3><i data-i="swap"></i>Gestión del cambio</h3><p>Ningún cambio sin evaluación y autorización.</p></div>
+  </div>
+  <h2>Tu rol en campo</h2>
+  <ul class="tick">
+    <li>Reporta de inmediato cualquier fuga, ruido anormal o vibración.</li>
+    <li>No intervengas válvulas o sistemas sin autorización.</li>
+    <li>Respeta los procedimientos operativos y los permisos de trabajo.</li>
+    <li>Verifica las condiciones antes de una tarea de alto riesgo.</li>
+  </ul>
+  <h2>Áreas clasificadas</h2>
+  <p>Son áreas con presencia de gases inflamables o atmósferas explosivas, por ejemplo estaciones de compresión.</p>
+  <ul class="tick">
+    <li>No ingreses sin autorización ni sin monitoreo de atmósfera explosiva.</li>
+    <li>Usa herramientas a prueba de chispas y EPP antiestático cuando aplique.</li>
+    <li>No uses celulares ni cámaras en zonas señalizadas.</li>
+    <li>Sigue el permiso de trabajo autorizado para cada ingreso.</li>
+  </ul>
+</section>
+
+<section class="mod cat-sst" id="m-op-vial" data-track="oper" data-chap="Ruta operativa" data-title="Seguridad vial en campo y trayectos laborales" data-icon="car" data-min="2">
+  <p class="lead">Ya sea conduciendo, como pasajero o como peatón, cada trabajador es responsable de promover comportamientos seguros.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="phone"></i>Sin distracciones</h3><p>No uses el celular al conducir ni camines con audífonos en zonas operativas o vías urbanas.</p></div>
+    <div class="card"><h3><i data-i="clock"></i>Respeta los límites</h3><p>Máximo 10 km/h dentro del proyecto. En vías externas, respeta los límites y condiciones del entorno.</p></div>
+    <div class="card"><h3><i data-i="warn"></i>Fatiga</h3><p>No conduzcas si estás agotado: la somnolencia reduce los reflejos y aumenta el riesgo.</p></div>
+    <div class="card"><h3><i data-i="stop"></i>Cero alcohol y drogas</h3><p>Está prohibido conducir bajo efectos de alcohol o sustancias psicoactivas.</p></div>
+    <div class="card"><h3><i data-i="shield"></i>Cinturón siempre</h3><p>Obligatorio en cualquier trayecto, incluso internos y como pasajero.</p></div>
+    <div class="card"><h3><i data-i="map"></i>Reporta tus desplazamientos</h3><p>Todo traslado laboral se registra en los medios definidos por PBI para tener trazabilidad y respuesta ante emergencias.</p></div>
+    <div class="card"><h3><i data-i="eye"></i>Sé veedor como pasajero</h3><p>Si el conductor no respeta las normas, repórtalo a HSEQ o a tu jefe inmediato.</p></div>
+    <div class="card"><h3><i data-i="car"></i>Conduce a la defensiva</h3><p>Anticipa riesgos, mantén distancia segura y sé prudente con peatones, motos y vehículos pesados.</p></div>
+  </div>
+  <p>La seguridad vial no termina con la jornada. Descansa bien y planea tus desplazamientos.</p>
+</section>
+
+<section class="mod cat-eme" id="m-op-emerg" data-track="oper" data-chap="Ruta operativa" data-title="Emergencias y extintores en campo" data-icon="extinguisher" data-min="3">
+  <p class="lead">En nuestras operaciones hay riesgo de fugas de gas, incendios, explosiones, derrames y fenómenos naturales. Cada instalación tiene un plan adaptado a sus riesgos.</p>
+  <ul class="tick">
+    <li>Conoce el sistema de alarma (sirena, megáfono o radio).</li>
+    <li>Identifica las rutas de evacuación, señalizadas y libres de obstáculos.</li>
+    <li>Reconoce el punto de encuentro de tu zona.</li>
+    <li>Ubica extintores, kits de derrame, botiquines y radios.</li>
+    <li>Conoce a las brigadas asignadas y sigue sus instrucciones.</li>
+  </ul>
+  <div class="grid">
+    <div class="card"><h3><i data-i="flame"></i>Incendio</h3><p>Activa la alarma, evacúa y notifica al brigadista. Nunca intentes apagarlo sin entrenamiento.</p></div>
+    <div class="card"><h3><i data-i="cube"></i>Fuga de gas</h3><p>Evita fuentes de ignición, no uses celulares, aléjate y activa el protocolo de evacuación.</p></div>
+    <div class="card"><h3><i data-i="flask"></i>Derrame químico</h3><p>No entres en contacto. Informa de inmediato; solo personal entrenado lo contiene.</p></div>
+    <div class="card"><h3><i data-i="map"></i>Sismo</h3><p>Agáchate, cúbrete y sujétate. Evacúa cuando termine el movimiento, por la ruta establecida.</p></div>
+    <div class="card"><h3><i data-i="warn"></i>Explosión</h3><p>Cúbrete, evacúa si es seguro y ayuda a lesionados solo si no hay riesgo adicional.</p></div>
+    <div class="card"><h3><i data-i="bug"></i>Riesgo biológico u ofídico</h3><p>Aléjate sin alterar al animal y reporta de inmediato. Las brigadas están capacitadas para actuar.</p></div>
+  </div>
+  <h2>Extintores en la operación</h2>
+  <p>No intentes usarlos si no estás capacitado. Prioriza tu seguridad, reporta y avisa a la brigada. Revisa la etiqueta: indica la clase y el uso. Si ves un extintor descargado o dañado, repórtalo.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="extinguisher"></i>ABC (polvo)</h3><ul><li>Papel, madera, aceites y equipos eléctricos.</li><li>Versátil y de uso común.</li><li>No usar en áreas confinadas sin ventilación.</li></ul><figure><img src="https://i.postimg.cc/Bny0bGmN/EXTINTOR-TIPO-ABC.jpg" alt="Extintor ABC" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+    <div class="card"><h3><i data-i="extinguisher"></i>CO₂</h3><ul><li>Ideal para tableros y redes eléctricas.</li><li>No deja residuos.</li><li>No usar en espacios sin ventilación.</li></ul><figure><img src="https://i.postimg.cc/V6fDcJXh/TIPO-CO2.png" alt="Extintor de CO2" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+    <div class="card"><h3><i data-i="extinguisher"></i>Agua</h3><ul><li>Combustibles sólidos: madera, papel, tela.</li><li>Reduce la temperatura del material.</li><li>No usar en fuegos eléctricos ni de líquidos inflamables.</li></ul><figure><img src="https://i.postimg.cc/28HnJH5n/Extintor-tipo-A.png" alt="Extintor de agua" style="max-height:120px" loading="lazy" onerror="this.closest('figure').style.display='none'"></figure></div>
+  </div>
+</section>
+
+
+<section class="mod cat-gen" id="m-cierre" data-track="all" data-title="Cierre y evaluación" data-icon="award" data-min="1">
+  <p class="lead">Gracias por completar los módulos de la inducción corporativa HSEQ. Tu compromiso y tu actitud son fundamentales para operar de forma segura, sostenible y con calidad.</p>
+  <h2>Lo que no puedes olvidar</h2>
+  <ul class="tick">
+    <li><strong>Si no es seguro, detente.</strong> Informa y no reinicies hasta que el riesgo esté controlado.</li>
+    <li><strong>Reporta</strong> actos, condiciones inseguras, casi-accidentes, incidentes y accidentes, siempre y de inmediato.</li>
+    <li><strong>Usa solo documentos vigentes</strong> y sigue los procedimientos; no improvises.</li>
+    <li><strong>Ningún cambio sin evaluación</strong>, tampoco los temporales.</li>
+    <li><strong>Conoce el plan de emergencias</strong> de tu sede y la ruta al punto de encuentro.</li>
+  </ul>
+  <h2>Videos de cultura</h2>
+  <div class="linkgrid">
+    <a href="https://youtu.be/faHop1FcGNE" target="_blank" rel="noopener"><i data-i="play"></i>Cultura de seguridad industrial</a>
+    <a href="https://youtu.be/-gRjlWdwpao" target="_blank" rel="noopener"><i data-i="play"></i>Video corporativo de PBI</a>
+  </div>
+  <h2>Presenta tu evaluación</h2>
+  <p>Necesitas <strong>80 % o más</strong> para aprobar. Al aprobar recibirás tu certificado por correo, con validez de <strong>1 año</strong>. Puedes repasar cualquier módulo antes de presentarla.</p>
+  <div class="btnrow"><a class="btn cta" data-cfg-href="formEval" target="_blank" rel="noopener"><i data-i="clipcheck"></i>Presentar evaluación</a></div>
+  <div class="callout ok"><i data-i="link"></i><p>Para consultar procedimientos, formatos y mapas de proceso en cualquier momento, usa el <a data-cfg-href="portalSig" target="_blank" rel="noopener">portal del SIG</a> con tu cuenta corporativa. Si no tienes acceso, solicítalo al área HSEQ.</p></div>
+  <div class="callout"><i data-i="mail"></i><p>¿Dudas? Escribe al equipo HSEQ: <a data-cfg-mail="hseqMail"></a> · <a data-cfg-mail="hseqMail2"></a>, o habla con el equipo HSEQ en campo.</p></div>
+</section>
+
+</main>
+
+<div class="foot">
+  <div class="dots" id="dots" aria-hidden="true"></div>
+  <p id="hint" role="status" aria-live="polite"></p>
+  <div class="nav">
+    <button type="button" id="prev"><i data-i="left"></i>Anterior</button>
+    <button type="button" id="next"><span id="nextLabel">Siguiente</span><i data-i="right"></i></button>
+  </div>
+  
+  <p class="docver">Inducción corporativa HSEQ · Versión 2.0-rc1 (borrador para revisión) · 20/10/2026 · Área HSEQ</p>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ================== CONFIGURACIÓN (contactos y enlaces repetidos) ================== */
+var CFG = {
+  hseqTel: '3153369342',
+  hseqMail: 'cesteban@pbi.com.co',
+  hseqMail2: 'hmoreno@pbi.com.co',
+  copasstMail: 'copasst@omegaenergy.co',
+  convivenciaMail: 'comiteconvivencia@omegaenergy.co',
+  formEval: 'https://forms.gle/MZKm8awyj1y7WwdM6',
+  mascot: 'https://i.postimg.cc/CLSFNhyN/LOGO-PBI-CASCO-BLANCO.png',
+  portalSig: 'https://sites.google.com/pbi.com.co/proceso-hseq/home'
+};
+
+/* ================== PREGUNTAS DE COMPRENSIÓN (formativas) ==================
+   Cada pregunta: q = enunciado, o = opciones, a = índice de la correcta, why = explicación.
+   El orden de las opciones se mezcla automáticamente. */
+var CHECKS = {
+ 'm-detente':[
+  {q:'Al llegar a la oficina ves que una salida de emergencia está bloqueada con cajas y te dicen que es “solo por hoy”. ¿Qué haces?',
+   o:['La dejo así, porque es solo por hoy y hasta ahora nadie ha tenido ningún problema aquí.','Aviso a mi jefe o a HSEQ para que se despeje ya, porque en una emergencia no habría tiempo.','Espero a que alguien más lo note, para no quedar como la persona que se queja de todo.','Lo comento después en la reunión mensual, cuando haya espacio en la agenda del equipo.'],a:1,
+   why:'Una salida bloqueada es una condición insegura aunque sea temporal. Se informa de inmediato para corregirla antes de que alguien la necesite.'},
+  {q:'Vas a iniciar un mantenimiento y notas que el aislamiento de energía no está verificado. Tu supervisor dice que es “solo un momento”. ¿Qué haces?',
+   o:['Empiezo con mucho cuidado y termino lo más rápido posible para reducir mi exposición.','Detengo la tarea, aviso a mi supervisor o a HSEQ y no inicio hasta que el riesgo esté controlado.','Le pido a un compañero con más experiencia que haga el trabajo mientras yo vigilo desde lejos.','Continúo, porque el supervisor conoce el trabajo y es quien asume la responsabilidad de la tarea.'],a:1,
+   why:'Si no es seguro, detente: informa y no reinicies hasta que el riesgo esté controlado. Pasar la tarea a otra persona o apurarla mantiene el mismo riesgo.'}],
+ 'm-politica':[{q:'Un compañero en misión comenta que la política HSEQ solo aplica al personal de planta fija. ¿Qué le respondes?',
+  o:['Que tiene razón, porque la política se escribió pensando en las plantas y en su personal directo.','Que aplica a todos los niveles y roles de la organización, incluido el personal en misión.','Que aplica solo a quienes trabajan en áreas operativas y manejan equipos o sustancias.','Que aplica únicamente a los contratistas, porque ellos son quienes más se exponen al riesgo.'],a:1,
+  why:'La política HSEQ aplica a todos los niveles y roles, sin importar el tipo de vinculación.'}],
+ 'm-documentos':[{q:'Encuentras en una carpeta un formato impreso, diligenciado hace meses, y necesitas usarlo hoy. ¿Qué haces?',
+  o:['Lo uso tal cual, porque ya tiene la información básica y me ahorra tiempo de diligenciamiento.','Descargo la versión vigente del repositorio oficial del SIG y la diligencio desde cero.','Le saco una copia, borro los datos antiguos y actualizo la fecha para que parezca nuevo.','Le pido a un compañero el formato que él tenga guardado, que seguramente es el más reciente.'],a:1,
+  why:'Siempre se usa la versión vigente desde el repositorio oficial. Los formatos impresos o ya diligenciados pueden estar obsoletos.'}],
+ 'm-mejora':[
+  {q:'Una misma salida no conforme se ha presentado cuatro veces seguidas y cada vez la corriges y continúas. ¿Qué corresponde?',
+   o:['Seguir corrigiéndola cada vez, porque el resultado final llega bien al cliente.','Pasarla a acción correctiva: registrarla en el FOR-HSEQ-54 y analizar su causa raíz.','Esperar a la próxima auditoría interna para que el auditor la registre como hallazgo.','Avisar solo si el cliente llega a reclamar, porque mientras tanto no genera consecuencias.'],a:1,
+   why:'La repetición (más de tres veces consecutivas) es un criterio para pasar a acción correctiva: se registra en el FOR-HSEQ-54 y se analiza la causa raíz (PRO-HSEQ-04 y PRO-HSEQ-03).'},
+  {q:'Recibes tuberías de un proveedor que no cumplen las especificaciones de la propuesta. ¿Qué haces?',
+   o:['Las almaceno con el resto de los materiales y aviso solo si alguien necesita usarlas.','La registro como salida no conforme, la dejo donde se detecte fácil y aviso al jefe de área.','Las instalo si la diferencia es pequeña, para no retrasar el cronograma de la obra.','Las devuelvo al proveedor por mi cuenta, sin dejar registro ni informar a nadie del área.'],a:1,
+   why:'Cualquier persona puede detectar una salida no conforme. Se registra (fecha, proceso y quién reporta), se deja en un sitio donde se detecte fácilmente y se informa al jefe de área para definir el tratamiento (PRO-HSEQ-04).'}],
+ 'm-cambio':[{q:'No hay la válvula de repuesto exacta. Un compañero propone instalar una de especificación parecida “mientras llega la correcta”. ¿Qué corresponde?',
+  o:['Instalarla de inmediato, porque es una solución temporal y se cambiará cuando llegue la correcta.','Tratarlo como un cambio: planificarlo y evaluar sus riesgos antes de instalarla.','Instalarla y avisar al supervisor al final del turno para que quede constancia del reemplazo.','Pedirle al turno siguiente que la instale, para que la responsabilidad no recaiga en nosotros.'],a:1,
+  why:'Los cambios, también los temporales, se planifican antes de ejecutarlos: el líder del proceso diligencia el FOR-HSEQ-73 y HSEQ evalúa los riesgos (PRO-HSEQ-13).'}],
+ 'm-legal':[
+  {q:'Durante la jornada te golpeas la mano con una herramienta. El dolor es leve. ¿Qué haces?',
+   o:['Sigo trabajando y aviso solo si el dolor aumenta o aparece hinchazón en las próximas horas.','Aviso de inmediato a mi jefe o a HSEQ para que se atienda y se reporte, sin importar la gravedad.','Espero a terminar el turno para contarlo, así no interrumpo la operación ni a mis compañeros.','Se lo comento a un compañero de confianza y dejo que él decida si vale la pena reportarlo.'],a:1,
+   why:'Todo accidente o incidente se reporta de inmediato a tu jefe o a HSEQ, sin importar la gravedad.'},
+  {q:'¿Quién notifica formalmente un accidente de trabajo a la ARL?',
+   o:['El trabajador afectado, a través de la línea de atención de la ARL, el mismo día del accidente.','El empleador, con el apoyo del área HSEQ y la información que reporte el trabajador.','El COPASST, porque es el comité encargado de vigilar la seguridad en el trabajo.','La EPS, una vez el trabajador recibe la primera atención médica por el accidente.'],a:1,
+   why:'El empleador notifica los accidentes y enfermedades laborales a la ARL; por eso el trabajador debe avisar de inmediato a su jefe o a HSEQ.'}],
+ 'm-comites':[
+  {q:'Una compañera te cuenta que sufre acoso sexual por parte de un superior. ¿Dónde se debe tramitar su caso?',
+  o:['Ante el Comité de Convivencia Laboral, que cita a las partes, concilia y deja un acta de compromisos.','Con Gestión Humana o la Dirección HSEQ, porque el Comité de Convivencia no es competente en este tema.','Con un grupo de compañeros que hable con el superior para que cambie su comportamiento.','No se tramita internamente: lo mejor es esperar a que ella decida si quiere seguir en la empresa.'],a:1,
+  why:'El Comité de Convivencia no es competente para acoso sexual (Res. 3461 de 2025). Debe reportarse por el canal que la empresa define para activar el procedimiento de atención.'},
+  {q:'Según la Resolución 3461 de 2025, ¿qué estructura de comités de convivencia corresponde a una empresa con varios centros de trabajo?',
+   o:['Un único comité para toda la empresa, que atiende las quejas de todas las sedes.','Un comité central y otro por cada centro de trabajo, cada uno con sus integrantes.','Un comité solo en la sede principal, que atiende a distancia las demás sedes.','Un comité por cada área funcional, como operaciones, mantenimiento o administración.'],a:1,
+   why:'Cuando hay dos o más centros de trabajo se conforma un comité central y uno por cada centro. Las reuniones ordinarias son mensuales.'}],
+ 'm-reportar':[
+  {q:'En otra área ves una escalera con un peldaño roto. No es tu zona de trabajo. ¿Qué haces?',
+   o:['Sigo mi camino, porque corresponde al responsable de esa área darse cuenta y repararla.','Reporto la condición por tarjeta de aporte o aviso al responsable, y advierto a los demás.','La reparo yo mismo con las herramientas que tenga a la mano para evitar que alguien se lastime.','Espero a ver si alguien más la reporta, para no duplicar reportes de una misma condición.'],a:1,
+   why:'Toda condición insegura se reporta, sea o no de tu área. Un reporte a tiempo evita un accidente.'},
+  {q:'Ves a un compañero trabajando sin gafas de seguridad. ¿Qué es lo más adecuado?',
+   o:['No decir nada para evitar incomodarlo; cada quien responde por su propia seguridad.','Hablarle con respeto en el momento, recordarle el EPP y reportarlo si la conducta persiste.','Pedir que lo sancionen de inmediato para dar ejemplo al resto del equipo del área.','Comentarlo más tarde con otros compañeros para saber si también lo han visto sin gafas.'],a:1,
+   why:'La seguridad basada en el comportamiento busca retroalimentación inmediata y respetuosa, no sanción ni silencio.'}],
+ 'm-emergencias':[{q:'Suena la alarma de emergencia mientras realizas una tarea. ¿Qué haces?',
+  o:['Termino la tarea para no dejarla a medias y salgo cuando la alarma haya sonado un buen rato.','Dejo la tarea en condición segura y evacúo por la ruta señalizada al punto de encuentro.','Salgo corriendo por la salida más cercana, esté o no señalizada como ruta de evacuación.','Me quedo en mi puesto hasta que alguien me confirme personalmente qué está ocurriendo.'],a:1,
+  why:'Mantén la calma, deja la tarea en condición segura, evacúa por la ruta señalizada y ve al punto de encuentro sin regresar.'}],
+ 'm-ambiente':[
+  {q:'Terminas de almorzar y tienes restos de comida y un envase plástico limpio. ¿Dónde los depositas?',
+   o:['Todo en el contenedor negro, porque son residuos del almuerzo y se recogen juntos.','Los restos de comida en el contenedor verde y el envase limpio en el blanco.','Todo en el contenedor blanco, porque el envase es plástico y los restos se descomponen solos.','Los restos en el contenedor blanco y el envase en el verde, por ser un material sintético.'],a:1,
+   why:'Verde: orgánicos. Blanco: aprovechables (plástico limpio). Negro: no aprovechables.'},
+  {q:'Ves un pequeño derrame de aceite en el piso de un taller. ¿Qué haces?',
+   o:['Lo cubro con un trapo y sigo con mi tarea, porque por ser pequeño no genera mayor impacto.','Informo de inmediato, evito el contacto y dejo que lo contenga personal entrenado.','Lo lavo con agua hacia el desagüe más cercano para que el piso quede limpio y seguro.','Lo ignoro, porque los derrames pequeños se evaporan o se secan con el paso del tiempo.'],a:1,
+   why:'Todo derrame se reporta de inmediato. No lo laves hacia el desagüe ni lo ignores: puede contaminar el suelo y el agua.'}],
+ 'm-adm-riesgos':[{q:'La regleta de tu puesto, con varios equipos conectados, está caliente al tacto. ¿Qué haces?',
+  o:['Sigo usándola, porque es normal que se caliente cuando hay varios equipos funcionando a la vez.','La desconecto, reduzco la carga conectada y solicito que la revisen antes de volver a usarla.','Conecto algunos equipos a otra regleta igual, para repartir la carga y seguir trabajando.','La tapo con papel o cartón para que el calor no moleste ni se note en el escritorio.'],a:1,
+  why:'Una regleta caliente indica sobrecarga y riesgo de incendio. Se desconecta, se reduce la carga y se solicita revisión.'}],
+ 'm-adm-emerg':[{q:'Sale humo de un tablero eléctrico y no estás capacitado en el uso de extintores. ¿Qué haces?',
+  o:['Busco un balde de agua y trato de apagarlo antes de que el humo se vuelva más espeso.','Activo la alarma o aviso a la brigada y evacúo por la ruta señalizada sin devolverme.','Tomo el extintor más cercano y lo intento, aunque no sepa bien cómo se opera el equipo.','Espero unos minutos a ver si el humo desaparece solo antes de avisar a alguien.'],a:1,
+  why:'Sin capacitación no se combate el fuego. Se da la alarma y se evacúa. El agua nunca se usa en fuego eléctrico.'}],
+ 'm-op-lsr':[
+  {q:'Un compañero maniobra una carga suspendida y, para llegar al otro lado, podrías pasar por debajo “solo un segundo”. ¿Qué haces?',
+   o:['Paso rápido, porque estar bajo la carga solo un segundo no representa un riesgo real.','No paso bajo la carga: espero o rodeo por una ruta que esté fuera de la línea de fuego.','Paso solo después de que mi compañero me haga una señal de que puedo hacerlo.','Paso si la carga está a baja altura, porque en ese caso cualquier caída sería menor.'],a:1,
+   why:'Nunca debajo de una carga suspendida. Ubícate fuera de la línea de fuego: la trayectoria por la que algo puede golpearte.'},
+  {q:'Una alarma de gas suena con frecuencia y molesta al equipo. Un compañero propone inhabilitarla “un rato”. ¿Qué haces?',
+   o:['Acepto si prometemos vigilar el área nosotros mismos mientras la alarma permanezca inhabilitada.','No lo hago: detengo la tarea y reporto la falla; un control solo se anula con autorización formal.','La desconecto, termino el trabajo y aviso al final del turno para que la reparen más tarde.','Tapo el sensor para que no se active y así podemos seguir trabajando sin interrupciones.'],a:1,
+   why:'No se anulan controles de seguridad sin autorización formal. Si un control falla, se detiene la tarea y se reporta.'}],
+ 'm-op-permisos':[
+  {q:'Tu permiso de trabajo está vigente, pero llovió y la tarea estuvo detenida tres horas. ¿Qué haces antes de retomarla?',
+   o:['Retomo la tarea, porque el permiso sigue vigente y las condiciones eran las mismas antes de la lluvia.','Pauso y solicito la revalidación: la AAL y yo inspeccionamos el sitio y firmamos con la hora.','Pido un permiso nuevo en cualquier caso, porque toda pausa obliga a empezar el trámite desde cero.','Aviso por radio que retomo la tarea y registro la hora al final de la jornada de trabajo.'],a:1,
+   why:'Cuando la tarea se interrumpe más de 2 horas, el permiso se revalida: la AAL y el AE inspeccionan el sitio y registran firma y hora. Un permiso nuevo solo se exige si la inactividad supera las 48 horas.'},
+  {q:'¿Quién entrega formalmente el sitio de trabajo al ejecutante y lidera con él la charla de inicio?',
+   o:['La Autoridad de Área (AA), que revisa, aprueba y firma el permiso del trabajo.','La Autoridad de Área Local (AAL), que valida el sitio y verifica los controles del permiso.','La Autoridad Aislante (AI), que ejecuta los aislamientos y los levanta al terminar.','El Analista HSEQ, que acompaña y verifica el cumplimiento como rol de soporte.'],a:1,
+   why:'La AAL valida las condiciones en sitio, entrega formalmente el sitio al AE y lidera con él la charla de inicio.'}],
+ 'm-op-alto':[{q:'Eres nuevo y te piden subir a una plataforma a 3 metros “solo para una revisión rápida”. No tienes curso de alturas. ¿Qué haces?',
+  o:['Subo con mucho cuidado, porque la revisión es rápida y la plataforma parece estable.','No subo: se requiere curso vigente, permiso, ATS y sistema de protección contra caídas.','Subo si un compañero sostiene la base de la plataforma mientras realizo la revisión.','Subo sin arnés porque estorba, pero me muevo despacio y con las dos manos libres.'],a:1,
+  why:'Desde 2 metros es trabajo en alturas: exige curso vigente, permiso, ATS y protección contra caídas. Una tarea “rápida” no cambia eso.'}],
+ 'm-op-mtto':[
+  {q:'El compresor está parado y bloqueado. Antes de empezar a trabajar en él, ¿qué falta hacer?',
+   o:['Nada más: si el equipo está parado y tiene candado, ya es seguro intervenirlo sin más pruebas.','Verificar energía cero: intentar el arranque y confirmar que no hay tensión ni partes que giren.','Pedirle al operador de turno que me confirme de palabra que el equipo está apagado.','Retirar la guarda para ver mejor, porque con el equipo parado no hay ningún riesgo.'],a:1,
+   why:'Parado y bloqueado no basta: se verifica energía cero, incluidas las energías almacenadas, antes de tocar el equipo.'},
+  {q:'Vas a desmontar una válvula de una línea que “debe estar despresurizada”. ¿Qué haces primero?',
+   o:['Aflojo la brida despacio, porque si hay presión se notará por el ruido de la fuga.','Verifico el aislamiento, purgo y confirmo presión cero y ausencia de gas antes de aflojar.','Le pregunto al compañero del turno anterior si la dejó despresurizada y procedo.','Cierro una sola válvula aguas arriba y empiezo, porque es el aislamiento de siempre.'],a:1,
+   why:'Abrir una línea es romper la contención: se aísla, se despresuriza y se purga, y se verifica presión cero y gases antes de aflojar.'},
+  {q:'Terminaste el mantenimiento y quieres arrancar el compresor, pero queda un bloqueo puesto. ¿Quién puede retirarlo?',
+   o:['Cualquier integrante del equipo que ya haya terminado su parte del trabajo en el equipo.','La Autoridad Aislante, con autorización de la Autoridad de Área y constancia en el certificado.','El operador de turno, si confirma por radio que el aislamiento ya no se necesita.','El ejecutante, siempre que haya firmado la devolución del permiso junto con la AAL.'],a:1,
+   why:'Los aislamientos solo los retira la Autoridad Aislante, con autorización de la AA, y actualiza el certificado con fecha, hora y firma (INS-HSEQ-01).'}],
+ 'm-op-procesos':[{q:'Cerca del compresor escuchas un silbido y hueles gas. ¿Qué haces?',
+  o:['Saco el celular para avisar cuanto antes lo que está pasando al supervisor.','Evito fuentes de ignición, no uso el celular, me alejo y activo el protocolo de evacuación.','Me acerco con cuidado para localizar el punto de fuga y poder describirlo con precisión.','Espero unos minutos para confirmar que el olor persiste antes de dar aviso a alguien.'],a:1,
+  why:'Ante una fuga: evita fuentes de ignición (el celular lo es), aléjate y activa el protocolo de evacuación.'}],
+ 'm-op-vial':[{q:'Terminas un turno largo, tienes mucho sueño y debes conducir una hora hasta tu casa. ¿Qué haces?',
+  o:['Conduzco con la ventana abierta y la música alta para mantenerme despierto durante el trayecto.','No conduzco agotado: descanso o busco un transporte alterno y aviso a mi jefe de la situación.','Tomo un café fuerte y conduzco, porque el efecto me ayudará a llegar sin mayores problemas.','Conduzco más rápido de lo habitual para llegar pronto y poder descansar en mi casa.'],a:1,
+  why:'La somnolencia reduce los reflejos. Si estás agotado no conduzcas: descansa o busca otra forma de llegar.'}],
+ 'm-op-emerg':[{q:'Hay fuego en un tablero eléctrico y el extintor más cercano es de agua. ¿Qué haces?',
+  o:['Lo uso de inmediato, porque el agua apaga cualquier tipo de fuego si se aplica a tiempo.','No uso agua en fuego eléctrico: activo la alarma, aviso a la brigada y evacúo.','Corto los cables que alimentan el tablero con unas pinzas para detener el suministro de energía.','Intento sofocar el fuego con mi chaqueta, porque así no necesito ningún equipo adicional.'],a:1,
+  why:'El extintor de agua no se usa en fuegos eléctricos. Se da la alarma y se evacúa; solo personal capacitado combate el fuego.'}]
+};
+
+/* ================== MOTOR ================== */
+var REVIEW = true;   /* true solo en la versión de revisión de la dirección */
+var KEY = REVIEW ? 'pbi_induccion_v2_rev' : 'pbi_induccion_v2';
+var state = {role:'', cur:'', sl:0, visited:{}, ack:{}, chk:{}};
+function load(){ try{ var s=localStorage.getItem(KEY); if(s){ var o=JSON.parse(s); if(o&&typeof o==='object'){ for(var k in state){ if(o[k]!==undefined) state[k]=o[k]; } } } }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function $(s,r){ return (r||document).querySelector(s); }
+function $$(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+var NS='http://www.w3.org/2000/svg';
+function icon(name){ var s=document.createElementNS(NS,'svg'); s.setAttribute('class','ic'); s.setAttribute('aria-hidden','true'); var u=document.createElementNS(NS,'use'); u.setAttribute('href','#i-'+name); s.appendChild(u); return s; }
+function inflateIcons(root){ $$('i[data-i]',root).forEach(function(el){ el.replaceWith(icon(el.getAttribute('data-i'))); }); }
+function hash(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function order(n,id){ var a=[],i; for(i=0;i<n;i++) a.push(i); var seed=hash(id); function r(){ seed=(Math.imul(seed,1664525)+1013904223)>>>0; return seed/4294967296; } for(i=n-1;i>0;i--){ var j=Math.floor(r()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+load();
+var mods = $$('.mod'), seq = [], flat = [], shown = {id:'m-bienvenida', sl:0}, idxOpen = false;
+
+/* Contactos y enlaces */
+$$('[data-cfg-tel]').forEach(function(a){ var v=CFG[a.getAttribute('data-cfg-tel')]; a.href='tel:'+v; a.textContent=v; });
+$$('[data-cfg-mail]').forEach(function(a){ var v=CFG[a.getAttribute('data-cfg-mail')]; a.href='mailto:'+v; a.textContent=v; });
+$$('[data-cfg-href]').forEach(function(a){ a.href=CFG[a.getAttribute('data-cfg-href')]; });
+
+/* Cabecera de cada módulo y división en pantallas.
+   Una pantalla nueva empieza en cada <h2> y en cada <hr class="brk"> (corte manual). */
+mods.forEach(function(m){
+  var h=document.createElement('div'); h.className='mh';
+  var b=document.createElement('span'); b.className='badge'; b.appendChild(icon(m.getAttribute('data-icon')||'shield'));
+  var t=document.createElement('div');
+  var sm=document.createElement('small'); sm.className='meta';
+  var chap=document.createElement('span'); chap.className='chap'; var ct=m.getAttribute('data-chap'); if(ct) chap.textContent=ct; else chap.hidden=true;
+  var pos=document.createElement('span'); pos.className='pos'; sm.appendChild(chap); sm.appendChild(pos);
+  var h1=document.createElement('h1'); h1.textContent=m.getAttribute('data-title');
+  t.appendChild(sm); t.appendChild(h1); h.appendChild(b); h.appendChild(t);
+  var mas=document.createElement('img'); mas.className='mascot'; mas.src=CFG.mascot; mas.alt=''; mas.setAttribute('aria-hidden','true'); mas.onerror=function(){ mas.style.display='none'; }; h.appendChild(mas);
+  var body=document.createElement('div'); body.className='mb';
+  var slides=[], curS=null;
+  [].slice.call(m.children).forEach(function(k){
+    if(k.classList.contains('brk')){ curS=null; return; }
+    if(k.tagName==='H2' && curS && curS.children.length){ curS=null; }
+    if(!curS){ curS=document.createElement('div'); curS.className='slide'; curS.tabIndex=-1; slides.push(curS); }
+    curS.appendChild(k);
+  });
+  /* Fusiona pantallas contiguas muy cortas (sin mezclar compuertas ni la elección de ruta) */
+  function wc(n){ return (n.textContent||'').trim().split(/\s+/).length; }
+  function eff(s){ var t=wc(s); $$('details:not([open])',s).forEach(function(d){ var sm=d.querySelector('summary'); t-=Math.round((wc(d)-(sm?wc(sm):0))*0.7); }); return t; }
+  function lock(s){ return !!(s.querySelector('.ack')||s.querySelector('.roles')); }
+  var merged=[];
+  slides.forEach(function(s){
+    var prev=merged[merged.length-1];
+    if(prev && !lock(prev) && !lock(s) && eff(prev)+eff(s)<=125){ while(s.firstChild) prev.appendChild(s.firstChild); }
+    else merged.push(s);
+  });
+  slides=merged;
+  m.innerHTML=''; slides.forEach(function(s){ body.appendChild(s); });
+  m.appendChild(h); m.appendChild(body); m._slides=slides; m._pos=pos;
+});
+
+/* Preguntas de comprensión: ocupan su propia pantalla al final del módulo */
+function renderChecks(){
+  var PER=2;   // máximo de preguntas por pantalla
+  Object.keys(CHECKS).forEach(function(mid){
+    var m=document.getElementById(mid); if(!m) return;
+    var qs=CHECKS[mid], nS=Math.ceil(qs.length/PER);
+    for(var si=0;si<nS;si++){
+      var s=document.createElement('div'); s.className='slide checks-slide'; s.tabIndex=-1;
+      var h2=document.createElement('h2'); h2.appendChild(icon('clipcheck')); h2.appendChild(document.createTextNode('Comprueba lo aprendido'+(nS>1?' ('+(si+1)+' de '+nS+')':''))); s.appendChild(h2);
+      var intro=document.createElement('p'); intro.textContent='Responde para repasar. Después de cada respuesta te explicamos cuál es la correcta.'; s.appendChild(intro);
+      qs.slice(si*PER,(si+1)*PER).forEach(function(c,k){
+        var qi=si*PER+k, qid=mid+'#'+qi; var box=document.createElement('div'); box.className='chk'; box.setAttribute('data-q',qid);
+        var p=document.createElement('p'); p.className='q'; var tag=document.createElement('span'); tag.className='tag'; tag.textContent='Situación'; p.appendChild(tag); p.appendChild(document.createTextNode(c.q)); box.appendChild(p);
+        var opts=document.createElement('div'); opts.className='opts';
+        order(c.o.length,qid).forEach(function(oi){
+          var bt=document.createElement('button'); bt.type='button'; bt.className='opt'; bt.setAttribute('data-o',oi); bt.textContent=c.o[oi]; opts.appendChild(bt);
+        });
+        box.appendChild(opts);
+        var fb=document.createElement('div'); fb.className='fb'; fb.setAttribute('role','status'); fb.hidden=true; box.appendChild(fb);
+        s.appendChild(box);
+        if(state.chk[qid]!==undefined) paintCheck(box,c,state.chk[qid]);
+      });
+      $('.mb',m).appendChild(s); m._slides.push(s);
+    }
+  });
+}
+function paintCheck(box,c,sel){
+  $$('.opt',box).forEach(function(bt){
+    var oi=Number(bt.getAttribute('data-o')); bt.disabled=true;
+    if(oi===c.a) bt.classList.add('right'); else if(oi===sel) bt.classList.add('wrong');
+  });
+  var fb=$('.fb',box); fb.hidden=false; var ok=(sel===c.a); fb.className='fb '+(ok?'ok':'no');
+  fb.textContent=(ok?'Correcto. ':'No es la mejor opción. ')+c.why;
+}
+document.addEventListener('click',function(e){
+  var ta=e.target.closest&&e.target.closest('[data-toggleall]');
+  if(ta){ var ds=$$('.rtile',ta.closest('.slide')); var anyClosed=ds.some(function(d){ return !d.open; }); ds.forEach(function(d){ d.open=anyClosed; }); ta.textContent=anyClosed?'Cerrar todos los criterios':'Ver todos los criterios'; return; }
+  var fl=e.target.closest&&e.target.closest('.flip');
+  if(fl){ fl.setAttribute('aria-pressed',fl.getAttribute('aria-pressed')==='true'?'false':'true'); return; }
+  var bt=e.target.closest&&e.target.closest('.opt'); if(!bt||bt.disabled) return;
+  var box=bt.closest('.chk'); var qid=box.getAttribute('data-q'); var parts=qid.split('#'); var c=CHECKS[parts[0]][Number(parts[1])];
+  var sel=Number(bt.getAttribute('data-o')); state.chk[qid]=sel; save(); paintCheck(box,c,sel); refresh();
+});
+
+/* Compuertas: se evalúan por pantalla */
+function gateMsg(f){
+  if(REVIEW) return '';
+  var s=f.s;
+  if($('.roles',s) && !state.role) return 'Selecciona tu ruta para continuar.';
+  var boxes=$$('.ack input',s); for(var i=0;i<boxes.length;i++){ if(!boxes[i].checked) return 'Marca la confirmación para continuar.'; }
+  if(s.classList.contains('checks-slide')){ var bx=$$('.chk',s); for(var q=0;q<bx.length;q++){ if(state.chk[bx[q].getAttribute('data-q')]===undefined) return 'Responde las preguntas para continuar.'; } }
+  return '';
+}
+$$('.ack input').forEach(function(cb){
+  var k=cb.getAttribute('data-ack'); if(state.ack[k]) cb.checked=true;
+  cb.addEventListener('change',function(){ state.ack[k]=cb.checked; save(); refresh(); });
+});
+
+/* Secuencia de módulos y de pantallas según la ruta */
+function buildSeq(){
+  seq = mods.filter(function(m){ var t=m.getAttribute('data-track'); return REVIEW || t==='all' || t===state.role; });
+  flat = []; seq.forEach(function(m){ m._slides.forEach(function(s,i){ flat.push({m:m,i:i,s:s}); }); });
+}
+function pos(){ var p=flat.findIndex(function(f){ return f.m.id===shown.id && f.i===shown.sl; }); return p<0?0:p; }
+
+function refresh(){
+  var p=pos(), f=flat[p], msg=gateMsg(f), mi=seq.indexOf(f.m), n=f.m._slides.length;
+  var next=$('#next'), prev=$('#prev');
+  next.disabled=!!msg; $('#hint').textContent=msg;
+  next.hidden=(p===flat.length-1); prev.hidden=(p===0);
+  var nf=flat[p+1]; $('#nextLabel').textContent=(nf && nf.m!==f.m)?'Siguiente módulo':'Siguiente';
+  var pct=Math.round(((p+1)/flat.length)*100);
+  $('#barFill').style.width=pct+'%'; $('.bar').setAttribute('aria-valuenow',pct);
+  $('#idxLabel').textContent='Módulo '+(mi+1)+' / '+seq.length;
+  f.m._pos.textContent='Módulo '+(mi+1)+' de '+seq.length+(n>1?' · Pantalla '+(f.i+1)+' de '+n:'');
+  var dots=$('#dots'); dots.innerHTML='';
+  if(n>1){ for(var d=0;d<n;d++){ var di=document.createElement('i'); di.className=(d<f.i?'done':(d===f.i?'now':'')); dots.appendChild(di); } }
+}
+function show(id,sl,quiet,keep){
+  var m=document.getElementById(id); if(!m) return; buildSeq();
+  sl=sl||0; var n=m._slides.length; if(sl>=n) sl=n-1; if(sl<0) sl=0;
+  shown={id:id,sl:sl}; if(!keep){ state.cur=id; state.sl=sl; } state.visited[id]=true; save();
+  mods.forEach(function(x){ x.classList.toggle('on',x.id===id); });
+  m._slides.forEach(function(s,i){ s.classList.toggle('on',i===sl); });
+  refresh();
+  if(!quiet){ window.scrollTo({top:0}); m._slides[sl].focus({preventScroll:true}); }
+}
+function groupOf(m){
+  var c=m.getAttribute('data-chap'); if(c) return c;
+  if(m.id==='m-bienvenida'||m.id==='m-detente') return 'Inicio';
+  if(m.id==='m-repaso'||m.id==='m-rol') return 'Elige tu ruta';
+  return 'Cierre';
+}
+function renderIndex(ci){
+  var list=$('#idxList'); list.innerHTML=''; var last='';
+  seq.forEach(function(m,i){
+    var g=groupOf(m);
+    if(g!==last){ var gh=document.createElement('div'); gh.className='dr-group'; gh.textContent=g; list.appendChild(gh); last=g; }
+    var done=!!state.visited[m.id] && i<ci, now=(i===ci), locked=!REVIEW && !state.visited[m.id] && i>ci;
+    var bt=document.createElement('button'); bt.type='button';
+    bt.className='dr-item'+(done?' done':'')+(now?' now':'')+(locked?' lock':'');
+    var n=document.createElement('span'); n.className='dr-n';
+    if(done) n.appendChild(icon('tick')); else if(locked) n.appendChild(icon('lock')); else n.textContent=String(i+1);
+    var t=document.createElement('span'); t.className='dr-t'; t.textContent=m.getAttribute('data-title');
+    var s=document.createElement('span'); s.className='dr-s'; s.textContent=now?('Pantalla '+(shown.sl+1)+'/'+m._slides.length):((m.getAttribute('data-min')||'')+' min');
+    bt.appendChild(n); bt.appendChild(t); bt.appendChild(s);
+    if(locked) bt.disabled=true;
+    bt.addEventListener('click',function(){ closeDrawer(true); show(m.id,0); });
+    list.appendChild(bt);
+  });
+  var pct=Math.round(((pos()+1)/flat.length)*100);
+  $('#drBar').style.width=pct+'%'; $('#drPct').textContent=pct+'%'; $('#drSub').textContent='Módulo '+(ci+1)+' de '+seq.length;
+}
+var drawer=$('#idx'), scrim=$('#scrim');
+function openDrawer(){
+  renderIndex(seq.indexOf(flat[pos()].m));
+  drawer.classList.add('open'); scrim.classList.add('open'); drawer.setAttribute('aria-hidden','false');
+  document.body.classList.add('noscroll'); idxOpen=true; $('#btnIdx').setAttribute('aria-expanded','true');
+  $('#drClose').focus(); var n=$('.dr-item.now',drawer); if(n&&n.scrollIntoView) n.scrollIntoView({block:'center'});
+}
+function closeDrawer(skipFocus){
+  drawer.classList.remove('open'); scrim.classList.remove('open'); drawer.setAttribute('aria-hidden','true');
+  document.body.classList.remove('noscroll'); idxOpen=false; $('#btnIdx').setAttribute('aria-expanded','false');
+  if(!skipFocus) $('#btnIdx').focus();
+}
+$('#btnIdx').addEventListener('click',function(){ if(idxOpen) closeDrawer(); else openDrawer(); });
+$('#drClose').addEventListener('click',function(){ closeDrawer(); });
+scrim.addEventListener('click',function(){ closeDrawer(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&idxOpen) closeDrawer(); });
+
+$('#next').addEventListener('click',function(){
+  var p=pos(); if(gateMsg(flat[p])) return; if(p<flat.length-1){ var f=flat[p+1]; show(f.m.id,f.i); }
+});
+$('#prev').addEventListener('click',function(){ var p=pos(); if(p>0){ var f=flat[p-1]; show(f.m.id,f.i); } });
+
+/* Rol */
+function paintRole(){ $$('.role').forEach(function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-role')===state.role)); }); }
+$$('.role').forEach(function(b){
+  b.addEventListener('click',function(){ state.role=b.getAttribute('data-role'); save(); paintRole(); buildSeq(); refresh(); });
+});
+
+/* Reanudar */
+var resume=$('#resume'), resumeId=state.cur, resumeSl=state.sl||0;
+function hasProgress(){ return state.cur && (state.cur!=='m-bienvenida' || state.sl>0) && document.getElementById(state.cur); }
+$('#resumeGo').addEventListener('click',function(){ buildSeq(); show(resumeId,resumeSl); });
+$('#resumeNo').addEventListener('click',function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); });
+
+/* Inicio */
+inflateIcons(document);
+renderChecks();
+paintRole();
+buildSeq();
+var keepProgress = !!hasProgress();
+if(keepProgress){ resume.classList.add('show'); }
+show('m-bienvenida',0,true,keepProgress);
+
+})();
+</script>
+</body>
+</html>
