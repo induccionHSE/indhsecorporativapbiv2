@@ -324,6 +324,35 @@ ul.cols2 li{break-inside:avoid}
 .autod-next{grid-column:1/-1;background:var(--sky);border-radius:10px;padding:10px 14px}
 .autod-next h3{margin:0 0 4px;font-size:.95rem;color:var(--navy)}.autod-next ul{margin:0;padding-left:18px}.autod-next li{margin:3px 0;font-size:.92rem}
 @media (max-width:560px){.autod{grid-template-columns:1fr}}
+
+/* Matrices de peligros por sitio: botones al final de las pantallas "Peligros y riesgos". Solo se muestran los sitios con enlace en CFG.matrices. */
+.mtz{margin:22px 0 6px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--sky),#fff 75%)}
+.mtz h3{display:flex;align-items:center;gap:8px;margin:0 0 6px;color:var(--navy);font-size:1.05rem}
+.mtz>p{margin:0 0 12px;color:var(--muted);font-size:.93rem}
+.mtz-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+.mtz-item{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:center;padding:12px 14px;border:1.5px solid var(--blue);border-radius:12px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:0 1px 2px rgba(11,47,87,.07);transition:transform .15s,box-shadow .15s,border-color .15s}
+.mtz-item:hover,.mtz-item:focus-visible{transform:translateY(-2px);box-shadow:0 8px 18px rgba(11,47,87,.16);border-color:var(--cta);outline:none}
+.mtz-ic{grid-row:1/3;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--blue);color:#fff}
+.mtz-ic .ic,.mtz-go .ic{width:20px;height:20px}
+.mtz-t{font-weight:700;line-height:1.25}
+.mtz-d{grid-column:2;font-size:.82rem;color:var(--muted);line-height:1.3}
+.mtz-go{grid-column:1/-1;display:inline-flex;align-items:center;gap:6px;justify-self:start;margin-top:8px;padding:6px 12px;border-radius:999px;background:var(--cta);color:#fff;font-weight:600;font-size:.85rem}
+.mtz-go .ic{width:16px;height:16px}
+.mtz-item:hover .mtz-go{background:var(--cta-d)}
+
+/* Reporte de desplazamientos laborales (módulo de políticas, tras las políticas de seguridad vial). El QR se muestra solo en pantallas anchas. */
+.desp{margin:14px 0 8px;display:grid;gap:14px;grid-template-columns:1fr}
+.desp-main{padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--sky),#fff 75%)}
+.desp-main>p{margin:0 0 12px}
+.desp-main .btnrow{margin:6px 0 4px}
+.desp-h{display:flex;align-items:center;gap:8px;margin:16px 0 6px;color:var(--navy);font-size:1rem}
+.desp-main .tick{margin:0}
+.desp-qr{display:none;text-align:center;padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.desp-qr strong{display:block;margin-bottom:8px;color:var(--navy)}
+.desp-qr .qr{width:200px;height:200px;max-width:100%;display:block;margin:0 auto 10px}
+.desp-qr p{margin:0;font-size:.9rem;color:var(--muted)}
+@media(min-width:760px){.desp{grid-template-columns:1.35fr 1fr;align-items:start}.desp-qr{display:block}}
+.desp-qr[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -491,7 +520,7 @@ ul.cols2 li{break-inside:avoid}
   <p>No cumplir las normas del sistema puede generar lesiones, daños al ambiente, pérdidas para el cliente y sanciones. Tu cumplimiento protege a todos.</p>
   
   <h2>Políticas corporativas</h2>
-  <details class="acc"><summary><i data-i="shield"></i>POL-GER-01 Política Integral HSEQ</summary><div class="acc-b"><p>Compromiso con la protección de la vida, la salud, el ambiente y la calidad; mejora continua, prevención y cumplimiento legal.</p><a class="btn alt" href="https://drive.google.com/file/d/1NwT-yeJMRMFqbVvWmwG6GqEgThq401XD/view?usp=drive_link" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <details class="acc"><summary><i data-i="shield"></i>POL-GER-01 Política Integral HSEQ</summary><div class="acc-b"><p>Compromiso con la protección de la vida, la salud, el ambiente y la calidad; mejora continua, prevención y cumplimiento legal.</p><a class="btn alt" href="https://drive.google.com/open?id=1To8ksi0_bzYq_hzyExQr8FiCRMw2FOy4" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
   <details class="acc"><summary><i data-i="lifebuoy"></i>POL-GER-02 Prevención de alcohol, drogas y tabaco</summary><div class="acc-b"><p>Ambientes seguros y saludables: prohíbe el porte, consumo o estar bajo efectos de estas sustancias durante actividades laborales.</p><a class="btn alt" href="https://drive.google.com/open?id=19_eRtxWZ1DvwmY0pnxqImaBqKB7KbdRr" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
   <details class="acc"><summary><i data-i="helmet"></i>POL-GER-04 Uso de EPP</summary><div class="acc-b"><p>Obliga al uso adecuado y permanente de los elementos de protección personal que exige cada actividad.</p><a class="btn alt" href="https://drive.google.com/open?id=1vPF8VZr8pXxD4Wtzh0Gy9uEjBTR0RjB1" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
   <details class="acc"><summary><i data-i="users"></i>POL-GER-03 Responsabilidad Social</summary><div class="acc-b"><p>Valor compartido con comunidades, respeto por los derechos humanos y principios éticos en la operación.</p><a class="btn alt" href="https://drive.google.com/file/d/1WG41coNr6woYR4ItfP2lloVMwx4yVqdz/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
@@ -503,6 +532,31 @@ ul.cols2 li{break-inside:avoid}
   <details class="acc"><summary><i data-i="phone"></i>POL-GER-12 Equipos de comunicación bidireccional</summary><div class="acc-b"><p>Uso responsable de radios, celulares y dispositivos durante la conducción.</p><a class="btn alt" href="https://drive.google.com/file/d/1vmaaBQnxaE5-6uneyxl2CJjVN9pYz-zc/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
   <details class="acc"><summary><i data-i="clock"></i>POL-GER-13 Horas de descanso y conducción</summary><div class="acc-b"><p>Pausas y descansos adecuados para evitar la fatiga al conducir.</p><a class="btn alt" href="https://drive.google.com/file/d/1vjRhE-gjpbOT3rKO2_j_BPHyKQDYAmqE/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
   <details class="acc"><summary><i data-i="car"></i>POL-GER-14 Regulación de velocidad</summary><div class="acc-b"><p>Límites y condiciones seguras de velocidad según vía, entorno y estado del vehículo.</p><a class="btn alt" href="https://drive.google.com/file/d/1vhcqNaI844PkqYDt7hh2mypOKxP2Fcq8/view?usp=sharing" target="_blank" rel="noopener"><i data-i="file"></i>Ver PDF</a></div></details>
+  <h2>Reporta tus desplazamientos laborales</h2>
+  <p>Registra <strong>cada desplazamiento que realices hacia un proyecto</strong>. Tu reporte alimenta el <strong>Plan Estratégico de Seguridad Vial (PESV)</strong>, conforme a la <strong>Resolución 40595 de 2022</strong>.</p>
+  <div class="grid">
+    <div class="card"><h3><i data-i="map"></i>¿Qué se reporta?</h3><p>Únicamente los desplazamientos que haces hacia un proyecto.</p></div>
+    <div class="card"><h3><i data-i="eye"></i>¿Para qué sirve?</h3><p>Para tener trazabilidad de los desplazamientos hacia los proyectos y para identificar las rutas más frecuentes y sus riesgos.</p></div>
+    <div class="card"><h3><i data-i="users"></i>¿Quién lo hace?</h3><p>Todo el personal que se desplaza hacia un proyecto. Tu reporte ayuda a cuidarte a ti y a tus compañeros.</p></div>
+  </div>
+  <div class="desp">
+    <div class="desp-main">
+      <div class="btnrow"><a class="btn cta" data-cfg-href="desplazUrl" data-off-text="Enlace de reporte pendiente de configurar" target="_blank" rel="noopener"><i data-i="pin"></i>Reportar desplazamiento</a></div>
+      <h3 class="desp-h"><i data-i="shield"></i>Antes de salir</h3>
+      <ul class="tick">
+        <li>Planifica tu ruta y evita trayectos nocturnos cuando sea posible.</li>
+        <li>Si conduces, realiza la inspección preoperacional del vehículo.</li>
+        <li>Usa siempre el cinturón de seguridad o el casco certificado.</li>
+        <li>No uses el celular mientras conduces y respeta los límites de velocidad.</li>
+        <li>Descansa lo suficiente: la fatiga también es un riesgo vial.</li>
+      </ul>
+    </div>
+    <div class="desp-qr" data-url="https://script.google.com/a/macros/pbi.com.co/s/AKfycbyj29AeeFiCFxaw6XGNaoQvZK-gzmiHYXH6jIgiwKb-x-W_FMdx-o0cwbdvsXK4VZcTYg/exec">
+      <strong>Reporta desde tu celular</strong>
+      <svg class="qr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" role="img" aria-label="Código QR para reportar tu desplazamiento laboral" shape-rendering="crispEdges"><rect width="55" height="55" fill="#fff"/><path fill="#0b2f57" d="M3 3h7v1h-7zM12 3h1v1h-1zM14 3h1v1h-1zM16 3h2v1h-2zM21 3h2v1h-2zM25 3h2v1h-2zM30 3h1v1h-1zM34 3h1v1h-1zM38 3h1v1h-1zM43 3h1v1h-1zM45 3h7v1h-7zM3 4h1v1h-1zM9 4h1v1h-1zM11 4h6v1h-6zM19 4h2v1h-2zM25 4h1v1h-1zM27 4h1v1h-1zM30 4h2v1h-2zM33 4h3v1h-3zM38 4h1v1h-1zM40 4h4v1h-4zM45 4h1v1h-1zM51 4h1v1h-1zM3 5h1v1h-1zM5 5h3v1h-3zM9 5h1v1h-1zM11 5h2v1h-2zM16 5h2v1h-2zM20 5h6v1h-6zM27 5h3v1h-3zM31 5h2v1h-2zM35 5h1v1h-1zM42 5h2v1h-2zM45 5h1v1h-1zM47 5h3v1h-3zM51 5h1v1h-1zM3 6h1v1h-1zM5 6h3v1h-3zM9 6h1v1h-1zM11 6h4v1h-4zM17 6h1v1h-1zM21 6h1v1h-1zM23 6h1v1h-1zM25 6h2v1h-2zM28 6h1v1h-1zM30 6h2v1h-2zM35 6h2v1h-2zM38 6h3v1h-3zM42 6h1v1h-1zM45 6h1v1h-1zM47 6h3v1h-3zM51 6h1v1h-1zM3 7h1v1h-1zM5 7h3v1h-3zM9 7h1v1h-1zM12 7h1v1h-1zM17 7h3v1h-3zM21 7h10v1h-10zM32 7h2v1h-2zM38 7h1v1h-1zM40 7h1v1h-1zM45 7h1v1h-1zM47 7h3v1h-3zM51 7h1v1h-1zM3 8h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM17 8h1v1h-1zM21 8h1v1h-1zM23 8h3v1h-3zM29 8h2v1h-2zM35 8h1v1h-1zM37 8h5v1h-5zM45 8h1v1h-1zM51 8h1v1h-1zM3 9h7v1h-7zM11 9h1v1h-1zM13 9h1v1h-1zM15 9h1v1h-1zM17 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM25 9h1v1h-1zM27 9h1v1h-1zM29 9h1v1h-1zM31 9h1v1h-1zM33 9h1v1h-1zM35 9h1v1h-1zM37 9h1v1h-1zM39 9h1v1h-1zM41 9h1v1h-1zM43 9h1v1h-1zM45 9h7v1h-7zM11 10h2v1h-2zM14 10h1v1h-1zM18 10h6v1h-6zM25 10h1v1h-1zM29 10h5v1h-5zM35 10h1v1h-1zM40 10h2v1h-2zM3 11h1v1h-1zM9 11h1v1h-1zM11 11h1v1h-1zM14 11h2v1h-2zM17 11h1v1h-1zM19 11h1v1h-1zM22 11h1v1h-1zM24 11h6v1h-6zM32 11h3v1h-3zM36 11h6v1h-6zM43 11h3v1h-3zM48 11h3v1h-3zM3 12h4v1h-4zM10 12h5v1h-5zM17 12h4v1h-4zM22 12h2v1h-2zM25 12h1v1h-1zM28 12h2v1h-2zM32 12h7v1h-7zM40 12h6v1h-6zM47 12h1v1h-1zM4 13h1v1h-1zM6 13h2v1h-2zM9 13h2v1h-2zM12 13h3v1h-3zM16 13h1v1h-1zM18 13h1v1h-1zM21 13h3v1h-3zM25 13h2v1h-2zM29 13h1v1h-1zM37 13h1v1h-1zM39 13h1v1h-1zM44 13h3v1h-3zM48 13h4v1h-4zM3 14h1v1h-1zM7 14h2v1h-2zM10 14h6v1h-6zM17 14h2v1h-2zM20 14h1v1h-1zM24 14h1v1h-1zM29 14h1v1h-1zM31 14h2v1h-2zM35 14h1v1h-1zM37 14h1v1h-1zM41 14h2v1h-2zM47 14h2v1h-2zM3 15h1v1h-1zM5 15h5v1h-5zM11 15h2v1h-2zM16 15h1v1h-1zM21 15h1v1h-1zM23 15h1v1h-1zM27 15h5v1h-5zM33 15h3v1h-3zM37 15h1v1h-1zM39 15h3v1h-3zM43 15h2v1h-2zM47 15h3v1h-3zM3 16h1v1h-1zM5 16h1v1h-1zM7 16h1v1h-1zM13 16h2v1h-2zM16 16h2v1h-2zM20 16h1v1h-1zM27 16h2v1h-2zM30 16h1v1h-1zM32 16h3v1h-3zM36 16h1v1h-1zM40 16h1v1h-1zM42 16h1v1h-1zM45 16h1v1h-1zM47 16h2v1h-2zM50 16h1v1h-1zM3 17h3v1h-3zM7 17h1v1h-1zM9 17h2v1h-2zM15 17h1v1h-1zM17 17h1v1h-1zM19 17h1v1h-1zM22 17h1v1h-1zM27 17h1v1h-1zM29 17h2v1h-2zM32 17h3v1h-3zM37 17h2v1h-2zM47 17h2v1h-2zM50 17h2v1h-2zM5 18h1v1h-1zM10 18h2v1h-2zM14 18h3v1h-3zM18 18h2v1h-2zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h3v1h-3zM30 18h2v1h-2zM33 18h3v1h-3zM37 18h3v1h-3zM45 18h1v1h-1zM48 18h2v1h-2zM51 18h1v1h-1zM3 19h1v1h-1zM6 19h5v1h-5zM13 19h1v1h-1zM16 19h3v1h-3zM22 19h2v1h-2zM26 19h2v1h-2zM30 19h1v1h-1zM32 19h2v1h-2zM39 19h1v1h-1zM42 19h3v1h-3zM46 19h1v1h-1zM3 20h1v1h-1zM5 20h1v1h-1zM8 20h1v1h-1zM11 20h1v1h-1zM14 20h1v1h-1zM16 20h1v1h-1zM18 20h3v1h-3zM22 20h1v1h-1zM24 20h2v1h-2zM30 20h1v1h-1zM33 20h2v1h-2zM38 20h3v1h-3zM44 20h2v1h-2zM47 20h2v1h-2zM50 20h1v1h-1zM3 21h1v1h-1zM5 21h1v1h-1zM9 21h3v1h-3zM15 21h2v1h-2zM18 21h1v1h-1zM20 21h1v1h-1zM22 21h1v1h-1zM27 21h2v1h-2zM30 21h2v1h-2zM33 21h3v1h-3zM37 21h4v1h-4zM44 21h1v1h-1zM48 21h4v1h-4zM3 22h1v1h-1zM7 22h2v1h-2zM10 22h1v1h-1zM12 22h1v1h-1zM14 22h2v1h-2zM18 22h5v1h-5zM24 22h1v1h-1zM26 22h1v1h-1zM31 22h1v1h-1zM33 22h5v1h-5zM44 22h1v1h-1zM46 22h3v1h-3zM50 22h1v1h-1zM4 23h1v1h-1zM6 23h4v1h-4zM12 23h1v1h-1zM15 23h3v1h-3zM22 23h1v1h-1zM25 23h4v1h-4zM32 23h1v1h-1zM34 23h1v1h-1zM37 23h3v1h-3zM41 23h5v1h-5zM49 23h1v1h-1zM3 24h1v1h-1zM5 24h1v1h-1zM7 24h1v1h-1zM11 24h1v1h-1zM14 24h3v1h-3zM18 24h2v1h-2zM22 24h5v1h-5zM29 24h18v1h-18zM49 24h3v1h-3zM5 25h1v1h-1zM7 25h5v1h-5zM15 25h2v1h-2zM18 25h2v1h-2zM22 25h2v1h-2zM25 25h5v1h-5zM31 25h1v1h-1zM34 25h4v1h-4zM41 25h1v1h-1zM43 25h5v1h-5zM49 25h3v1h-3zM4 26h4v1h-4zM11 26h1v1h-1zM13 26h7v1h-7zM21 26h5v1h-5zM29 26h1v1h-1zM32 26h2v1h-2zM37 26h1v1h-1zM42 26h2v1h-2zM47 26h2v1h-2zM3 27h1v1h-1zM5 27h1v1h-1zM7 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM15 27h1v1h-1zM18 27h1v1h-1zM20 27h1v1h-1zM22 27h1v1h-1zM24 27h2v1h-2zM27 27h1v1h-1zM29 27h1v1h-1zM31 27h1v1h-1zM33 27h1v1h-1zM35 27h1v1h-1zM37 27h1v1h-1zM39 27h1v1h-1zM41 27h3v1h-3zM45 27h1v1h-1zM47 27h2v1h-2zM51 27h1v1h-1zM3 28h5v1h-5zM11 28h9v1h-9zM21 28h2v1h-2zM24 28h2v1h-2zM29 28h6v1h-6zM36 28h1v1h-1zM38 28h3v1h-3zM43 28h1v1h-1zM47 28h1v1h-1zM49 28h1v1h-1zM3 29h2v1h-2zM6 29h6v1h-6zM14 29h5v1h-5zM20 29h2v1h-2zM24 29h7v1h-7zM33 29h1v1h-1zM35 29h3v1h-3zM42 29h6v1h-6zM49 29h1v1h-1zM51 29h1v1h-1zM4 30h1v1h-1zM6 30h3v1h-3zM11 30h4v1h-4zM17 30h2v1h-2zM20 30h2v1h-2zM23 30h1v1h-1zM25 30h1v1h-1zM27 30h3v1h-3zM32 30h2v1h-2zM36 30h2v1h-2zM42 30h1v1h-1zM47 30h1v1h-1zM49 30h3v1h-3zM5 31h2v1h-2zM9 31h2v1h-2zM13 31h2v1h-2zM17 31h1v1h-1zM19 31h1v1h-1zM25 31h5v1h-5zM32 31h1v1h-1zM34 31h1v1h-1zM37 31h1v1h-1zM39 31h1v1h-1zM42 31h2v1h-2zM46 31h1v1h-1zM48 31h2v1h-2zM4 32h1v1h-1zM6 32h2v1h-2zM10 32h1v1h-1zM18 32h6v1h-6zM25 32h1v1h-1zM27 32h2v1h-2zM30 32h4v1h-4zM36 32h1v1h-1zM39 32h1v1h-1zM42 32h5v1h-5zM48 32h1v1h-1zM3 33h1v1h-1zM6 33h1v1h-1zM8 33h3v1h-3zM17 33h3v1h-3zM21 33h2v1h-2zM27 33h1v1h-1zM29 33h1v1h-1zM33 33h1v1h-1zM36 33h2v1h-2zM39 33h1v1h-1zM45 33h1v1h-1zM48 33h1v1h-1zM51 33h1v1h-1zM3 34h1v1h-1zM5 34h3v1h-3zM12 34h1v1h-1zM15 34h2v1h-2zM18 34h1v1h-1zM22 34h3v1h-3zM27 34h1v1h-1zM29 34h1v1h-1zM32 34h1v1h-1zM36 34h2v1h-2zM39 34h2v1h-2zM43 34h1v1h-1zM48 34h1v1h-1zM50 34h1v1h-1zM4 35h1v1h-1zM6 35h4v1h-4zM11 35h1v1h-1zM13 35h3v1h-3zM18 35h1v1h-1zM20 35h4v1h-4zM25 35h2v1h-2zM31 35h1v1h-1zM34 35h5v1h-5zM40 35h1v1h-1zM42 35h1v1h-1zM44 35h1v1h-1zM46 35h2v1h-2zM50 35h1v1h-1zM4 36h1v1h-1zM6 36h3v1h-3zM12 36h1v1h-1zM14 36h4v1h-4zM20 36h1v1h-1zM22 36h4v1h-4zM27 36h3v1h-3zM32 36h1v1h-1zM36 36h1v1h-1zM40 36h2v1h-2zM43 36h2v1h-2zM46 36h4v1h-4zM51 36h1v1h-1zM4 37h3v1h-3zM8 37h5v1h-5zM15 37h1v1h-1zM19 37h3v1h-3zM24 37h3v1h-3zM28 37h1v1h-1zM31 37h1v1h-1zM33 37h4v1h-4zM38 37h1v1h-1zM41 37h1v1h-1zM43 37h1v1h-1zM45 37h4v1h-4zM50 37h2v1h-2zM3 38h1v1h-1zM7 38h2v1h-2zM10 38h2v1h-2zM13 38h1v1h-1zM15 38h1v1h-1zM18 38h1v1h-1zM20 38h3v1h-3zM26 38h1v1h-1zM28 38h2v1h-2zM32 38h1v1h-1zM35 38h3v1h-3zM39 38h1v1h-1zM41 38h3v1h-3zM46 38h1v1h-1zM48 38h1v1h-1zM51 38h1v1h-1zM4 39h8v1h-8zM13 39h2v1h-2zM17 39h4v1h-4zM22 39h1v1h-1zM25 39h1v1h-1zM31 39h1v1h-1zM34 39h2v1h-2zM39 39h1v1h-1zM41 39h2v1h-2zM46 39h1v1h-1zM50 39h1v1h-1zM4 40h1v1h-1zM6 40h1v1h-1zM8 40h1v1h-1zM12 40h1v1h-1zM16 40h1v1h-1zM20 40h3v1h-3zM25 40h1v1h-1zM27 40h2v1h-2zM31 40h3v1h-3zM35 40h2v1h-2zM40 40h1v1h-1zM42 40h3v1h-3zM48 40h3v1h-3zM4 41h1v1h-1zM8 41h3v1h-3zM12 41h5v1h-5zM19 41h1v1h-1zM21 41h2v1h-2zM26 41h1v1h-1zM28 41h1v1h-1zM36 41h2v1h-2zM40 41h2v1h-2zM43 41h1v1h-1zM45 41h2v1h-2zM49 41h3v1h-3zM4 42h3v1h-3zM14 42h2v1h-2zM17 42h1v1h-1zM19 42h1v1h-1zM21 42h1v1h-1zM23 42h5v1h-5zM31 42h4v1h-4zM38 42h1v1h-1zM42 42h1v1h-1zM46 42h1v1h-1zM48 42h4v1h-4zM3 43h3v1h-3zM9 43h1v1h-1zM11 43h2v1h-2zM14 43h1v1h-1zM17 43h1v1h-1zM19 43h1v1h-1zM21 43h3v1h-3zM25 43h5v1h-5zM36 43h14v1h-14zM51 43h1v1h-1zM11 44h2v1h-2zM14 44h9v1h-9zM24 44h2v1h-2zM29 44h2v1h-2zM32 44h2v1h-2zM35 44h1v1h-1zM40 44h1v1h-1zM42 44h2v1h-2zM47 44h3v1h-3zM3 45h7v1h-7zM13 45h4v1h-4zM21 45h1v1h-1zM24 45h2v1h-2zM27 45h1v1h-1zM29 45h2v1h-2zM32 45h1v1h-1zM34 45h2v1h-2zM39 45h2v1h-2zM43 45h1v1h-1zM45 45h1v1h-1zM47 45h1v1h-1zM49 45h1v1h-1zM51 45h1v1h-1zM3 46h1v1h-1zM9 46h1v1h-1zM12 46h1v1h-1zM14 46h1v1h-1zM16 46h3v1h-3zM20 46h1v1h-1zM22 46h2v1h-2zM25 46h1v1h-1zM29 46h1v1h-1zM31 46h2v1h-2zM35 46h1v1h-1zM37 46h2v1h-2zM40 46h1v1h-1zM42 46h2v1h-2zM47 46h2v1h-2zM3 47h1v1h-1zM5 47h3v1h-3zM9 47h1v1h-1zM14 47h1v1h-1zM17 47h6v1h-6zM25 47h6v1h-6zM32 47h1v1h-1zM34 47h1v1h-1zM37 47h3v1h-3zM41 47h1v1h-1zM43 47h7v1h-7zM51 47h1v1h-1zM3 48h1v1h-1zM5 48h3v1h-3zM9 48h1v1h-1zM12 48h6v1h-6zM23 48h1v1h-1zM28 48h1v1h-1zM30 48h5v1h-5zM36 48h2v1h-2zM39 48h3v1h-3zM46 48h1v1h-1zM50 48h1v1h-1zM3 49h1v1h-1zM5 49h3v1h-3zM9 49h1v1h-1zM16 49h1v1h-1zM18 49h1v1h-1zM20 49h1v1h-1zM22 49h1v1h-1zM24 49h1v1h-1zM26 49h2v1h-2zM29 49h1v1h-1zM31 49h1v1h-1zM33 49h2v1h-2zM36 49h2v1h-2zM39 49h1v1h-1zM41 49h2v1h-2zM44 49h3v1h-3zM48 49h4v1h-4zM3 50h1v1h-1zM9 50h1v1h-1zM12 50h1v1h-1zM15 50h1v1h-1zM17 50h1v1h-1zM19 50h1v1h-1zM21 50h1v1h-1zM25 50h6v1h-6zM33 50h2v1h-2zM39 50h1v1h-1zM42 50h4v1h-4zM48 50h1v1h-1zM51 50h1v1h-1zM3 51h7v1h-7zM11 51h3v1h-3zM15 51h1v1h-1zM17 51h3v1h-3zM21 51h2v1h-2zM25 51h7v1h-7zM33 51h3v1h-3zM37 51h3v1h-3zM43 51h6v1h-6zM51 51h1v1h-1z"/></svg>
+      <p>Escanea este código y reporta tu desplazamiento hacia un proyecto de forma rápida y segura.</p>
+    </div>
+  </div>
   <label class="ack"><input type="checkbox" data-ack="vial"><span>Confirmo que he leído y comprendido las políticas de seguridad vial de PBI.</span></label>
 </section>
 
@@ -1008,6 +1062,11 @@ ul.cols2 li{break-inside:avoid}
   <details class="acc"><summary><i data-i="warn"></i>Caídas y golpes</summary><div class="acc-b"><ul><li>Despeja las zonas de paso y asegura alfombras y cables.</li><li>Evita trabajar donde haya riesgo de tropiezo.</li></ul></div></details>
   <details class="acc"><summary><i data-i="users"></i>Riesgo psicosocial</summary><div class="acc-b"><ul><li>Define un horario de jornada y respeta tus pausas.</li><li>Comunica límites claros a quienes conviven contigo.</li><li>Participa en espacios virtuales de bienestar.</li></ul></div></details>
   <details class="acc"><summary><i data-i="bulb"></i>Iluminación</summary><div class="acc-b"><ul><li>Ubica tu puesto cerca de luz natural si es posible.</li><li>Ajusta el brillo y el contraste del monitor.</li></ul></div></details>
+  <div class="mtz" hidden>
+    <h3><i data-i="shield"></i>Matriz de peligros de tu sitio de trabajo</h3>
+    <p>Si trabajas en la sede o vas a ingresar a un proyecto, abre la matriz de peligros de ese sitio y revísala.</p>
+    <div class="mtz-grid"></div>
+  </div>
 </section>
 
 <section class="mod cat-sst" id="m-adm-bienestar" data-track="admin" data-chap="Ruta administrativa" data-title="Bienestar en el trabajo administrativo" data-icon="heart">
@@ -1061,6 +1120,11 @@ ul.cols2 li{break-inside:avoid}
   <details class="acc"><summary><i data-i="bolt"></i>Tormentas eléctricas</summary><div class="acc-b"><ul><li>Suspende actividades a cielo abierto si hay relámpagos.</li><li>No te refugies bajo árboles ni estructuras metálicas.</li><li>Busca una edificación o un vehículo cerrado.</li></ul></div></details>
   <details class="acc"><summary><i data-i="lock"></i>Riesgos públicos y del entorno</summary><div class="acc-b"><ul><li>Porta tu carné visible y reporta personas ajenas.</li><li>No te expongas a zonas no controladas fuera del proyecto.</li><li>Sigue las instrucciones del personal de seguridad.</li></ul></div></details>
   <p style="font-size:.9rem;color:var(--muted)">Estos riesgos aplican a todo el personal operativo. Los riesgos adicionales de tu proyecto se informan en la inducción de tu sitio de trabajo.</p>
+  <div class="mtz" hidden>
+    <h3><i data-i="shield"></i>Matriz de peligros de tu sitio de trabajo</h3>
+    <p>Cada proyecto tiene sus propios peligros y controles. Abre la matriz del sitio donde trabajas y revísala antes de iniciar tus labores.</p>
+    <div class="mtz-grid"></div>
+  </div>
 </section>
 
 <section class="mod cat-eme" id="m-op-lsr" data-track="oper" data-chap="Ruta operativa" data-title="Reglas de Oro · Versión 02" data-icon="shield">
@@ -1278,7 +1342,7 @@ ul.cols2 li{break-inside:avoid}
     <div class="card"><h3><i data-i="warn"></i>Fatiga</h3><p>No conduzcas si estás agotado: la somnolencia reduce los reflejos y aumenta el riesgo.</p></div>
     <div class="card"><h3><i data-i="stop"></i>Cero alcohol y drogas</h3><p>Está prohibido conducir bajo efectos de alcohol o sustancias psicoactivas.</p></div>
     <div class="card"><h3><i data-i="shield"></i>Cinturón siempre</h3><p>Obligatorio en cualquier trayecto, incluso internos y como pasajero.</p></div>
-    <div class="card"><h3><i data-i="map"></i>Reporta tus desplazamientos</h3><p>Todo traslado laboral se registra en los medios definidos por PBI para tener trazabilidad y respuesta ante emergencias.</p></div>
+    <div class="card"><h3><i data-i="map"></i>Reporta tus desplazamientos</h3><p>Todo desplazamiento hacia un proyecto se registra en los medios definidos por PBI para tener trazabilidad y respuesta ante emergencias.</p></div>
     <div class="card"><h3><i data-i="eye"></i>Sé veedor como pasajero</h3><p>Si el conductor no respeta las normas, repórtalo a HSEQ o a tu jefe inmediato.</p></div>
     <div class="card"><h3><i data-i="car"></i>Conduce a la defensiva</h3><p>Anticipa riesgos, mantén distancia segura y sé prudente con peatones, motos y vehículos pesados.</p></div>
   </div>
@@ -1439,6 +1503,17 @@ var CFG = {
   docsCampo: [],
   // Inducciones de proyecto (presentaciones). Si la lista está vacía, no se muestra. Ejemplo: {t:'Proyecto Eveca', u:'https://...'}
   proyectos: [],
+  // Matrices de peligros por sitio o proyecto: aparecen como botones al final de las pantallas "Peligros y riesgos". Solo se muestran los que tengan enlace en u.
+  // Cada elemento: {t:'Sitio', d:'Detalle corto (opcional)', i:'ícono: pin, bolt o building', u:'https://enlace-a-la-matriz'}
+  matrices: [
+    {t:'Planta Buenavista – Yopal', d:'Tratamiento de gas y procesos complementarios', i:'pin', u:''},
+    {t:'Planta Corrales', d:'Manejo de gas natural', i:'pin', u:''},
+    {t:'Generación – Eveca', d:'Generación de energía eléctrica', i:'bolt', u:''},
+    {t:'Generación – San Carlos', d:'Generación de energía eléctrica', i:'bolt', u:''},
+    {t:'Administración – Bogotá', d:'Oficinas administrativas', i:'building', u:''}
+  ],
+  // Enlace para reportar los desplazamientos laborales (botón y código QR en el módulo de políticas). Si lo cambias, el código QR se oculta hasta que se regenere.
+  desplazUrl: 'https://script.google.com/a/macros/pbi.com.co/s/AKfycbyj29AeeFiCFxaw6XGNaoQvZK-gzmiHYXH6jIgiwKb-x-W_FMdx-o0cwbdvsXK4VZcTYg/exec',
   mascot: 'https://i.postimg.cc/CLSFNhyN/LOGO-PBI-CASCO-BLANCO.png',
   portalSig: 'https://sites.google.com/pbi.com.co/proceso-hseq/home'
 };
@@ -1588,6 +1663,26 @@ $$('[data-cfg-href]').forEach(function(a){
     });
     box.hidden=false;
   }
+})();
+(function(){
+  // Matrices de peligros por sitio: botones al final de las pantallas "Peligros y riesgos". Solo salen los sitios que tienen enlace.
+  var lista=(CFG.matrices||[]).filter(function(x){ return x&&x.t&&x.u&&!/PEGA_AQUI/.test(x.u); }), cajas=$$('.mtz');
+  if(!cajas.length||!lista.length) return;
+  cajas.forEach(function(box){
+    var g=box.querySelector('.mtz-grid');
+    lista.forEach(function(x){
+      var a=document.createElement('a'); a.className='mtz-item'; a.href=x.u; a.target='_blank'; a.rel='noopener';
+      a.setAttribute('aria-label','Abrir la matriz de peligros de '+x.t+' (se abre en una pestaña nueva)');
+      a.innerHTML='<span class="mtz-ic"><i data-i="'+(/^[a-z]+$/.test(x.i||'')?x.i:'pin')+'"></i></span><span class="mtz-t"></span><span class="mtz-d"></span><span class="mtz-go">Abrir matriz<i data-i="right"></i></span>';
+      a.querySelector('.mtz-t').textContent=x.t; var d=a.querySelector('.mtz-d'); if(x.d) d.textContent=x.d; else d.remove();
+      g.appendChild(a);
+    });
+    box.hidden=false; if(typeof inflateIcons==='function') inflateIcons(box);
+  });
+})();
+(function(){
+  // El código QR es una imagen fija: solo se muestra si el enlace de reporte sigue siendo el mismo con el que se generó.
+  $$('.desp-qr').forEach(function(q){ if(sinEnlace(CFG.desplazUrl)||q.getAttribute('data-url')!==CFG.desplazUrl) q.hidden=true; });
 })();
 (function(){
   var docs=CFG.docsCampo||[], box=$('#docsCampo'), ul=$('#docsCampoList');
